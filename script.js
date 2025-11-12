@@ -178,11 +178,29 @@ function initKaleidoParticles() {
     // Only 2 LARGE kaleidoscopes - one on each side
     const centerY = canvas.height / 2;
 
-    // Left kaleidoscope - centered off-screen to the left (half visible)
-    const leftX = -canvas.width * 0.15; // Offset to left
+    // Responsive positioning based on screen size
+    const screenWidth = window.innerWidth;
+    let leftOffset, rightOffset;
 
-    // Right kaleidoscope - centered off-screen to the right (half visible)
-    const rightX = canvas.width * 1.15; // Offset to right
+    if (screenWidth < 768) {
+        // Mobile: keep them far out (half visible)
+        leftOffset = -0.15;
+        rightOffset = 1.15;
+    } else if (screenWidth < 1024) {
+        // Tablet: bring them closer
+        leftOffset = 0.05;
+        rightOffset = 0.95;
+    } else {
+        // Desktop: bring them even closer to center
+        leftOffset = 0.15;
+        rightOffset = 0.85;
+    }
+
+    // Left kaleidoscope
+    const leftX = canvas.width * leftOffset;
+
+    // Right kaleidoscope
+    const rightX = canvas.width * rightOffset;
 
     // More particles per kaleidoscope for richness (but only 2 kaleidoscopes total!)
     const particlesPerKaleidoscope = window.innerWidth < 768 ? 8 : 12;
