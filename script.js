@@ -11,76 +11,56 @@ class KaleidoParticle {
         this.centerX = centerX;
         this.centerY = centerY;
 
-        // 3-tier responsive speed and size based on screen width
-        const screenWidth = window.innerWidth;
-        let speedMultiplier, sizeMultiplier;
+        // Slower speed for large kaleidoscopes
+        const speedMultiplier = 0.5; // Slow and elegant
 
-        if (screenWidth < 768) {
-            // Mobile: very slow
-            speedMultiplier = 0.3;
-            sizeMultiplier = 0.7;
-        } else if (screenWidth < 1024) {
-            // Tablet: moderately slow
-            speedMultiplier = 0.6;
-            sizeMultiplier = 0.85;
-        } else {
-            // Desktop: normal speed
-            speedMultiplier = 1;
-            sizeMultiplier = 1;
-        }
-
-        // Orbital parameters - RESPONSIVE SPEED
-        this.orbitRadius = (Math.random() * 80 + 40) * sizeMultiplier;
+        // LARGE orbit radius for big kaleidoscopes
+        this.orbitRadius = Math.random() * 200 + 150; // 150-350px
         this.orbitSpeed = (Math.random() * 0.01 + 0.005) * speedMultiplier * (Math.random() > 0.5 ? 1 : -1);
         this.angle = Math.random() * Math.PI * 2;
 
-        // Rotation parameters - RESPONSIVE SPEED
+        // Rotation parameters
         this.rotation = 0;
         this.rotationSpeed = (Math.random() * 0.025 + 0.01) * speedMultiplier * (Math.random() > 0.5 ? 1 : -1);
 
-        // Visual parameters - RESPONSIVE SIZE
-        this.size = (Math.random() * 8 + 3) * sizeMultiplier;
+        // LARGER particle size
+        this.size = Math.random() * 20 + 10; // 10-30px (much bigger)
         this.type = type;
-        this.opacity = Math.random() * 0.4 + 0.2;
+        this.opacity = Math.random() * 0.6 + 0.3; // More visible
 
         // Color based on palette
         this.setColorPalette(colorPalette);
     }
 
     setColorPalette(palette) {
+        // Colorful palette - mix of many vibrant colors
         const colorRand = Math.random();
 
-        if (palette === 'blue') {
-            if (colorRand < 0.4) {
-                this.color = { r: 220, g: 20, b: 60 }; // Red
-            } else if (colorRand < 0.7) {
-                this.color = { r: 30, g: 144, b: 255 }; // Blue
-            } else {
+        if (palette === 'left') {
+            // Left side: warm colors (red, orange, yellow, pink)
+            if (colorRand < 0.2) {
+                this.color = { r: 220, g: 20, b: 60 }; // Crimson Red
+            } else if (colorRand < 0.4) {
+                this.color = { r: 255, g: 69, b: 0 }; // Orange Red
+            } else if (colorRand < 0.6) {
                 this.color = { r: 255, g: 215, b: 0 }; // Gold
-            }
-        } else if (palette === 'yellow') {
-            if (colorRand < 0.4) {
-                this.color = { r: 220, g: 20, b: 60 }; // Red
-            } else if (colorRand < 0.7) {
-                this.color = { r: 255, g: 215, b: 0 }; // Yellow/Gold
+            } else if (colorRand < 0.8) {
+                this.color = { r: 255, g: 105, b: 180 }; // Hot Pink
             } else {
-                this.color = { r: 255, g: 255, b: 0 }; // Bright Yellow
-            }
-        } else if (palette === 'green') {
-            if (colorRand < 0.4) {
-                this.color = { r: 220, g: 20, b: 60 }; // Red
-            } else if (colorRand < 0.7) {
-                this.color = { r: 50, g: 205, b: 50 }; // Lime Green
-            } else {
-                this.color = { r: 255, g: 215, b: 0 }; // Gold
-            }
-        } else { // 'red' or default
-            if (colorRand < 0.4) {
-                this.color = { r: 220, g: 20, b: 60 }; // Red
-            } else if (colorRand < 0.7) {
                 this.color = { r: 255, g: 255, b: 255 }; // White
+            }
+        } else {
+            // Right side: cool colors (blue, green, cyan, purple)
+            if (colorRand < 0.2) {
+                this.color = { r: 30, g: 144, b: 255 }; // Dodger Blue
+            } else if (colorRand < 0.4) {
+                this.color = { r: 50, g: 205, b: 50 }; // Lime Green
+            } else if (colorRand < 0.6) {
+                this.color = { r: 0, g: 255, b: 255 }; // Cyan
+            } else if (colorRand < 0.8) {
+                this.color = { r: 138, g: 43, b: 226 }; // Blue Violet
             } else {
-                this.color = { r: 255, g: 215, b: 0 }; // Gold
+                this.color = { r: 255, g: 255, b: 255 }; // White
             }
         }
     }
@@ -191,43 +171,32 @@ class KaleidoParticle {
 // Create kaleidoscope particles
 const kaleidoParticles = [];
 const particleTypes = ['star', 'diamond', 'circle'];
-const colorPalettes = ['red', 'blue', 'yellow', 'green'];
 
 function initKaleidoParticles() {
     kaleidoParticles.length = 0;
 
-    // Calculate grid dimensions
-    const gridSize = 250; // Distance between kaleidoscope centers
-    const cols = Math.ceil(canvas.width / gridSize) + 1;
-    const rows = Math.ceil(canvas.height / gridSize) + 1;
+    // Only 2 LARGE kaleidoscopes - one on each side
+    const centerY = canvas.height / 2;
 
-    // REDUCED: Half the number of particles per center
-    const particlesPerCenter = 2; // Was 3-4, now always 2
+    // Left kaleidoscope - centered off-screen to the left (half visible)
+    const leftX = -canvas.width * 0.15; // Offset to left
 
-    // Create staggered grid of kaleidoscopes with different colors
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            // Stagger pattern: offset every other row
-            const staggerOffset = (row % 2) * (gridSize / 2);
-            const centerX = col * gridSize - gridSize / 2 + staggerOffset;
-            const centerY = row * gridSize - gridSize / 2;
+    // Right kaleidoscope - centered off-screen to the right (half visible)
+    const rightX = canvas.width * 1.15; // Offset to right
 
-            // Add small random offset for less rigid appearance
-            const randomOffsetX = (Math.random() - 0.5) * 40;
-            const randomOffsetY = (Math.random() - 0.5) * 40;
+    // More particles per kaleidoscope for richness (but only 2 kaleidoscopes total!)
+    const particlesPerKaleidoscope = window.innerWidth < 768 ? 8 : 12;
 
-            const finalX = centerX + randomOffsetX;
-            const finalY = centerY + randomOffsetY;
+    // Create LEFT kaleidoscope (warm colors)
+    for (let i = 0; i < particlesPerKaleidoscope; i++) {
+        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        kaleidoParticles.push(new KaleidoParticle(type, leftX, centerY, 'left'));
+    }
 
-            // Pick a random color palette for this grid cell
-            const palette = colorPalettes[(row * cols + col) % colorPalettes.length];
-
-            // Create particles for this center point
-            for (let i = 0; i < particlesPerCenter; i++) {
-                const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-                kaleidoParticles.push(new KaleidoParticle(type, finalX, finalY, palette));
-            }
-        }
+    // Create RIGHT kaleidoscope (cool colors)
+    for (let i = 0; i < particlesPerKaleidoscope; i++) {
+        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        kaleidoParticles.push(new KaleidoParticle(type, rightX, centerY, 'right'));
     }
 }
 
