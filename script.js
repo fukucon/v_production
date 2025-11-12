@@ -1,91 +1,178 @@
-// ===== Particle Animation =====
+// ===== Kaleidoscope Particle Animation =====
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
-        this.color = Math.random() > 0.5 ? 'rgba(220, 20, 60, 0.5)' : 'rgba(255, 255, 255, 0.3)';
+// Kaleidoscope particle class inspired by reference code
+class KaleidoParticle {
+    constructor(type = 'star') {
+        this.centerX = canvas.width / 2;
+        this.centerY = canvas.height / 2;
+
+        // Orbital parameters
+        this.orbitRadius = Math.random() * 200 + 100;
+        this.orbitSpeed = (Math.random() * 0.02 + 0.01) * (Math.random() > 0.5 ? 1 : -1);
+        this.angle = Math.random() * Math.PI * 2;
+
+        // Rotation parameters
+        this.rotation = 0;
+        this.rotationSpeed = (Math.random() * 0.05 + 0.02) * (Math.random() > 0.5 ? 1 : -1);
+
+        // Visual parameters
+        this.size = Math.random() * 15 + 5;
+        this.type = type;
+        this.opacity = Math.random() * 0.5 + 0.3;
+
+        // Color
+        const colorRand = Math.random();
+        if (colorRand < 0.4) {
+            this.color = { r: 220, g: 20, b: 60 }; // Red
+        } else if (colorRand < 0.7) {
+            this.color = { r: 255, g: 255, b: 255 }; // White
+        } else {
+            this.color = { r: 255, g: 215, b: 0 }; // Gold
+        }
     }
 
     update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        this.angle += this.orbitSpeed;
+        this.rotation += this.rotationSpeed;
     }
 
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+    // Draw with 6-fold symmetry (kaleidoscope effect)
+    drawSymmetric() {
+        const segments = 6;
 
-        // Add glow effect
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = this.color;
-    }
-}
+        for (let i = 0; i < segments; i++) {
+            const segmentAngle = (Math.PI * 2 / segments) * i;
 
-// Create particles
-const particlesArray = [];
-const numberOfParticles = 100;
+            ctx.save();
+            ctx.translate(this.centerX, this.centerY);
+            ctx.rotate(segmentAngle);
 
-function initParticles() {
-    particlesArray.length = 0;
-    for (let i = 0; i < numberOfParticles; i++) {
-        particlesArray.push(new Particle());
-    }
-}
+            // Calculate position
+            const x = Math.cos(this.angle) * this.orbitRadius;
+            const y = Math.sin(this.angle) * this.orbitRadius;
 
-function connectParticles() {
-    for (let i = 0; i < particlesArray.length; i++) {
-        for (let j = i + 1; j < particlesArray.length; j++) {
-            const dx = particlesArray[i].x - particlesArray[j].x;
-            const dy = particlesArray[i].y - particlesArray[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            // Draw original
+            this.drawShape(x, y);
 
-            if (distance < 100) {
-                ctx.strokeStyle = `rgba(220, 20, 60, ${1 - distance / 100})`;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                ctx.stroke();
-            }
+            // Draw mirrored (for kaleidoscope effect)
+            ctx.scale(-1, 1);
+            this.drawShape(x, y);
+
+            ctx.restore();
         }
     }
-}
 
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawShape(x, y) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.opacity;
 
-    for (let particle of particlesArray) {
-        particle.update();
-        particle.draw();
+        // Glow effect
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+
+        if (this.type === 'star') {
+            this.drawStar();
+        } else if (this.type === 'diamond') {
+            this.drawDiamond();
+        } else {
+            this.drawCircle();
+        }
+
+        ctx.restore();
     }
 
-    connectParticles();
-    requestAnimationFrame(animateParticles);
+    drawStar() {
+        const spikes = 5;
+        const outerRadius = this.size;
+        const innerRadius = this.size / 2;
+
+        ctx.beginPath();
+        for (let i = 0; i < spikes * 2; i++) {
+            const radius = i % 2 === 0 ? outerRadius : innerRadius;
+            const angle = (Math.PI / spikes) * i;
+            const px = Math.cos(angle) * radius;
+            const py = Math.sin(angle) * radius;
+
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, outerRadius);
+        gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 1)`);
+        gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.3)`);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+    }
+
+    drawDiamond() {
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size);
+        ctx.lineTo(this.size, 0);
+        ctx.lineTo(0, this.size);
+        ctx.lineTo(-this.size, 0);
+        ctx.closePath();
+
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 1)`);
+        gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.2)`);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+    }
+
+    drawCircle() {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 1)`);
+        gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.1)`);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+    }
 }
 
-// Initialize particles
-initParticles();
-animateParticles();
+// Create kaleidoscope particles
+const kaleidoParticles = [];
+const particleTypes = ['star', 'diamond', 'circle'];
+
+function initKaleidoParticles() {
+    kaleidoParticles.length = 0;
+    const count = window.innerWidth < 768 ? 8 : 12;
+
+    for (let i = 0; i < count; i++) {
+        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        kaleidoParticles.push(new KaleidoParticle(type));
+    }
+}
+
+function animateKaleidoParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let particle of kaleidoParticles) {
+        particle.update();
+        particle.drawSymmetric();
+    }
+
+    requestAnimationFrame(animateKaleidoParticles);
+}
+
+// Initialize and start animation
+initKaleidoParticles();
+animateKaleidoParticles();
 
 // Handle window resize
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    initParticles();
+    initKaleidoParticles();
 });
 
 // ===== Navigation =====
@@ -473,19 +560,20 @@ function activateKaleidoscopeMode() {
 }
 
 // ===== Performance Optimization =====
-// Reduce particles on mobile
-if (window.innerWidth < 768) {
-    particlesArray.length = 30;
-}
-
 // Pause animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         // Pause heavy animations
-        kaleidoscope.style.animationPlayState = 'paused';
+        const kaleidoscopeElements = document.querySelectorAll('.kaleidoscope');
+        kaleidoscopeElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
     } else {
         // Resume animations
-        kaleidoscope.style.animationPlayState = 'running';
+        const kaleidoscopeElements = document.querySelectorAll('.kaleidoscope');
+        kaleidoscopeElements.forEach(el => {
+            el.style.animationPlayState = 'running';
+        });
     }
 });
 
