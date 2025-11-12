@@ -11,17 +11,22 @@ class KaleidoParticle {
         this.centerX = centerX;
         this.centerY = centerY;
 
-        // Orbital parameters - HALF SPEED
-        this.orbitRadius = Math.random() * 80 + 40; // Smaller orbit
-        this.orbitSpeed = (Math.random() * 0.01 + 0.005) * (Math.random() > 0.5 ? 1 : -1); // Half speed
+        // Responsive speed and size based on screen width
+        const isMobile = window.innerWidth < 768;
+        const speedMultiplier = isMobile ? 0.5 : 1; // Mobile is half speed
+        const sizeMultiplier = isMobile ? 0.7 : 1; // Mobile is 70% size
+
+        // Orbital parameters - RESPONSIVE SPEED
+        this.orbitRadius = (Math.random() * 80 + 40) * sizeMultiplier;
+        this.orbitSpeed = (Math.random() * 0.01 + 0.005) * speedMultiplier * (Math.random() > 0.5 ? 1 : -1);
         this.angle = Math.random() * Math.PI * 2;
 
-        // Rotation parameters - HALF SPEED
+        // Rotation parameters - RESPONSIVE SPEED
         this.rotation = 0;
-        this.rotationSpeed = (Math.random() * 0.025 + 0.01) * (Math.random() > 0.5 ? 1 : -1); // Half speed
+        this.rotationSpeed = (Math.random() * 0.025 + 0.01) * speedMultiplier * (Math.random() > 0.5 ? 1 : -1);
 
-        // Visual parameters - SMALLER SIZE
-        this.size = Math.random() * 8 + 3; // Smaller particles
+        // Visual parameters - RESPONSIVE SIZE
+        this.size = (Math.random() * 8 + 3) * sizeMultiplier;
         this.type = type;
         this.opacity = Math.random() * 0.4 + 0.2;
 
