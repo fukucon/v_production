@@ -11,8 +11,8 @@ class KaleidoParticle {
         this.centerX = centerX;
         this.centerY = centerY;
 
-        // Slower speed for large kaleidoscopes
-        const speedMultiplier = 0.5; // Slow and elegant
+        // VERY slow speed for large kaleidoscopes
+        const speedMultiplier = 0.15; // Very slow and elegant
 
         // LARGE orbit radius for big kaleidoscopes
         this.orbitRadius = Math.random() * 200 + 150; // 150-350px
