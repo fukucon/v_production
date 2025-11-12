@@ -7,32 +7,63 @@ canvas.height = window.innerHeight;
 
 // Kaleidoscope particle class inspired by reference code
 class KaleidoParticle {
-    constructor(type = 'star') {
-        this.centerX = canvas.width / 2;
-        this.centerY = canvas.height / 2;
+    constructor(type = 'star', centerX = 0, centerY = 0, colorPalette = 'red') {
+        this.centerX = centerX;
+        this.centerY = centerY;
 
-        // Orbital parameters
-        this.orbitRadius = Math.random() * 200 + 100;
-        this.orbitSpeed = (Math.random() * 0.02 + 0.01) * (Math.random() > 0.5 ? 1 : -1);
+        // Orbital parameters - HALF SPEED
+        this.orbitRadius = Math.random() * 80 + 40; // Smaller orbit
+        this.orbitSpeed = (Math.random() * 0.01 + 0.005) * (Math.random() > 0.5 ? 1 : -1); // Half speed
         this.angle = Math.random() * Math.PI * 2;
 
-        // Rotation parameters
+        // Rotation parameters - HALF SPEED
         this.rotation = 0;
-        this.rotationSpeed = (Math.random() * 0.05 + 0.02) * (Math.random() > 0.5 ? 1 : -1);
+        this.rotationSpeed = (Math.random() * 0.025 + 0.01) * (Math.random() > 0.5 ? 1 : -1); // Half speed
 
-        // Visual parameters
-        this.size = Math.random() * 15 + 5;
+        // Visual parameters - SMALLER SIZE
+        this.size = Math.random() * 8 + 3; // Smaller particles
         this.type = type;
-        this.opacity = Math.random() * 0.5 + 0.3;
+        this.opacity = Math.random() * 0.4 + 0.2;
 
-        // Color
+        // Color based on palette
+        this.setColorPalette(colorPalette);
+    }
+
+    setColorPalette(palette) {
         const colorRand = Math.random();
-        if (colorRand < 0.4) {
-            this.color = { r: 220, g: 20, b: 60 }; // Red
-        } else if (colorRand < 0.7) {
-            this.color = { r: 255, g: 255, b: 255 }; // White
-        } else {
-            this.color = { r: 255, g: 215, b: 0 }; // Gold
+
+        if (palette === 'blue') {
+            if (colorRand < 0.4) {
+                this.color = { r: 220, g: 20, b: 60 }; // Red
+            } else if (colorRand < 0.7) {
+                this.color = { r: 30, g: 144, b: 255 }; // Blue
+            } else {
+                this.color = { r: 255, g: 215, b: 0 }; // Gold
+            }
+        } else if (palette === 'yellow') {
+            if (colorRand < 0.4) {
+                this.color = { r: 220, g: 20, b: 60 }; // Red
+            } else if (colorRand < 0.7) {
+                this.color = { r: 255, g: 215, b: 0 }; // Yellow/Gold
+            } else {
+                this.color = { r: 255, g: 255, b: 0 }; // Bright Yellow
+            }
+        } else if (palette === 'green') {
+            if (colorRand < 0.4) {
+                this.color = { r: 220, g: 20, b: 60 }; // Red
+            } else if (colorRand < 0.7) {
+                this.color = { r: 50, g: 205, b: 50 }; // Lime Green
+            } else {
+                this.color = { r: 255, g: 215, b: 0 }; // Gold
+            }
+        } else { // 'red' or default
+            if (colorRand < 0.4) {
+                this.color = { r: 220, g: 20, b: 60 }; // Red
+            } else if (colorRand < 0.7) {
+                this.color = { r: 255, g: 255, b: 255 }; // White
+            } else {
+                this.color = { r: 255, g: 215, b: 0 }; // Gold
+            }
         }
     }
 
@@ -142,18 +173,40 @@ class KaleidoParticle {
 // Create kaleidoscope particles
 const kaleidoParticles = [];
 const particleTypes = ['star', 'diamond', 'circle'];
+const colorPalettes = ['red', 'blue', 'yellow', 'green'];
 
 function initKaleidoParticles() {
     kaleidoParticles.length = 0;
-    const count = window.innerWidth < 768 ? 8 : 12;
 
-    for (let i = 0; i < count; i++) {
-        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-        kaleidoParticles.push(new KaleidoParticle(type));
+    // Calculate grid dimensions
+    const gridSize = 250; // Distance between kaleidoscope centers
+    const cols = Math.ceil(canvas.width / gridSize) + 1;
+    const rows = Math.ceil(canvas.height / gridSize) + 1;
+
+    // Number of particles per kaleidoscope center
+    const particlesPerCenter = window.innerWidth < 768 ? 3 : 4;
+
+    // Create grid of kaleidoscopes with different colors
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const centerX = col * gridSize - gridSize / 2;
+            const centerY = row * gridSize - gridSize / 2;
+
+            // Pick a random color palette for this grid cell
+            const palette = colorPalettes[(row * cols + col) % colorPalettes.length];
+
+            // Create particles for this center point
+            for (let i = 0; i < particlesPerCenter; i++) {
+                const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+                kaleidoParticles.push(new KaleidoParticle(type, centerX, centerY, palette));
+            }
+        }
     }
 }
 
 function animateKaleidoParticles() {
+    if (!isAnimating) return; // Stop animation when tab is hidden
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let particle of kaleidoParticles) {
@@ -163,6 +216,9 @@ function animateKaleidoParticles() {
 
     requestAnimationFrame(animateKaleidoParticles);
 }
+
+// Global animation flag (defined later in Performance Optimization section)
+let isAnimating = true;
 
 // Initialize and start animation
 initKaleidoParticles();
@@ -391,89 +447,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// ===== Kaleidoscope Interactive Effect =====
-const hero = document.querySelector('.hero');
-const kaleidoscopes = document.querySelectorAll('.kaleidoscope');
-let mouseX = 0;
-let mouseY = 0;
-let currentRotation = 0;
-let targetRotation = 0;
-
-hero.addEventListener('mousemove', (e) => {
-    mouseX = (e.clientX / window.innerWidth - 0.5);
-    mouseY = (e.clientY / window.innerHeight - 0.5);
-
-    // Calculate target rotation based on mouse position
-    targetRotation = Math.atan2(mouseY, mouseX) * (180 / Math.PI);
-});
-
-// Smooth rotation animation
-function animateKaleidoscope() {
-    // Smoothly interpolate to target rotation
-    currentRotation += (targetRotation - currentRotation) * 0.05;
-
-    kaleidoscopes.forEach((kaleidoscope, index) => {
-        const baseRotation = index === 0 ?
-            currentRotation * 2 :
-            -currentRotation * 1.5;
-
-        // Add slight parallax effect
-        const parallaxX = mouseX * 30;
-        const parallaxY = mouseY * 30;
-
-        kaleidoscope.style.transform = `
-            translate(calc(-50% + ${parallaxX}px), calc(-50% + ${parallaxY}px))
-            rotate(${baseRotation}deg)
-        `;
-
-        // Dynamic opacity based on mouse movement
-        const movement = Math.abs(mouseX) + Math.abs(mouseY);
-        const opacity = index === 0 ? 1 : 0.5 + movement * 0.5;
-        kaleidoscope.style.opacity = Math.min(opacity, 1);
-    });
-
-    requestAnimationFrame(animateKaleidoscope);
-}
-
-// Start animation
-animateKaleidoscope();
-
-// Add pulse effect on click
-hero.addEventListener('click', (e) => {
-    const pulse = document.createElement('div');
-    pulse.style.cssText = `
-        position: fixed;
-        left: ${e.clientX}px;
-        top: ${e.clientY}px;
-        width: 20px;
-        height: 20px;
-        border: 2px solid var(--bright-red);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 1000;
-        animation: ripple 1s ease-out forwards;
-    `;
-    document.body.appendChild(pulse);
-
-    setTimeout(() => document.body.removeChild(pulse), 1000);
-});
-
-// Add ripple animation
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `
-    @keyframes ripple {
-        0% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-        100% {
-            transform: translate(-50%, -50%) scale(20);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(rippleStyle);
-
 // ===== Parallax Effect =====
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
@@ -483,16 +456,6 @@ window.addEventListener('scroll', () => {
         const speed = 0.5;
         el.style.transform = `translateY(${scrolled * speed}px)`;
     });
-
-    // Subtle parallax for kaleidoscope on scroll
-    const heroHeight = hero.offsetHeight;
-    if (scrolled < heroHeight) {
-        const scrollProgress = scrolled / heroHeight;
-        kaleidoscopes.forEach((kaleidoscope, index) => {
-            const offset = index === 0 ? scrolled * 0.3 : scrolled * 0.4;
-            kaleidoscope.style.opacity = 1 - scrollProgress * 0.5;
-        });
-    }
 });
 
 // ===== Loading Animation =====
@@ -560,20 +523,11 @@ function activateKaleidoscopeMode() {
 }
 
 // ===== Performance Optimization =====
-// Pause animations when tab is not visible
+// Pause canvas animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        // Pause heavy animations
-        const kaleidoscopeElements = document.querySelectorAll('.kaleidoscope');
-        kaleidoscopeElements.forEach(el => {
-            el.style.animationPlayState = 'paused';
-        });
-    } else {
-        // Resume animations
-        const kaleidoscopeElements = document.querySelectorAll('.kaleidoscope');
-        kaleidoscopeElements.forEach(el => {
-            el.style.animationPlayState = 'running';
-        });
+    isAnimating = !document.hidden;
+    if (isAnimating) {
+        animateKaleidoParticles();
     }
 });
 
