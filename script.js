@@ -11,10 +11,23 @@ class KaleidoParticle {
         this.centerX = centerX;
         this.centerY = centerY;
 
-        // Responsive speed and size based on screen width
-        const isMobile = window.innerWidth < 768;
-        const speedMultiplier = isMobile ? 0.5 : 1; // Mobile is half speed
-        const sizeMultiplier = isMobile ? 0.7 : 1; // Mobile is 70% size
+        // 3-tier responsive speed and size based on screen width
+        const screenWidth = window.innerWidth;
+        let speedMultiplier, sizeMultiplier;
+
+        if (screenWidth < 768) {
+            // Mobile: very slow
+            speedMultiplier = 0.3;
+            sizeMultiplier = 0.7;
+        } else if (screenWidth < 1024) {
+            // Tablet: moderately slow
+            speedMultiplier = 0.6;
+            sizeMultiplier = 0.85;
+        } else {
+            // Desktop: normal speed
+            speedMultiplier = 1;
+            sizeMultiplier = 1;
+        }
 
         // Orbital parameters - RESPONSIVE SPEED
         this.orbitRadius = (Math.random() * 80 + 40) * sizeMultiplier;
@@ -188,14 +201,23 @@ function initKaleidoParticles() {
     const cols = Math.ceil(canvas.width / gridSize) + 1;
     const rows = Math.ceil(canvas.height / gridSize) + 1;
 
-    // Number of particles per kaleidoscope center
-    const particlesPerCenter = window.innerWidth < 768 ? 3 : 4;
+    // REDUCED: Half the number of particles per center
+    const particlesPerCenter = 2; // Was 3-4, now always 2
 
-    // Create grid of kaleidoscopes with different colors
+    // Create staggered grid of kaleidoscopes with different colors
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
-            const centerX = col * gridSize - gridSize / 2;
+            // Stagger pattern: offset every other row
+            const staggerOffset = (row % 2) * (gridSize / 2);
+            const centerX = col * gridSize - gridSize / 2 + staggerOffset;
             const centerY = row * gridSize - gridSize / 2;
+
+            // Add small random offset for less rigid appearance
+            const randomOffsetX = (Math.random() - 0.5) * 40;
+            const randomOffsetY = (Math.random() - 0.5) * 40;
+
+            const finalX = centerX + randomOffsetX;
+            const finalY = centerY + randomOffsetY;
 
             // Pick a random color palette for this grid cell
             const palette = colorPalettes[(row * cols + col) % colorPalettes.length];
@@ -203,7 +225,7 @@ function initKaleidoParticles() {
             // Create particles for this center point
             for (let i = 0; i < particlesPerCenter; i++) {
                 const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-                kaleidoParticles.push(new KaleidoParticle(type, centerX, centerY, palette));
+                kaleidoParticles.push(new KaleidoParticle(type, finalX, finalY, palette));
             }
         }
     }
