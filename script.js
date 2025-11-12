@@ -344,18 +344,6 @@ talentCards.forEach(card => {
     });
 });
 
-// ===== CTA Button Effect =====
-const ctaButton = document.querySelector('.cta-button');
-
-ctaButton.addEventListener('click', () => {
-    const aboutSection = document.querySelector('#about');
-    const offsetTop = aboutSection.offsetTop - 70;
-    window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-    });
-});
-
 // ===== Contact Form =====
 const contactForm = document.getElementById('contactForm');
 
