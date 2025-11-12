@@ -143,12 +143,70 @@ html {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    height: 800px;
     transform: translate(-50%, -50%);
     animation: rotate 20s linear infinite;
 }
 
+/* White glowing kaleidoscope */
+.kaleidoscope-white {
+    animation: rotate-reverse 25s linear infinite;
+    opacity: 0.7;
+}
+
+/* Kaleidoscope segments - creates symmetrical pattern */
+.kaleidoscope-segment {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 400px;
+    transform-origin: center bottom;
+    transform: translate(-50%, -100%);
+}
+
+/* Red kaleidoscope segments */
+.kaleidoscope:not(.kaleidoscope-white) .kaleidoscope-segment {
+    background: linear-gradient(
+        to top,
+        transparent 0%,
+        var(--red) 20%,
+        var(--bright-red) 50%,
+        var(--red) 80%,
+        transparent 100%
+    );
+    box-shadow:
+        0 0 10px var(--red),
+        0 0 20px var(--bright-red),
+        0 0 30px var(--red);
+}
+
+/* White glowing segments */
+.kaleidoscope-white .kaleidoscope-segment {
+    background: linear-gradient(
+        to top,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 20%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.3) 80%,
+        transparent 100%
+    );
+    box-shadow:
+        0 0 15px rgba(255, 255, 255, 0.8),
+        0 0 30px rgba(255, 255, 255, 0.5),
+        0 0 45px rgba(255, 255, 255, 0.3);
+}
+
+/* Position each segment at 60-degree intervals (360/6 = 60) */
+.segment-1 { transform: translate(-50%, -100%) rotate(0deg); }
+.segment-2 { transform: translate(-50%, -100%) rotate(60deg); }
+.segment-3 { transform: translate(-50%, -100%) rotate(120deg); }
+.segment-4 { transform: translate(-50%, -100%) rotate(180deg); }
+.segment-5 { transform: translate(-50%, -100%) rotate(240deg); }
+.segment-6 { transform: translate(-50%, -100%) rotate(300deg); }
+
+/* Add pulsing glow effect */
 .kaleidoscope::before,
 .kaleidoscope::after {
     content: '';
@@ -156,35 +214,63 @@ html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 50%;
 }
 
 .kaleidoscope::before {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     background:
-        radial-gradient(circle at 30% 30%, var(--red) 0%, transparent 50%),
-        radial-gradient(circle at 70% 70%, var(--bright-red) 0%, transparent 50%),
-        radial-gradient(circle at 70% 30%, rgba(220, 20, 60, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 30% 70%, rgba(255, 23, 68, 0.5) 0%, transparent 50%);
-    filter: blur(40px);
+        radial-gradient(circle at center, var(--red) 0%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.3;
     animation: pulse 4s ease-in-out infinite;
 }
 
 .kaleidoscope::after {
-    width: 300px;
-    height: 300px;
-    background:
-        conic-gradient(
-            from 0deg,
-            transparent 0deg 60deg,
-            var(--red) 60deg 120deg,
-            transparent 120deg 180deg,
-            var(--bright-red) 180deg 240deg,
-            transparent 240deg 300deg,
-            var(--red) 300deg 360deg
-        );
-    opacity: 0.3;
-    animation: rotate-reverse 15s linear infinite;
+    width: 200px;
+    height: 200px;
+    background: conic-gradient(
+        from 0deg,
+        var(--bright-red) 0deg,
+        transparent 30deg,
+        var(--red) 60deg,
+        transparent 90deg,
+        var(--bright-red) 120deg,
+        transparent 150deg,
+        var(--red) 180deg,
+        transparent 210deg,
+        var(--bright-red) 240deg,
+        transparent 270deg,
+        var(--red) 300deg,
+        transparent 330deg,
+        var(--bright-red) 360deg
+    );
+    opacity: 0.4;
+    animation: rotate-fast 8s linear infinite;
+}
+
+.kaleidoscope-white::before {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+}
+
+.kaleidoscope-white::after {
+    background: conic-gradient(
+        from 0deg,
+        rgba(255, 255, 255, 0.5) 0deg,
+        transparent 30deg,
+        rgba(255, 255, 255, 0.3) 60deg,
+        transparent 90deg,
+        rgba(255, 255, 255, 0.5) 120deg,
+        transparent 150deg,
+        rgba(255, 255, 255, 0.3) 180deg,
+        transparent 210deg,
+        rgba(255, 255, 255, 0.5) 240deg,
+        transparent 270deg,
+        rgba(255, 255, 255, 0.3) 300deg,
+        transparent 330deg,
+        rgba(255, 255, 255, 0.5) 360deg
+    );
 }
 
 .kaleidoscope-overlay {
@@ -206,9 +292,20 @@ html {
     to { transform: translate(-50%, -50%) rotate(0deg); }
 }
 
+@keyframes rotate-fast {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
 @keyframes pulse {
-    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    0%, 100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
 }
 
 .hero-content {

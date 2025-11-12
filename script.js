@@ -306,24 +306,106 @@ document.head.appendChild(style);
 
 // ===== Kaleidoscope Interactive Effect =====
 const hero = document.querySelector('.hero');
-const kaleidoscope = document.querySelector('.kaleidoscope');
+const kaleidoscopes = document.querySelectorAll('.kaleidoscope');
+let mouseX = 0;
+let mouseY = 0;
+let currentRotation = 0;
+let targetRotation = 0;
 
 hero.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    mouseX = (e.clientX / window.innerWidth - 0.5);
+    mouseY = (e.clientY / window.innerHeight - 0.5);
 
-    kaleidoscope.style.transform = `translate(-50%, -50%) rotate(${x}deg)`;
+    // Calculate target rotation based on mouse position
+    targetRotation = Math.atan2(mouseY, mouseX) * (180 / Math.PI);
 });
+
+// Smooth rotation animation
+function animateKaleidoscope() {
+    // Smoothly interpolate to target rotation
+    currentRotation += (targetRotation - currentRotation) * 0.05;
+
+    kaleidoscopes.forEach((kaleidoscope, index) => {
+        const baseRotation = index === 0 ?
+            currentRotation * 2 :
+            -currentRotation * 1.5;
+
+        // Add slight parallax effect
+        const parallaxX = mouseX * 30;
+        const parallaxY = mouseY * 30;
+
+        kaleidoscope.style.transform = `
+            translate(calc(-50% + ${parallaxX}px), calc(-50% + ${parallaxY}px))
+            rotate(${baseRotation}deg)
+        `;
+
+        // Dynamic opacity based on mouse movement
+        const movement = Math.abs(mouseX) + Math.abs(mouseY);
+        const opacity = index === 0 ? 1 : 0.5 + movement * 0.5;
+        kaleidoscope.style.opacity = Math.min(opacity, 1);
+    });
+
+    requestAnimationFrame(animateKaleidoscope);
+}
+
+// Start animation
+animateKaleidoscope();
+
+// Add pulse effect on click
+hero.addEventListener('click', (e) => {
+    const pulse = document.createElement('div');
+    pulse.style.cssText = `
+        position: fixed;
+        left: ${e.clientX}px;
+        top: ${e.clientY}px;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--bright-red);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1000;
+        animation: ripple 1s ease-out forwards;
+    `;
+    document.body.appendChild(pulse);
+
+    setTimeout(() => document.body.removeChild(pulse), 1000);
+});
+
+// Add ripple animation
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+    @keyframes ripple {
+        0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(20);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(rippleStyle);
 
 // ===== Parallax Effect =====
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.kaleidoscope, .prism-container');
+    const prismContainers = document.querySelectorAll('.prism-container');
 
-    parallaxElements.forEach(el => {
+    prismContainers.forEach(el => {
         const speed = 0.5;
         el.style.transform = `translateY(${scrolled * speed}px)`;
     });
+
+    // Subtle parallax for kaleidoscope on scroll
+    const heroHeight = hero.offsetHeight;
+    if (scrolled < heroHeight) {
+        const scrollProgress = scrolled / heroHeight;
+        kaleidoscopes.forEach((kaleidoscope, index) => {
+            const offset = index === 0 ? scrolled * 0.3 : scrolled * 0.4;
+            kaleidoscope.style.opacity = 1 - scrollProgress * 0.5;
+        });
+    }
 });
 
 // ===== Loading Animation =====
