@@ -985,3 +985,229 @@ section {
         padding: 25px 20px;
     }
 }
+
+/* Hero Description */
+.hero-description {
+    font-size: 18px;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1.8s ease-out forwards;
+}
+
+/* Recommend Section */
+.liver-recommend {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.recommend-content {
+    max-width: 900px;
+    margin: 60px auto 0;
+}
+
+.recommend-content h3 {
+    font-size: 26px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.recommend-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.recommend-item {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 40px 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.recommend-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(220, 20, 60, 0.6);
+    box-shadow: 0 10px 40px rgba(220, 20, 60, 0.3);
+}
+
+.recommend-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.recommend-item p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+}
+
+.recommend-text {
+    text-align: center;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 2;
+    margin-top: 20px;
+}
+
+/* VTuber Charm Section */
+.liver-vtuber-charm {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.charm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.charm-item {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 40px 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.charm-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(220, 20, 60, 0.6);
+    box-shadow: 0 10px 40px rgba(220, 20, 60, 0.3);
+}
+
+.charm-item h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.charm-item p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* Application Buttons */
+.application-buttons {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.application-btn {
+    display: inline-block;
+    padding: 20px 60px;
+    background: linear-gradient(135deg, #dc143c 0%, #b00020 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 30px rgba(220, 20, 60, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.application-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(220, 20, 60, 0.6);
+}
+
+.application-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+/* Application Features */
+.application-features {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.feature-badge {
+    background: rgba(220, 20, 60, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    border: 1px solid rgba(220, 20, 60, 0.4);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.feature-badge:hover {
+    background: rgba(220, 20, 60, 0.3);
+    border-color: rgba(220, 20, 60, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Responsive for new sections */
+@media (max-width: 768px) {
+    .recommend-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .charm-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .application-btn {
+        padding: 18px 50px;
+        font-size: 18px;
+    }
+
+    .application-features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .liver-recommend,
+    .liver-vtuber-charm {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .recommend-content h3 {
+        font-size: 20px;
+    }
+
+    .recommend-icon {
+        font-size: 48px;
+    }
+
+    .charm-item {
+        padding: 30px 20px;
+    }
+
+    .application-btn {
+        padding: 16px 40px;
+        font-size: 16px;
+    }
+
+    .feature-badge {
+        font-size: 12px;
+        padding: 10px 20px;
+    }
+}
