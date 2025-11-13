@@ -615,9 +615,13 @@ section {
         display: flex;
     }
 
+    .hero-image-container {
+        margin-top: 100px;
+    }
+
     .hero-image {
         max-width: 100%;
-        max-height: 95vh;
+        max-height: 70vh;
     }
 
     .about-content,
@@ -672,9 +676,13 @@ section {
 }
 
 @media (max-width: 480px) {
+    .hero-image-container {
+        margin-top: 100px;
+    }
+
     .hero-image {
         max-width: 100%;
-        max-height: 98vh;
+        max-height: 65vh;
     }
 
     .section-title {
