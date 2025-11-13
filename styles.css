@@ -50,8 +50,15 @@ html {
     margin: 0 auto;
     padding: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 40px;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 20px;
 }
 
 .logo-text {
@@ -107,17 +114,21 @@ html {
 }
 
 .x-button {
-    display: inline-block;
-    padding: 10px 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%);
     color: #fff;
     text-decoration: none;
-    border-radius: 25px;
-    font-size: 14px;
+    border-radius: 50%;
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: 1px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(29, 161, 242, 0.3);
+    position: absolute;
+    right: 20px;
 }
 
 .x-button:hover {
@@ -631,8 +642,17 @@ section {
     }
 
     .x-button {
-        font-size: 12px;
-        padding: 8px 18px;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .logo {
+        position: static;
+    }
+
+    .nav-container {
+        justify-content: space-between;
     }
 
     .hamburger {
@@ -1168,6 +1188,15 @@ section {
 .application-btn span {
     position: relative;
     z-index: 2;
+}
+
+.application-btn-secondary {
+    background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+    box-shadow: 0 5px 30px rgba(74, 74, 74, 0.4);
+}
+
+.application-btn-secondary:hover {
+    box-shadow: 0 10px 40px rgba(74, 74, 74, 0.6);
 }
 
 /* Application Features */
