@@ -674,3 +674,314 @@ section {
         font-size: 28px;
     }
 }
+
+/* ===== Liver Page Styles ===== */
+
+/* Liver Hero */
+.liver-hero {
+    min-height: 60vh;
+}
+
+.page-title {
+    font-size: 56px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #dc143c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.page-subtitle {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    letter-spacing: 2px;
+    animation: fadeInUp 1.5s ease-out forwards;
+}
+
+/* Liver Introduction */
+.liver-intro {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.intro-content {
+    max-width: 800px;
+    margin: 40px auto 0;
+    text-align: center;
+}
+
+.intro-text {
+    font-size: 18px;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Support Section */
+.liver-support {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.support-card {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 40px 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(220, 20, 60, 0.6);
+    box-shadow: 0 10px 40px rgba(220, 20, 60, 0.3);
+}
+
+.support-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.support-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.support-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+/* Requirements Section */
+.liver-requirements {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.requirements-content {
+    max-width: 1000px;
+    margin: 60px auto 0;
+    display: grid;
+    gap: 40px;
+}
+
+.requirement-item {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.requirement-item h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #dc143c;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+}
+
+.requirement-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.requirement-item li {
+    padding: 12px 0 12px 30px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+}
+
+.requirement-item li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #dc143c;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Process Section */
+.liver-process {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.process-timeline {
+    max-width: 1000px;
+    margin: 60px auto 0;
+    display: grid;
+    gap: 30px;
+}
+
+.process-step {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 40px;
+    border-radius: 15px;
+    border-left: 4px solid #dc143c;
+    backdrop-filter: blur(10px);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.process-step:hover {
+    transform: translateX(10px);
+    border-left-width: 6px;
+}
+
+.step-number {
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(220, 20, 60, 0.3);
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.process-step h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.process-step p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+/* Application Section */
+.liver-application {
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.application-content {
+    max-width: 800px;
+    margin: 60px auto 0;
+}
+
+.application-note {
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 50px;
+    line-height: 2;
+}
+
+.application-form {
+    background: rgba(20, 20, 20, 0.6);
+    padding: 50px;
+    border-radius: 15px;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.application-form .form-group {
+    margin-bottom: 30px;
+}
+
+.application-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.required {
+    color: #dc143c;
+}
+
+.application-form input,
+.application-form select,
+.application-form textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.application-form input:focus,
+.application-form select:focus,
+.application-form textarea:focus {
+    outline: none;
+    border-color: #dc143c;
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+}
+
+.application-form textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.application-form .submit-button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.nav-link.active {
+    color: #dc143c;
+}
+
+/* Responsive for Liver Page */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 36px;
+    }
+
+    .page-subtitle {
+        font-size: 18px;
+    }
+
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .application-form {
+        padding: 30px 20px;
+    }
+
+    .liver-intro,
+    .liver-support,
+    .liver-requirements,
+    .liver-process,
+    .liver-application {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 28px;
+    }
+
+    .intro-text {
+        font-size: 16px;
+    }
+
+    .requirement-item,
+    .process-step {
+        padding: 25px 20px;
+    }
+}
