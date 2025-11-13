@@ -139,13 +139,13 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 80px;
     animation: fadeInUp 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .hero-image {
-    max-width: 95%;
-    max-height: 90vh;
+    max-width: 90%;
+    max-height: 80vh;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -247,6 +247,13 @@ section {
     align-items: center;
 }
 
+.about-text {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
 .about-text h3 {
     font-size: 28px;
     margin-bottom: 20px;
@@ -270,8 +277,8 @@ section {
 .feature-item {
     text-align: center;
     padding: 20px;
-    background: rgba(220, 20, 60, 0.1);
-    border: 1px solid rgba(220, 20, 60, 0.3);
+    background: transparent;
+    border: none;
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
 }
