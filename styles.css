@@ -1322,7 +1322,6 @@ section {
     transition: all 0.3s ease;
     animation: float-pulse 2s ease-in-out infinite;
     overflow: hidden;
-    position: relative;
 }
 
 .floating-application-btn::before {
