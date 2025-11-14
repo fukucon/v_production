@@ -121,7 +121,7 @@ html {
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
+    transform: rotate(45deg) translate(7px, 7px);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -129,7 +129,7 @@ html {
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 /* ===== Hero Section ===== */
@@ -668,9 +668,8 @@ section {
         right: -100%;
         flex-direction: column;
         background: rgba(10, 10, 10, 0.98);
-        width: 70%;
-        max-width: 300px;
-        padding: 40px 20px;
+        width: 100%;
+        padding: 40px 40px 40px 20px;
         gap: 20px;
         transition: right 0.3s ease-in-out;
         text-align: right;
