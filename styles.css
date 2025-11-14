@@ -248,7 +248,7 @@ section {
 }
 
 .about-text {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.85);
     padding: 40px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
@@ -263,7 +263,7 @@ section {
 .about-text p {
     font-size: 16px;
     line-height: 1.8;
-    color: var(--light-gray);
+    color: #1a1a1a;
     margin-bottom: 20px;
 }
 
