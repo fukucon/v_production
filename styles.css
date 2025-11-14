@@ -451,17 +451,26 @@ section {
     gap: 60px;
 }
 
+.contact-info {
+    background: rgba(255, 255, 255, 0.75);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
 .contact-info h3 {
     font-size: 28px;
     margin-bottom: 20px;
     color: var(--red);
+    font-weight: 700;
 }
 
 .contact-info p {
     font-size: 16px;
     line-height: 1.8;
-    color: var(--light-gray);
+    color: #1a1a1a;
     margin-bottom: 30px;
+    font-weight: 600;
 }
 
 .contact-details {
@@ -759,12 +768,17 @@ section {
     max-width: 800px;
     margin: 40px auto 0;
     text-align: center;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
 }
 
 .intro-text {
     font-size: 18px;
     line-height: 2;
-    color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
+    font-weight: 600;
 }
 
 /* Support Section */
@@ -782,7 +796,7 @@ section {
 }
 
 .support-card {
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px 30px;
     border-radius: 15px;
     border: 1px solid rgba(220, 20, 60, 0.3);
@@ -805,12 +819,14 @@ section {
 .support-card h3 {
     font-size: 20px;
     margin-bottom: 15px;
-    color: #fff;
+    color: #dc143c;
+    font-weight: 700;
 }
 
 .support-card p {
-    color: rgba(255, 255, 255, 0.8);
+    color: #1a1a1a;
     line-height: 1.8;
+    font-weight: 600;
 }
 
 /* Requirements Section */
@@ -828,7 +844,7 @@ section {
 }
 
 .requirement-item {
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px;
     border-radius: 15px;
     border: 1px solid rgba(220, 20, 60, 0.3);
@@ -839,6 +855,7 @@ section {
     font-size: 24px;
     margin-bottom: 20px;
     color: #dc143c;
+    font-weight: 700;
     padding-bottom: 15px;
     border-bottom: 2px solid rgba(220, 20, 60, 0.3);
 }
@@ -851,8 +868,9 @@ section {
 .requirement-item li {
     padding: 12px 0 12px 30px;
     position: relative;
-    color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
     line-height: 1.8;
+    font-weight: 600;
 }
 
 .requirement-item li:before {
@@ -879,7 +897,7 @@ section {
 }
 
 .process-step {
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px;
     border-radius: 15px;
     border-left: 4px solid #dc143c;
@@ -905,12 +923,14 @@ section {
 .process-step h3 {
     font-size: 24px;
     margin-bottom: 15px;
-    color: #fff;
+    color: #dc143c;
+    font-weight: 700;
 }
 
 .process-step p {
-    color: rgba(255, 255, 255, 0.8);
+    color: #1a1a1a;
     line-height: 1.8;
+    font-weight: 600;
 }
 
 /* Application Section */
@@ -928,9 +948,14 @@ section {
 .application-note {
     text-align: center;
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
     margin-bottom: 50px;
     line-height: 2;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
 }
 
 .application-form {
@@ -1037,12 +1062,17 @@ section {
 .hero-description {
     font-size: 18px;
     line-height: 2;
-    color: rgba(255, 255, 255, 0.85);
+    color: #1a1a1a;
     margin-top: 30px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     animation: fadeInUp 1.8s ease-out forwards;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
 }
 
 /* Recommend Section */
@@ -1059,9 +1089,14 @@ section {
 
 .recommend-content h3 {
     font-size: 26px;
-    color: #fff;
+    color: #dc143c;
     text-align: center;
     margin-bottom: 40px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
 }
 
 .recommend-grid {
@@ -1072,7 +1107,7 @@ section {
 }
 
 .recommend-item {
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px 20px;
     border-radius: 15px;
     border: 1px solid rgba(220, 20, 60, 0.3);
@@ -1094,16 +1129,22 @@ section {
 
 .recommend-item p {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
     line-height: 1.8;
+    font-weight: 600;
 }
 
 .recommend-text {
     text-align: center;
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
     line-height: 2;
     margin-top: 20px;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
 }
 
 /* VTuber Charm Section */
@@ -1121,7 +1162,7 @@ section {
 }
 
 .charm-item {
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px 30px;
     border-radius: 15px;
     border: 1px solid rgba(220, 20, 60, 0.3);
@@ -1138,13 +1179,15 @@ section {
 .charm-item h3 {
     font-size: 22px;
     margin-bottom: 20px;
-    color: #fff;
+    color: #dc143c;
+    font-weight: 700;
 }
 
 .charm-item p {
-    color: rgba(255, 255, 255, 0.8);
+    color: #1a1a1a;
     line-height: 1.8;
     font-size: 16px;
+    font-weight: 600;
 }
 
 /* Application Buttons */
