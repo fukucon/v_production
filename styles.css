@@ -243,13 +243,15 @@ section {
 }
 
 .about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .about-text {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
     background: rgba(255, 255, 255, 0.75);
     padding: 40px;
     border-radius: 15px;
@@ -464,6 +466,9 @@ section {
     padding: 40px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .contact-info h3 {
@@ -675,10 +680,10 @@ section {
         max-height: 70vh;
     }
 
-    .about-content,
-    .contact-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
+    .about-text,
+    .contact-info {
+        padding: 30px;
+        max-width: 100%;
     }
 
     .features {
