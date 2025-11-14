@@ -1301,3 +1301,61 @@ section {
         padding: 10px 20px;
     }
 }
+
+/* ===== Floating Application Button ===== */
+.floating-application-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 18px 50px;
+    background: linear-gradient(135deg, var(--red) 0%, var(--bright-red) 100%);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(220, 20, 60, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    animation: float-pulse 2s ease-in-out infinite;
+}
+
+.floating-application-btn:hover {
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 12px 30px rgba(220, 20, 60, 0.6),
+                0 6px 12px rgba(0, 0, 0, 0.4),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.floating-application-btn span {
+    display: block;
+    letter-spacing: 1px;
+}
+
+@keyframes float-pulse {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-application-btn {
+        padding: 16px 40px;
+        font-size: 16px;
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-application-btn {
+        padding: 14px 35px;
+        font-size: 14px;
+        bottom: 15px;
+    }
+}
