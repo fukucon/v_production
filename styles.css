@@ -238,6 +238,8 @@ section {
 /* ===== About Section ===== */
 .about {
     background: transparent;
+    position: relative;
+    z-index: 10;
 }
 
 .about-content {
@@ -361,6 +363,8 @@ section {
 /* ===== Talents Section ===== */
 .talents {
     background: transparent;
+    position: relative;
+    z-index: 10;
 }
 
 .talents-grid {
@@ -445,6 +449,8 @@ section {
 /* ===== Contact Section ===== */
 .contact {
     background: transparent;
+    position: relative;
+    z-index: 10;
 }
 
 .contact-content {
@@ -553,6 +559,8 @@ section {
     background: var(--black);
     padding: 60px 0 20px;
     border-top: 1px solid rgba(220, 20, 60, 0.3);
+    position: relative;
+    z-index: 10;
 }
 
 .footer-content {
