@@ -866,20 +866,11 @@ section {
 }
 
 .requirement-item li {
-    padding: 12px 0 12px 30px;
+    padding: 12px 0;
     position: relative;
     color: #1a1a1a;
     line-height: 1.8;
     font-weight: 600;
-}
-
-.requirement-item li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #dc143c;
-    font-weight: bold;
-    font-size: 18px;
 }
 
 /* Process Section */
