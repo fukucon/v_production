@@ -117,7 +117,19 @@ html {
     width: 25px;
     height: 2px;
     background: var(--white);
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* ===== Hero Section ===== */
@@ -653,17 +665,21 @@ section {
     .nav-menu {
         position: fixed;
         top: 70px;
-        left: -100%;
+        right: -100%;
         flex-direction: column;
         background: rgba(10, 10, 10, 0.98);
-        width: 100%;
+        width: 70%;
+        max-width: 300px;
         padding: 40px 20px;
         gap: 20px;
-        transition: left 0.3s;
+        transition: right 0.3s ease-in-out;
+        text-align: right;
+        align-items: flex-end;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
     }
 
     .nav-menu.active {
-        left: 0;
+        right: 0;
     }
 
     .hamburger {
