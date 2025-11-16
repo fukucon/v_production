@@ -1,9 +1,14 @@
 // ===== Kaleidoscope Particle Animation =====
 const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
+if (!canvas) {
+    console.log('Canvas not found - skipping particle animation');
+}
+const ctx = canvas ? canvas.getContext('2d') : null;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 
 // Kaleidoscope particle class inspired by reference code
 class KaleidoParticle {
@@ -235,14 +240,18 @@ function animateKaleidoParticles() {
 let isAnimating = true;
 
 // Initialize and start animation
-initKaleidoParticles();
-animateKaleidoParticles();
+if (canvas) {
+    initKaleidoParticles();
+    animateKaleidoParticles();
+}
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    initKaleidoParticles();
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initKaleidoParticles();
+    }
 });
 
 // ===== Navigation =====
@@ -251,43 +260,95 @@ const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 
 // Toggle mobile menu
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
+if (navLinks.length > 0 && navMenu && hamburger) {
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
     });
-});
+}
+
+// Close mobile menu when clicking outside
+if (hamburger && navMenu) {
+    document.addEventListener('click', (e) => {
+        // メニューが開いている時だけ処理
+        if (navMenu.classList.contains('active')) {
+            // クリックされた要素がハンバーガーボタンでもメニューでもない場合
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        }
+    });
+}
 
 // Change nav background on scroll
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('.nav');
-    if (window.scrollY > 100) {
-        nav.style.background = 'rgba(10, 10, 10, 0.98)';
-    } else {
-        nav.style.background = 'rgba(10, 10, 10, 0.95)';
+    if (nav) {
+        if (window.scrollY > 100) {
+            nav.style.background = 'rgba(10, 10, 10, 0.98)';
+        } else {
+            nav.style.background = 'rgba(10, 10, 10, 0.95)';
+        }
     }
 });
 
-// ===== Smooth Scrolling =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 70;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+// ===== Check Page Floating Button =====
+const checkFloatingBtn = document.getElementById('check-floating-btn');
+const recruitmentSection = document.getElementById('recruitment-section');
+
+if (checkFloatingBtn && recruitmentSection) {
+    let isEnabled = false;
+
+    // スクロールイベントでセクションの表示を監視
+    window.addEventListener('scroll', () => {
+        const rect = recruitmentSection.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+
+        if (isVisible && !isEnabled) {
+            isEnabled = true;
+            checkFloatingBtn.classList.remove('disabled');
+            checkFloatingBtn.classList.add('enabled');
+            checkFloatingBtn.innerHTML = '<span>応募フォームはこちら</span>';
+            checkFloatingBtn.style.cursor = 'pointer';
         }
     });
-});
+
+    // クリックイベント
+    checkFloatingBtn.addEventListener('click', () => {
+        if (isEnabled) {
+            window.open('https://forms.office.com/r/N1cAFSeNu0', '_blank');
+        }
+    });
+}
+
+// ===== Smooth Scrolling =====
+const smoothScrollAnchors = document.querySelectorAll('a[href^="#"]');
+if (smoothScrollAnchors.length > 0) {
+    smoothScrollAnchors.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offsetTop = target.offsetTop - 70;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
 
 // ===== Scroll Animations =====
 const observerOptions = {
@@ -305,17 +366,21 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements
-document.querySelectorAll('.feature-item, .talent-card, .contact-info, .contact-form').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-    observer.observe(el);
-});
+const observeElements = document.querySelectorAll('.feature-item, .talent-card, .contact-info, .contact-form');
+if (observeElements.length > 0) {
+    observeElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(el);
+    });
+}
 
 // ===== Talent Cards Interaction =====
 const talentCards = document.querySelectorAll('.talent-card');
 
-talentCards.forEach(card => {
+if (talentCards.length > 0) {
+    talentCards.forEach(card => {
     card.addEventListener('mouseenter', function() {
         this.style.zIndex = '10';
     });
@@ -342,12 +407,14 @@ talentCards.forEach(card => {
     card.addEventListener('mouseleave', function() {
         this.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0) scale(1)';
     });
-});
+    });
+}
 
 // ===== Contact Form =====
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     // Create success message
@@ -385,54 +452,72 @@ contactForm.addEventListener('submit', (e) => {
             document.body.removeChild(successMessage);
         }, 500);
     }, 3000);
-});
+    });
+}
 
 // ===== Cursor Effect =====
-const createSparkle = (x, y) => {
-    const sparkle = document.createElement('div');
-    sparkle.style.cssText = `
+const createRipple = (x, y) => {
+    const ripple = document.createElement('div');
+    ripple.style.cssText = `
         position: fixed;
-        width: 4px;
-        height: 4px;
-        background: linear-gradient(135deg, var(--red), var(--bright-red));
+        width: 10px;
+        height: 10px;
+        border: 2px solid transparent;
         border-radius: 50%;
         pointer-events: none;
         z-index: 9999;
-        left: ${x}px;
-        top: ${y}px;
-        animation: sparkle 0.8s ease-out forwards;
+        left: ${x - 5}px;
+        top: ${y - 5}px;
+        animation: ripple 1s ease-out forwards;
     `;
 
-    document.body.appendChild(sparkle);
+    document.body.appendChild(ripple);
 
     setTimeout(() => {
-        document.body.removeChild(sparkle);
-    }, 800);
+        document.body.removeChild(ripple);
+    }, 1000);
 };
 
-// Add sparkle effect on mouse move (throttled)
-let lastSparkleTime = 0;
+// Add ripple effect on mouse move (throttled)
+let lastRippleTime = 0;
 document.addEventListener('mousemove', (e) => {
     const now = Date.now();
-    if (now - lastSparkleTime > 100) {
+    if (now - lastRippleTime > 100) {
         if (Math.random() > 0.7) {
-            createSparkle(e.clientX, e.clientY);
+            createRipple(e.clientX, e.clientY);
         }
-        lastSparkleTime = now;
+        lastRippleTime = now;
     }
 });
 
-// Add sparkle animation to CSS dynamically
+// Add ripple effect on click
+document.addEventListener('click', (e) => {
+    // Create multiple ripples for click
+    createRipple(e.clientX, e.clientY);
+    setTimeout(() => createRipple(e.clientX, e.clientY), 100);
+    setTimeout(() => createRipple(e.clientX, e.clientY), 200);
+});
+
+// Add ripple animation to CSS dynamically
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes sparkle {
+    @keyframes ripple {
         0% {
+            width: 10px;
+            height: 10px;
             opacity: 1;
-            transform: scale(1) translateY(0);
+            border-color: rgba(220, 20, 60, 0.8);
+            border-width: 2px;
+        }
+        50% {
+            border-color: rgba(255, 23, 68, 0.6);
         }
         100% {
+            width: 80px;
+            height: 80px;
             opacity: 0;
-            transform: scale(0.5) translateY(-20px);
+            border-color: rgba(220, 20, 60, 0);
+            border-width: 1px;
         }
     }
 
@@ -454,10 +539,12 @@ window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const prismContainers = document.querySelectorAll('.prism-container');
 
-    prismContainers.forEach(el => {
-        const speed = 0.5;
-        el.style.transform = `translateY(${scrolled * speed}px)`;
-    });
+    if (prismContainers.length > 0) {
+        prismContainers.forEach(el => {
+            const speed = 0.5;
+            el.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    }
 });
 
 // ===== Loading Animation =====
@@ -528,7 +615,7 @@ function activateKaleidoscopeMode() {
 // Pause canvas animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
     isAnimating = !document.hidden;
-    if (isAnimating) {
+    if (isAnimating && canvas) {
         animateKaleidoParticles();
     }
 });
