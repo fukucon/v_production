@@ -292,9 +292,16 @@ if (hamburger && navMenu) {
 }
 
 // Change nav background on scroll
+let navAnimationComplete = false;
+
+// Wait for nav fade-in animation to complete (1.54s + 0.8s = 2.34s)
+setTimeout(() => {
+    navAnimationComplete = true;
+}, 2340);
+
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('.nav');
-    if (nav) {
+    if (nav && navAnimationComplete) {
         if (window.scrollY > 100) {
             nav.style.background = 'rgba(10, 10, 10, 0.98)';
         } else {
@@ -548,13 +555,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== Loading Animation =====
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 1s ease-in';
-        document.body.style.opacity = '1';
-    }, 100);
-});
+// Removed to prevent flickering on page transitions
 
 // ===== Easter Egg: Konami Code =====
 let konamiCode = [];
