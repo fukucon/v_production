@@ -355,7 +355,7 @@ $flashMessage = getFlashMessage();
                             <tr>
                                 <th>タイトル</th>
                                 <th>ステータス</th>
-                                <th>作成日</th>
+                                <th>投稿日</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -375,7 +375,7 @@ $flashMessage = getFlashMessage();
                                                 <?php echo $post['status'] === 'published' ? '公開中' : '下書き'; ?>
                                             </span>
                                         </td>
-                                        <td><?php echo formatDate($post['created_at'], 'Y/m/d H:i'); ?></td>
+                                        <td><?php echo $post['published_at'] ? formatDate($post['published_at'], 'Y/m/d H:i') : '-'; ?></td>
                                         <td>
                                             <a href="?action=edit&id=<?php echo $post['id']; ?>" class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;">編集</a>
                                             <a href="?action=delete&id=<?php echo $post['id']; ?>&csrf_token=<?php echo h($csrfToken); ?>"
