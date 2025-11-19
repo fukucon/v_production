@@ -284,14 +284,9 @@ $relatedPosts = db()->select("
 
             .talent-image-wrapper {
                 order: 1;
-                max-width: 330px;
+                max-width: 300px;
                 margin: 0 auto 20px;
                 width: 100%;
-            }
-
-            .talent-image,
-            .no-image-talent {
-                transform: scale(1.1);
             }
 
             .talent-name-kana {
