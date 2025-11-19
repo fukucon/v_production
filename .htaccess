@@ -1,0 +1,15 @@
+# Enable rewrite engine
+RewriteEngine On
+
+# Set index.html as default directory index
+DirectoryIndex index.html
+
+# Remove .html extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Redirect .html URLs to non-.html URLs (except index.html)
+RewriteCond %{THE_REQUEST} ^GET\ /(.+)\.html\ HTTP
+RewriteCond %{REQUEST_URI} !^/index\.html$
+RewriteRule ^(.+)\.html$ /$1 [R=301,L]
