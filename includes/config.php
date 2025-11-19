@@ -5,20 +5,32 @@
  * アプリケーション全体の設定を管理
  */
 
-// エラー表示設定（開発環境）
-// 本番環境では必ずコメントアウトすること
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// 環境変数を読み込み
+require_once __DIR__ . '/env_loader.php';
+
+// デバッグモード設定を環境変数から取得
+$debugMode = filter_var($_ENV['DEBUG_MODE'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+define('DEBUG_MODE', $debugMode);
+
+// エラー表示設定（環境変数で制御）
+if (DEBUG_MODE) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+    error_reporting(E_ALL); // ログには記録
+}
 
 // タイムゾーン設定
 date_default_timezone_set('Asia/Tokyo');
 
-// データベース接続情報
-define('DB_HOST', 'mysql1036.onamae.ne.jp');
-define('DB_NAME', 'iofy8_kaleidochrome');
-define('DB_USER', 'iofy8_admin');
-define('DB_PASS', 'REDACTED_PASSWORD');
+// データベース接続情報（環境変数から取得）
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'kaleidochrome');
+define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+define('DB_PASS', $_ENV['DB_PASS'] ?? '');
 define('DB_CHARSET', 'utf8mb4');
 
 // サイト基本情報
@@ -46,6 +58,3 @@ define('CSRF_TOKEN_LIFETIME', 3600);
 
 // パスワード設定
 define('PASSWORD_MIN_LENGTH', 8);
-
-// デバッグモード（本番環境ではfalse）
-define('DEBUG_MODE', true);

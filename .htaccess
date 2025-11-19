@@ -4,6 +4,41 @@ RewriteEngine On
 # Set index.html as default directory index
 DirectoryIndex index.html
 
+# セキュリティ: .env ファイルへのアクセスを拒否
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# セキュリティ: データベースファイルへのアクセスを拒否
+<FilesMatch "\.(db|sqlite|sqlite3)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# URL Rewrite Rules for Clean URLs
+# 注意: 具体的なルールを先に記述し、一般的なルールを後に記述
+
+# タレント詳細ページ: /talents/[slug] → talent_detail.php?slug=[slug]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^talents/([a-z0-9-]+)$ talent_detail.php?slug=$1 [L,QSA]
+
+# ブログ詳細ページ: /blog/[slug] → blog_detail.php?slug=[slug]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^blog/([a-z0-9-]+)$ blog_detail.php?slug=$1 [L,QSA]
+
+# タレント一覧: /talents → talents.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^talents$ talents.php [L,QSA]
+
+# ブログ一覧: /blog → blog.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^blog$ blog.php [L,QSA]
+
 # Remove .html extension from URLs
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
