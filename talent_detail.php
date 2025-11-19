@@ -58,9 +58,9 @@ $relatedPosts = db()->select("
         }
 
         .talent-main {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -70,8 +70,7 @@ $relatedPosts = db()->select("
         .talent-header {
             display: grid;
             grid-template-columns: 350px 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 13px;
         }
 
         .talent-image-wrapper {
@@ -84,6 +83,8 @@ $relatedPosts = db()->select("
             object-fit: cover;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.05s ease-out;
+            transform-style: preserve-3d;
         }
 
         .no-image-talent {
@@ -97,43 +98,45 @@ $relatedPosts = db()->select("
             font-size: 32px;
             font-weight: 600;
             border-radius: 15px;
+            transition: transform 0.05s ease-out;
+            transform-style: preserve-3d;
         }
 
         .talent-info {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+        }
+
+        .talent-name-kana {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 2px;
         }
 
         .talent-name {
             font-size: 42px;
             font-weight: 700;
             color: #333;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-
-        .talent-name-kana {
-            font-size: 18px;
-            color: #999;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+            line-height: 1.2;
         }
 
         .talent-catchphrase {
             font-size: 20px;
-            color: #dc143c;
+            color: #ff69b4;
             font-weight: 600;
-            margin-bottom: 30px;
-            padding-left: 15px;
-            border-left: 4px solid #dc143c;
-            line-height: 1.6;
+            margin-bottom: 5px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            word-break: break-word;
         }
 
         .talent-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 20px;
+            margin-top: 0;
         }
 
         .talent-tag {
@@ -148,21 +151,16 @@ $relatedPosts = db()->select("
 
         .talent-description {
             font-size: 16px;
-            line-height: 1.9;
+            line-height: 1.7;
             color: #333;
             white-space: pre-wrap;
-        }
-
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #dc143c, transparent);
-            margin: 40px 0;
+            margin-bottom: 15px;
         }
 
         .related-posts-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -272,24 +270,57 @@ $relatedPosts = db()->select("
 
             .talent-main {
                 padding: 25px;
+                display: flex;
+                flex-direction: column;
             }
 
             .talent-header {
-                grid-template-columns: 1fr;
-                gap: 25px;
+                display: contents;
+            }
+
+            .talent-info {
+                display: contents;
             }
 
             .talent-image-wrapper {
-                max-width: 300px;
-                margin: 0 auto;
+                order: 1;
+                max-width: 330px;
+                margin: 0 auto 20px;
+                width: 100%;
+            }
+
+            .talent-image,
+            .no-image-talent {
+                transform: scale(1.1);
+            }
+
+            .talent-name-kana {
+                order: 2;
+                text-align: center;
             }
 
             .talent-name {
+                order: 3;
                 font-size: 32px;
+                text-align: center;
             }
 
             .talent-catchphrase {
+                order: 4;
                 font-size: 18px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .talent-description {
+                order: 5;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .talent-tags {
+                order: 6;
+                justify-content: center;
             }
 
             .related-posts-section {
@@ -297,7 +328,7 @@ $relatedPosts = db()->select("
             }
 
             .related-posts-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
 
@@ -359,13 +390,18 @@ $relatedPosts = db()->select("
                 </div>
 
                 <div class="talent-info">
-                    <h1 class="talent-name"><?php echo h($talent['name']); ?></h1>
                     <?php if ($talent['name_kana']): ?>
                         <div class="talent-name-kana"><?php echo h($talent['name_kana']); ?></div>
                     <?php endif; ?>
 
+                    <h1 class="talent-name"><?php echo h($talent['name']); ?></h1>
+
                     <?php if ($talent['catchphrase']): ?>
                         <div class="talent-catchphrase"><?php echo h($talent['catchphrase']); ?></div>
+                    <?php endif; ?>
+
+                    <?php if ($talent['description']): ?>
+                        <div class="talent-description"><?php echo h($talent['description']); ?></div>
                     <?php endif; ?>
 
                     <?php if ($talent['free_tags']): ?>
@@ -380,11 +416,6 @@ $relatedPosts = db()->select("
                     <?php endif; ?>
                 </div>
             </div>
-
-            <?php if ($talent['description']): ?>
-                <div class="section-divider"></div>
-                <div class="talent-description"><?php echo h($talent['description']); ?></div>
-            <?php endif; ?>
         </div>
 
         <!-- Related Posts -->
@@ -444,6 +475,55 @@ $relatedPosts = db()->select("
         </div>
     </footer>
 
+    <script>
+        // 画像の3D回転エフェクト
+        (function() {
+            if (window.innerWidth <= 480) return;
+
+            function init() {
+                const imageWrapper = document.querySelector('.talent-image-wrapper');
+                if (!imageWrapper) return;
+
+                if (imageWrapper.dataset.initialized === 'true') return;
+                imageWrapper.dataset.initialized = 'true';
+
+                // デバイスサイズに応じて傾き角度を調整
+                const maxRotation = window.innerWidth <= 768 ? 15 : 10;
+
+                imageWrapper.addEventListener('mousemove', function(e) {
+                    const image = imageWrapper.querySelector('.talent-image') || imageWrapper.querySelector('.no-image-talent');
+                    if (!image) return;
+
+                    const rect = imageWrapper.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = (y - centerY) / centerY * -maxRotation;
+                    const rotateY = (x - centerX) / centerX * maxRotation;
+
+                    image.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    image.style.willChange = 'transform';
+                });
+
+                imageWrapper.addEventListener('mouseleave', function() {
+                    const image = imageWrapper.querySelector('.talent-image') || imageWrapper.querySelector('.no-image-talent');
+                    if (image) {
+                        image.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                        image.style.willChange = 'auto';
+                    }
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

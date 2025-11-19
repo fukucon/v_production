@@ -52,13 +52,13 @@ $postTalents = db()->select("
         }
 
         .article-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             padding: 25px 40px;
-            border-radius: 20px;
+            border-radius: 20px 20px 0 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 0;
             text-align: center;
         }
 
@@ -143,9 +143,10 @@ $postTalents = db()->select("
             width: 100%;
             aspect-ratio: 16 / 9;
             object-fit: cover;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 0;
+            margin: 0;
+            box-shadow: none;
+            display: block;
         }
 
         .no-image-detail {
@@ -158,16 +159,16 @@ $postTalents = db()->select("
             color: #999;
             font-size: 32px;
             font-weight: 600;
-            border-radius: 15px;
-            margin: 20px 0;
+            border-radius: 0;
+            margin: 0;
         }
 
         .article-content {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             padding: 30px 40px;
-            border-radius: 20px;
+            border-radius: 0 0 20px 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
@@ -289,7 +290,7 @@ $postTalents = db()->select("
 
             .article-featured-image,
             .no-image-detail {
-                margin: 15px 0;
+                margin: 0;
             }
 
             .article-title {
