@@ -376,6 +376,171 @@ HTMLの画像タグに `loading="lazy"` 属性を追加：
 
 ---
 
+### v2.2 - セキュリティ強化・コード整理・URLクリーン化（完了）
+**実装日**: 2025-01-19
+**説明**: 重大なセキュリティ脆弱性を修正し、不要ファイルを削除、URLをクリーン化。
+
+**🚨 セキュリティ対策（緊急対応完了）**:
+
+#### 1. DB認証情報の環境変数化
+**問題**: データベース接続パスワードがconfig.phpに平文でハードコード、GitHubに公開
+
+**対策**:
+- `.env` ファイルに認証情報を移動
+- `env_loader.php` を作成（環境変数ローダー）
+- `config.php` を環境変数読み込み形式に変更
+- `.gitignore` に `.env` を追加（既存設定を確認）
+- `.env.example` をテンプレートとして作成
+
+**実装内容**:
+```php
+// 環境変数から取得
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'kaleidochrome');
+define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+define('DB_PASS', $_ENV['DB_PASS'] ?? '');
+```
+
+#### 2. Git履歴からパスワード完全削除
+**問題**: 過去の全コミット履歴にパスワードが含まれている
+
+**対策**:
+- `git filter-branch` で全履歴（61コミット）を書き換え
+- パスワード文字列を `REDACTED_PASSWORD` に置換
+- Git履歴をクリーンアップ（reflog、gc --prune）
+- GitHub に強制プッシュ（force push）
+
+**結果**: GitHubの履歴からパスワードが完全削除
+
+#### 3. デバッグモードの環境変数化
+**問題**: 本番環境でもデバッグモードがON、エラー情報が露出
+
+**対策**:
+- DEBUG_MODE を環境変数で制御
+- .env で true/false を切り替え可能に
+- 本番環境では自動的にエラー表示OFF
+
+```php
+if (DEBUG_MODE) {
+    ini_set('display_errors', 1);
+} else {
+    ini_set('display_errors', 0);
+}
+```
+
+#### 4. .htaccess セキュリティ強化
+.envファイルとデータベースファイルへのアクセスを拒否：
+```apache
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<FilesMatch "\.(db|sqlite|sqlite3)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+```
+
+---
+
+**不要ファイルの削除**:
+
+削除したファイル（8ファイル）:
+- `talents.html` - 旧バージョン（talents.phpに統一）
+- `check/index.html` - 重複（check.htmlと同一）
+- `liver/index.html` - 未使用
+- `add_slug_migration.php` - マイグレーション完了済み
+- `add_registration_date_migration.php` - マイグレーション完了済み
+- `add_talent_code_migration.php` - マイグレーション完了済み
+- `assign_talent_codes.php` - 初期化スクリプト（不要）
+- `setup_local.php` - ローカルセットアップスクリプト（不要）
+
+**削減**: 945行のコード削除
+
+---
+
+**URLクリーン化（.htaccess）**:
+
+#### 実装したURLリライトルール
+```
+/talents              → talents.php（一覧）
+/talents/[slug]       → talent_detail.php?slug=[slug]（詳細）
+/blog                 → blog.php（一覧）
+/blog/[slug]          → blog_detail.php?slug=[slug]（詳細）
+```
+
+#### 具体例
+**変更前**:
+- `https://kaleidochrome.com/talent_detail.php?slug=yamada-taro`
+- `https://kaleidochrome.com/blog_detail.php?slug=my-article`
+
+**変更後**:
+- `https://kaleidochrome.com/talents/yamada-taro`
+- `https://kaleidochrome.com/blog/my-article`
+
+**メリット**:
+- SEO向上（検索エンジンフレンドリー）
+- URL の可読性向上
+- ユーザー体験の改善
+
+---
+
+**技術仕様**:
+
+**環境変数の使い方**:
+```bash
+# .env ファイル（本番環境・ローカル環境で個別管理）
+DB_HOST=mysql1036.onamae.ne.jp
+DB_NAME=iofy8_kaleidochrome
+DB_USER=iofy8_admin
+DB_PASS=your_password_here
+DEBUG_MODE=false  # 本番環境では必ず false
+```
+
+**Git履歴書き換え詳細**:
+- 使用ツール: `git filter-branch --tree-filter`
+- 対象: 全61コミット
+- 処理時間: 約3秒
+- 書き換え後: force push で履歴上書き
+
+---
+
+**⚠️ 重要な注意事項**:
+
+1. **データベースパスワードは必ず変更してください**
+   - お名前ドットコムの管理画面から変更
+   - 変更後、.env ファイルも更新
+
+2. **本番環境への展開時**
+   - `.env` ファイルを本番サーバーに手動配置
+   - `DEBUG_MODE=false` に設定
+   - パーミッション設定: `.env` は 600 推奨
+
+3. **他のPCで開発する場合**
+   - `git pull` 後、`.env.example` をコピーして `.env` を作成
+   - 各自の環境に合わせて設定
+
+4. **Git履歴の強制更新について**
+   - 他のPCでクローンしている場合、`git pull --force` が必要
+   - 既存のローカルブランチは削除して再取得推奨
+
+---
+
+**セキュリティチェックリスト（完了）**:
+- [x] DB認証情報の環境変数化
+- [x] Git履歴からパスワード削除
+- [x] .htaccess で .env ファイル保護
+- [x] .htaccess で DB ファイル保護
+- [x] デバッグモードの環境変数化
+- [x] 不要ファイルの削除
+
+**セキュリティチェックリスト（要対応）**:
+- [ ] データベースパスワードの変更（ユーザー対応）
+- [ ] 本番環境での .env 配置確認
+
+---
+
 ## TODO
 
 ### 完了項目
@@ -398,11 +563,20 @@ HTMLの画像タグに `loading="lazy"` 属性を追加：
 - [x] PWA対応（manifest.json）
 - [x] robots.txt / sitemap.xml 作成
 - [x] 画像遅延読み込み実装
+- [x] DB認証情報の環境変数化
+- [x] Git履歴からパスワード完全削除
+- [x] 不要ファイル削除（8ファイル）
+- [x] URLクリーン化（.htaccess リライト）
+- [x] セキュリティ強化（.env保護、デバッグモード制御）
 
 ### 未完了項目
+- [ ] **データベースパスワードの変更（重要）**
+  - [ ] お名前ドットコム管理画面でMySQLパスワード変更
+  - [ ] ローカル・本番の .env ファイル更新
 - [ ] 本番環境へのデプロイ
   - [ ] MySQLテーブル作成
   - [ ] FTPアップロード
+  - [ ] .env ファイル配置（本番用）
   - [ ] 本番環境テスト
   - [ ] 管理者アカウント作成
 
