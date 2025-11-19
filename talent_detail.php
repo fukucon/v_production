@@ -353,11 +353,11 @@ $relatedPosts = db()->select("
                 </a>
             </div>
             <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="talents.php" class="nav-link active">Talents</a></li>
-                <li><a href="liver.html" class="nav-link">Vライバーとは？</a></li>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="talents.php" class="nav-link active">TALENTS</a></li>
+                <li><a href="blog.php" class="nav-link">BLOG</a></li>
+                <li><a href="liver.html" class="nav-link">Vライバーとは</a></li>
                 <li><a href="linkup.html" class="nav-link">個人配信者の方へ</a></li>
-                <li><a href="blog.php" class="nav-link">ブログ</a></li>
                 <li><a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank" class="nav-link">お問い合わせ</a></li>
             </ul>
             <div class="hamburger">
@@ -456,11 +456,11 @@ $relatedPosts = db()->select("
                     <a href="https://x.com/kaleidochrome" target="_blank" class="footer-x-button" title="公式X">𝕏</a>
                 </div>
                 <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="talents.php">Talents</a>
-                    <a href="liver.html">Vライバーとは？</a>
+                    <a href="index.html">HOME</a>
+                    <a href="talents.php">TALENTS</a>
+                    <a href="blog.php">BLOG</a>
+                    <a href="liver.html">Vライバーとは</a>
                     <a href="linkup.html">個人配信者の方へ</a>
-                    <a href="blog.php">ブログ</a>
                     <a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank">お問い合わせ</a>
                 </div>
             </div>
