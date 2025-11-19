@@ -794,6 +794,79 @@ uploads/ → 755 または 777（書き込み可能に）
 
 ---
 
+### v2.4 - ブログ予約投稿機能実装（完了）
+**開始日**: 2025-11-19
+**完了日**: 2025-11-19
+**説明**: ブログ記事の予約投稿機能を実装。日時を指定して自動公開できるようになりました。
+
+**変更内容**:
+
+#### 1. 管理画面（admin_kc/posts.php）
+**投稿日時入力フィールド追加**:
+- `<input type="datetime-local">` を使用したカレンダー＋時刻選択UI
+- ステータスを「公開」にした時のみ表示
+- デフォルト値: 現在日時
+- 必須入力（公開時）
+
+**JavaScriptによる動的表示**:
+```javascript
+// ステータス変更時に投稿日時フィールドを表示/非表示
+statusSelect.addEventListener('change', function() {
+    if (this.value === 'published') {
+        datetimeGroup.style.display = 'block';
+        datetimeInput.setAttribute('required', 'required');
+    } else {
+        datetimeGroup.style.display = 'none';
+        datetimeInput.removeAttribute('required');
+    }
+});
+```
+
+**保存処理の修正**:
+- POSTデータから `published_datetime` を取得
+- `strtotime()` で MySQL形式に変換
+- バリデーション: 公開時は日時必須
+
+#### 2. フロントエンド表示制御
+**blog.php（ブログ一覧）**:
+```sql
+SELECT * FROM posts
+WHERE status = 'published'
+AND published_at <= datetime('now', 'localtime')
+ORDER BY published_at DESC
+```
+
+**blog_detail.php（ブログ詳細）**:
+```sql
+SELECT * FROM posts
+WHERE slug = :slug
+AND status = 'published'
+AND published_at <= datetime('now', 'localtime')
+```
+
+**動作**:
+- 現在時刻より前の `published_at` を持つ記事のみ表示
+- 未来の日時を指定した記事は、その日時まで非表示
+- 指定日時になると自動的に公開される
+
+#### 3. 使い方
+1. 管理画面で記事作成
+2. ステータスを「公開」に変更
+3. カレンダーから日付を選択
+4. 時刻（時:分）を選択
+5. 保存
+
+**例**: 12月1日 20:00に公開したい場合
+- 投稿日時: 2025-12-01 20:00
+- → 2025年12月1日 20:00になると自動的にサイトに表示される
+
+**注意事項**:
+- 過去の日時を指定すると即座に公開されます
+- 下書きに戻すと、再度公開時に日時の再指定が必要です
+- 編集時は既存の日時が自動入力されます
+
+---
+
 ## 連絡先
 
 開発者: Claude Code

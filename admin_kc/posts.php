@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['create', 'edit'
     $status = $_POST['status'] ?? 'draft';
     $slug = !empty($_POST['slug']) ? trim($_POST['slug']) : generateSlug($title);
     $talentIds = $_POST['talent_ids'] ?? [];
+    $publishedDatetime = trim($_POST['published_datetime'] ?? '');
 
     // バリデーション
     $errors = [];
@@ -68,9 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['create', 'edit'
     if (empty($content)) {
         $errors[] = '本文は必須です。';
     }
+    if ($status === 'published' && empty($publishedDatetime)) {
+        $errors[] = '公開時は投稿日時を指定してください。';
+    }
 
     if (empty($errors)) {
-        $publishedAt = ($status === 'published') ? date('Y-m-d H:i:s') : null;
+        // 公開日時の処理
+        $publishedAt = null;
+        if ($status === 'published' && !empty($publishedDatetime)) {
+            $publishedAt = date('Y-m-d H:i:s', strtotime($publishedDatetime));
+        }
 
         if ($action === 'create') {
             // 新規作成
@@ -439,6 +447,20 @@ $flashMessage = getFlashMessage();
                             </select>
                         </div>
 
+                        <div class="form-group" id="published-datetime-group" style="<?php echo (!$editPost || $editPost['status'] !== 'published') ? 'display: none;' : ''; ?>">
+                            <label for="published_datetime">投稿日時 *</label>
+                            <input type="datetime-local" id="published_datetime" name="published_datetime" value="<?php
+                                if ($editPost && $editPost['published_at']) {
+                                    echo date('Y-m-d\TH:i', strtotime($editPost['published_at']));
+                                } else {
+                                    echo date('Y-m-d\TH:i');
+                                }
+                            ?>">
+                            <small style="color: #999; font-size: 12px;">
+                                指定した日時になったら自動的に公開されます
+                            </small>
+                        </div>
+
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">保存</button>
                             <a href="posts.php" class="btn btn-secondary">キャンセル</a>
@@ -545,6 +567,25 @@ $flashMessage = getFlashMessage();
                 return div.innerHTML;
             }
         })();
+
+        // ステータス変更時に投稿日時フィールドの表示切り替え
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            const datetimeGroup = document.getElementById('published-datetime-group');
+            const datetimeInput = document.getElementById('published_datetime');
+
+            if (statusSelect && datetimeGroup) {
+                statusSelect.addEventListener('change', function() {
+                    if (this.value === 'published') {
+                        datetimeGroup.style.display = 'block';
+                        datetimeInput.setAttribute('required', 'required');
+                    } else {
+                        datetimeGroup.style.display = 'none';
+                        datetimeInput.removeAttribute('required');
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
