@@ -27,7 +27,7 @@ db()->update("UPDATE posts SET view_count = view_count + 1 WHERE id = :id", ['id
 
 // この記事に紐づいているタレントを取得
 $postTalents = db()->select("
-    SELECT t.id, t.name
+    SELECT t.id, t.name, t.slug
     FROM talents t
     INNER JOIN post_talents pt ON t.id = pt.talent_id
     WHERE pt.post_id = :post_id
@@ -387,7 +387,7 @@ $postTalents = db()->select("
                     <div class="talent-tags-label">関連タレント</div>
                     <div class="talent-tags-list">
                         <?php foreach ($postTalents as $talent): ?>
-                            <span class="talent-tag"><?php echo h($talent['name']); ?></span>
+                            <a href="talent_detail.php?slug=<?php echo h($talent['slug']); ?>" class="talent-tag"><?php echo h($talent['name']); ?></a>
                         <?php endforeach; ?>
                     </div>
                 </div>

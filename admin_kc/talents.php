@@ -47,7 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'register') {
     }
 
     $name = trim($_POST['name'] ?? '');
+    $registrationDate = trim($_POST['registration_date'] ?? '');
     $nameKana = trim($_POST['name_kana'] ?? '');
+    $slug = trim($_POST['slug'] ?? '');
     $imageFilename = trim($_POST['image_filename'] ?? '');
     $catchphrase = trim($_POST['catchphrase'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -59,13 +61,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'register') {
     if (empty($name)) {
         $errors[] = 'タレント名は必須です。';
     }
+    if (empty($registrationDate)) {
+        $errors[] = '登録年月日は必須です。';
+    }
+    if (empty($slug)) {
+        $errors[] = '固有URLは必須です。';
+    }
+    if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
+        $errors[] = '固有URLは半角英数字とハイフン(-)のみ使用できます。';
+    }
+
+    // スラッグの重複チェック
+    $slugCheck = db()->selectOne("SELECT COUNT(*) as count FROM talents WHERE slug = :slug", ['slug' => $slug]);
+    if ($slugCheck && $slugCheck['count'] > 0) {
+        $errors[] = 'この固有URLは既に使用されています。';
+    }
 
     if (empty($errors)) {
-        $sql = "INSERT INTO talents (name, name_kana, image_filename, catchphrase, description, kana_tag, free_tags)
-                VALUES (:name, :name_kana, :image_filename, :catchphrase, :description, :kana_tag, :free_tags)";
+        // タレントコードを自動生成（登録年月日を元に）
+        $talentCode = generateTalentCode($registrationDate);
+
+        $sql = "INSERT INTO talents (talent_code, name, name_kana, slug, registration_date, image_filename, catchphrase, description, kana_tag, free_tags)
+                VALUES (:talent_code, :name, :name_kana, :slug, :registration_date, :image_filename, :catchphrase, :description, :kana_tag, :free_tags)";
         $inserted = db()->insert($sql, [
+            'talent_code' => $talentCode,
             'name' => $name,
             'name_kana' => $nameKana,
+            'slug' => $slug,
+            'registration_date' => $registrationDate,
             'image_filename' => $imageFilename,
             'catchphrase' => $catchphrase,
             'description' => $description,
@@ -98,7 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
 
     $id = $_POST['id'] ?? null;
     $name = trim($_POST['name'] ?? '');
+    $registrationDate = trim($_POST['registration_date'] ?? '');
     $nameKana = trim($_POST['name_kana'] ?? '');
+    $slug = trim($_POST['slug'] ?? '');
     $imageFilename = trim($_POST['image_filename'] ?? '');
     $catchphrase = trim($_POST['catchphrase'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -113,15 +138,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
     if (empty($id)) {
         $errors[] = 'タレントIDが不正です。';
     }
+    if (empty($registrationDate)) {
+        $errors[] = '登録年月日は必須です。';
+    }
+    if (empty($slug)) {
+        $errors[] = '固有URLは必須です。';
+    }
+    if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
+        $errors[] = '固有URLは半角英数字とハイフン(-)のみ使用できます。';
+    }
+
+    // スラッグの重複チェック（自分自身を除外）
+    $slugCheck = db()->selectOne("SELECT COUNT(*) as count FROM talents WHERE slug = :slug AND id != :id",
+        ['slug' => $slug, 'id' => $id]);
+    if ($slugCheck && $slugCheck['count'] > 0) {
+        $errors[] = 'この固有URLは既に使用されています。';
+    }
 
     if (empty($errors)) {
-        $sql = "UPDATE talents SET name = :name, name_kana = :name_kana, image_filename = :image_filename,
-                catchphrase = :catchphrase, description = :description, kana_tag = :kana_tag, free_tags = :free_tags
+        $sql = "UPDATE talents SET name = :name, name_kana = :name_kana, slug = :slug, registration_date = :registration_date,
+                image_filename = :image_filename, catchphrase = :catchphrase, description = :description,
+                kana_tag = :kana_tag, free_tags = :free_tags
                 WHERE id = :id";
         $updated = db()->update($sql, [
             'id' => $id,
             'name' => $name,
             'name_kana' => $nameKana,
+            'slug' => $slug,
+            'registration_date' => $registrationDate,
             'image_filename' => $imageFilename,
             'catchphrase' => $catchphrase,
             'description' => $description,
@@ -183,13 +227,14 @@ $flashMessage = getFlashMessage();
         .btn-secondary { background: #6c757d; color: white; font-size: 12px; padding: 6px 12px; }
         .btn-secondary:hover { background: #5a6268; }
         .btn-danger { background: #f44336; color: white; font-size: 12px; padding: 6px 12px; }
-        .talent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .talent-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
-        .talent-card-image { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 18px; }
-        .talent-info { padding: 20px; }
-        .talent-name { font-weight: 700; font-size: 18px; color: #333; margin-bottom: 8px; }
-        .talent-catchphrase { font-size: 14px; color: #666; margin-bottom: 12px; font-style: italic; }
-        .talent-description { font-size: 13px; color: #777; margin-bottom: 15px; line-height: 1.6; }
+        .talent-table { width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        .talent-table table { width: 100%; border-collapse: collapse; }
+        .talent-table th { background: #ffe6f0; padding: 12px 15px; text-align: left; font-size: 13px; font-weight: 600; color: #333; border-bottom: 2px solid #ffcce0; }
+        .talent-table td { padding: 12px 15px; font-size: 13px; color: #555; border-bottom: 1px solid #f5f5f5; }
+        .talent-table tr:hover { background: rgba(220, 20, 60, 0.03); }
+        .talent-table tr:last-child td { border-bottom: none; }
+        .talent-name-cell { font-weight: 600; color: #333; }
+        .talent-slug-cell { font-family: 'Courier New', monospace; color: #666; font-size: 12px; }
         .talent-actions { display: flex; gap: 8px; }
         .register-form { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); max-width: 800px; margin-bottom: 40px; }
         .form-group { margin-bottom: 20px; }
@@ -258,10 +303,32 @@ $flashMessage = getFlashMessage();
                     </div>
 
                     <div class="form-group">
+                        <label for="registration_date">登録年月日 *</label>
+                        <input type="date" id="registration_date" name="registration_date" required
+                               value="<?php echo h($editTalent['registration_date'] ?? date('Y-m-d')); ?>">
+                        <small style="color: #999; font-size: 12px;">
+                            この日付の年月を元にタレントID（例: 202511001）が自動生成されます
+                        </small>
+                    </div>
+
+                    <div class="form-group">
                         <label for="name_kana">タレント名（かな）</label>
                         <input type="text" id="name_kana" name="name_kana" placeholder="例: やまだたろう"
                                value="<?php echo h($editTalent['name_kana'] ?? ''); ?>">
                         <small style="color: #999; font-size: 12px;">ひらがなで入力してください</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="slug">固有URL（スラッグ） *</label>
+                        <input type="text" id="slug" name="slug" required
+                               placeholder="例: yamada-taro"
+                               value="<?php echo h($editTalent['slug'] ?? ''); ?>"
+                               pattern="[a-z0-9-]+"
+                               data-edit-id="<?php echo h($editTalent['id'] ?? ''); ?>">
+                        <small style="color: #999; font-size: 12px; display: block; margin-bottom: 5px;">
+                            半角英数字とハイフン(-)のみ使用可。タレントページのURL: /talent_detail.php?slug=<strong id="slug-preview">yamada-taro</strong>
+                        </small>
+                        <div id="slug-check-message" style="font-size: 13px; margin-top: 8px; font-weight: 600;"></div>
                     </div>
 
                     <div class="form-group">
@@ -329,40 +396,110 @@ $flashMessage = getFlashMessage();
                     <p>まだタレントが登録されていません</p>
                 </div>
             <?php else: ?>
-                <div class="talent-grid">
-                    <?php foreach ($talents as $talent): ?>
-                        <div class="talent-card">
-                            <?php if ($talent['image_filename']): ?>
-                                <img src="../uploads/<?php echo h($talent['image_filename']); ?>"
-                                     alt="<?php echo h($talent['name']); ?>"
-                                     class="talent-card-image"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="talent-card-image" style="display: none;">NO Image</div>
-                            <?php else: ?>
-                                <div class="talent-card-image">NO Image</div>
-                            <?php endif; ?>
-
-                            <div class="talent-info">
-                                <div class="talent-name"><?php echo h($talent['name']); ?></div>
-                                <?php if ($talent['catchphrase']): ?>
-                                    <div class="talent-catchphrase"><?php echo h($talent['catchphrase']); ?></div>
-                                <?php endif; ?>
-                                <?php if ($talent['description']): ?>
-                                    <div class="talent-description"><?php echo h($talent['description']); ?></div>
-                                <?php endif; ?>
-                                <div class="talent-actions">
-                                    <a href="?action=edit&id=<?php echo $talent['id']; ?>"
-                                       class="btn btn-secondary">編集</a>
-                                    <a href="?action=delete&id=<?php echo $talent['id']; ?>&csrf_token=<?php echo h($csrfToken); ?>"
-                                       class="btn btn-danger"
-                                       onclick="return confirm('本当に削除しますか？')">削除</a>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                <div class="talent-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 150px;">タレントID</th>
+                                <th>タレント名</th>
+                                <th style="width: 250px;">かな</th>
+                                <th style="width: 160px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($talents as $talent): ?>
+                                <tr>
+                                    <td style="font-family: 'Courier New', monospace; font-weight: 600; color: #dc143c;">
+                                        <?php echo h($talent['talent_code'] ?: 'ID:' . $talent['id']); ?>
+                                    </td>
+                                    <td class="talent-name-cell"><?php echo h($talent['name']); ?></td>
+                                    <td><?php echo h($talent['name_kana'] ?: '-'); ?></td>
+                                    <td>
+                                        <div class="talent-actions">
+                                            <a href="?action=edit&id=<?php echo $talent['id']; ?>"
+                                               class="btn btn-secondary">編集</a>
+                                            <a href="?action=delete&id=<?php echo $talent['id']; ?>&csrf_token=<?php echo h($csrfToken); ?>"
+                                               class="btn btn-danger"
+                                               onclick="return confirm('本当に削除しますか？')">削除</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             <?php endif; ?>
         </main>
     </div>
+
+    <script>
+        // スラッグのリアルタイム重複チェック
+        (function() {
+            const slugInput = document.getElementById('slug');
+            const slugPreview = document.getElementById('slug-preview');
+            const checkMessage = document.getElementById('slug-check-message');
+            let checkTimeout = null;
+
+            if (!slugInput) return;
+
+            const editId = slugInput.getAttribute('data-edit-id');
+
+            slugInput.addEventListener('input', function() {
+                const slug = this.value.trim();
+
+                // プレビュー更新
+                if (slugPreview) {
+                    slugPreview.textContent = slug || 'yamada-taro';
+                }
+
+                // 空の場合はチェックしない
+                if (slug.length === 0) {
+                    checkMessage.textContent = '';
+                    checkMessage.style.color = '';
+                    return;
+                }
+
+                // 形式チェック
+                if (!/^[a-z0-9-]+$/.test(slug)) {
+                    checkMessage.textContent = '半角英数字とハイフン(-)のみ使用できます';
+                    checkMessage.style.color = '#f44336';
+                    return;
+                }
+
+                // デバウンス処理（入力が止まって500ms後にチェック）
+                clearTimeout(checkTimeout);
+                checkMessage.textContent = 'チェック中...';
+                checkMessage.style.color = '#999';
+
+                checkTimeout = setTimeout(function() {
+                    // AJAX重複チェック
+                    const url = 'check_slug.php?slug=' + encodeURIComponent(slug) +
+                        (editId ? '&exclude_id=' + encodeURIComponent(editId) : '');
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.available) {
+                                checkMessage.textContent = '✓ ' + data.message;
+                                checkMessage.style.color = '#4caf50'; // 緑色
+                            } else {
+                                checkMessage.textContent = '✗ ' + data.message;
+                                checkMessage.style.color = '#f44336'; // 赤色
+                            }
+                        })
+                        .catch(error => {
+                            checkMessage.textContent = 'チェックエラー';
+                            checkMessage.style.color = '#f44336';
+                            console.error('Slug check error:', error);
+                        });
+                }, 500);
+            });
+
+            // 初期値がある場合は即座にチェック
+            if (slugInput.value.trim().length > 0) {
+                slugInput.dispatchEvent(new Event('input'));
+            }
+        })();
+    </script>
 </body>
 </html>

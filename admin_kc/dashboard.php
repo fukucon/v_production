@@ -13,13 +13,25 @@ $admin = getAdminUser();
 
 // 統計情報取得
 $totalPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts")['count'] ?? 0;
-$publishedPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'published'")['count'] ?? 0;
 $draftPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'draft'")['count'] ?? 0;
-$totalImages = db()->selectOne("SELECT COUNT(*) as count FROM images")['count'] ?? 0;
 
-// 最新記事5件取得
-$recentPosts = db()->select(
-    "SELECT id, title, status, published_at, created_at FROM posts ORDER BY created_at DESC LIMIT 5"
+// タレント別記事数
+$talentPostCounts = db()->select("
+    SELECT t.name, COUNT(DISTINCT pt.post_id) as count
+    FROM talents t
+    LEFT JOIN post_talents pt ON t.id = pt.talent_id
+    LEFT JOIN posts p ON pt.post_id = p.id
+    GROUP BY t.id, t.name
+    ORDER BY count DESC, t.name ASC
+");
+
+// ビュー数が多い順に記事30件取得（公開済みのみ）
+$topPosts = db()->select(
+    "SELECT id, title, slug, published_at, view_count
+     FROM posts
+     WHERE status = 'published'
+     ORDER BY view_count DESC, published_at DESC
+     LIMIT 30"
 );
 
 $flashMessage = getFlashMessage();
@@ -163,31 +175,61 @@ $flashMessage = getFlashMessage();
             color: #c62828;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
+        .stats-summary {
             background: white;
-            padding: 25px;
+            padding: 15px 20px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #666;
         }
 
-        .stat-card h3 {
+        .stats-summary strong {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .stats-summary .highlight {
+            color: #dc143c;
+            font-weight: 700;
+        }
+
+        .talent-stats {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .talent-stats h3 {
             font-size: 14px;
             color: #999;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: 500;
         }
 
-        .stat-card .number {
-            font-size: 36px;
-            font-weight: 700;
-            color: #dc143c;
+        .talent-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .talent-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #dc143c, #ff1744);
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .talent-tag .count {
+            margin-left: 4px;
+            opacity: 0.9;
         }
 
         .recent-posts {
@@ -210,41 +252,47 @@ $flashMessage = getFlashMessage();
         }
 
         .post-item {
-            padding: 15px 0;
+            padding: 15px;
             border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .post-item:hover {
+            background: rgba(220, 20, 60, 0.03);
         }
 
         .post-item:last-child {
             border-bottom: none;
         }
 
+        .post-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
         .post-title {
             font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 15px;
         }
 
         .post-meta {
+            display: flex;
+            gap: 20px;
             font-size: 13px;
             color: #999;
         }
 
-        .post-status {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-left: 10px;
+        .post-date {
+            color: #666;
         }
 
-        .post-status.published {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4caf50;
-        }
-
-        .post-status.draft {
-            background: rgba(158, 158, 158, 0.1);
-            color: #757575;
+        .post-views {
+            color: #dc143c;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -291,7 +339,6 @@ $flashMessage = getFlashMessage();
         <main class="admin-content">
             <div class="admin-header">
                 <h2>ダッシュボード</h2>
-                <p>ようこそ、<?php echo h($admin['username']); ?>さん</p>
             </div>
 
             <?php if ($flashMessage): ?>
@@ -300,44 +347,44 @@ $flashMessage = getFlashMessage();
                 </div>
             <?php endif; ?>
 
-            <!-- 統計情報 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>総記事数</h3>
-                    <div class="number"><?php echo $totalPosts; ?></div>
-                </div>
-                <div class="stat-card">
-                    <h3>公開中</h3>
-                    <div class="number"><?php echo $publishedPosts; ?></div>
-                </div>
-                <div class="stat-card">
-                    <h3>下書き</h3>
-                    <div class="number"><?php echo $draftPosts; ?></div>
-                </div>
-                <div class="stat-card">
-                    <h3>画像</h3>
-                    <div class="number"><?php echo $totalImages; ?></div>
-                </div>
+            <!-- 統計情報サマリー -->
+            <div class="stats-summary">
+                <strong>総記事数:</strong> <span class="highlight"><?php echo $totalPosts; ?></span>件
+                <strong>下書き:</strong> <span class="highlight"><?php echo $draftPosts; ?></span>件
             </div>
 
-            <!-- 最新記事 -->
+            <!-- タレント別記事数 -->
+            <div class="talent-stats">
+                <h3>タレント別記事数</h3>
+                <?php if (empty($talentPostCounts)): ?>
+                    <p style="color: #999; font-size: 13px;">タレントが登録されていません</p>
+                <?php else: ?>
+                    <div class="talent-tags">
+                        <?php foreach ($talentPostCounts as $talent): ?>
+                            <span class="talent-tag">
+                                <?php echo h($talent['name']); ?><span class="count">: <?php echo $talent['count']; ?>件</span>
+                            </span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <!-- ビュー数TOP30 -->
             <div class="recent-posts">
-                <h3>最新記事</h3>
-                <?php if (empty($recentPosts)): ?>
-                    <p style="color: #999;">まだ記事がありません。</p>
+                <h3>ビュー数ランキング TOP30</h3>
+                <?php if (empty($topPosts)): ?>
+                    <p style="color: #999;">公開済みの記事がありません。</p>
                 <?php else: ?>
                     <ul class="post-list">
-                        <?php foreach ($recentPosts as $post): ?>
+                        <?php foreach ($topPosts as $post): ?>
                             <li class="post-item">
-                                <div class="post-title">
-                                    <?php echo h($post['title']); ?>
-                                    <span class="post-status <?php echo h($post['status']); ?>">
-                                        <?php echo $post['status'] === 'published' ? '公開中' : '下書き'; ?>
-                                    </span>
-                                </div>
-                                <div class="post-meta">
-                                    <?php echo formatDate($post['created_at'], 'Y/m/d H:i'); ?>
-                                </div>
+                                <a href="posts.php?action=edit&id=<?php echo h($post['id']); ?>">
+                                    <div class="post-title"><?php echo h($post['title']); ?></div>
+                                    <div class="post-meta">
+                                        <span class="post-date"><?php echo formatDate($post['published_at'], 'Y/m/d'); ?></span>
+                                        <span class="post-views"><?php echo number_format($post['view_count']); ?> views</span>
+                                    </div>
+                                </a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

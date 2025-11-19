@@ -345,7 +345,7 @@ sort($allTags);
             <?php else: ?>
                 <div class="talents-grid" style="margin-top: 60px;">
                     <?php foreach ($talents as $talent): ?>
-                        <div class="talent-card">
+                        <a href="talent_detail.php?slug=<?php echo h($talent['slug']); ?>" class="talent-card" style="text-decoration: none; color: inherit;">
                             <?php if ($talent['image_filename']): ?>
                                 <img src="uploads/<?php echo h($talent['image_filename']); ?>"
                                      alt="<?php echo h($talent['name']); ?>"
@@ -359,7 +359,7 @@ sort($allTags);
                             <div class="talent-card-content">
                                 <h3 class="talent-card-title"><?php echo h($talent['name']); ?></h3>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

@@ -279,3 +279,32 @@ function debug($data) {
         echo '</pre>';
     }
 }
+
+/**
+ * 新しいタレントコードを生成（年月＋連番形式）
+ * 例: 202511001, 202511002, 202512001
+ *
+ * @param string $registrationDate 登録日（YYYY-MM-DD形式）
+ * @return string
+ */
+function generateTalentCode($registrationDate) {
+    // 登録日から年月を取得（YYYYMM）
+    $yearMonth = date('Ym', strtotime($registrationDate));
+
+    // その月の最大コードを取得
+    $sql = "SELECT talent_code FROM talents WHERE talent_code LIKE :prefix ORDER BY talent_code DESC LIMIT 1";
+    $result = db()->selectOne($sql, ['prefix' => $yearMonth . '%']);
+
+    if ($result && !empty($result['talent_code'])) {
+        // 既存のコードから連番部分を抽出して+1
+        $lastCode = $result['talent_code'];
+        $sequenceNumber = (int)substr($lastCode, -3);
+        $newSequenceNumber = $sequenceNumber + 1;
+    } else {
+        // その月の最初のタレント
+        $newSequenceNumber = 1;
+    }
+
+    // 新しいコードを生成（連番は3桁でゼロパディング）
+    return $yearMonth . str_pad($newSequenceNumber, 3, '0', STR_PAD_LEFT);
+}

@@ -1,0 +1,22 @@
+# Robots.txt for KaleidoChrome
+
+User-agent: *
+Allow: /
+
+# 管理画面をクロールから除外
+Disallow: /admin_kc/
+Disallow: /includes/
+
+# データベースファイルを除外
+Disallow: /*.db$
+Disallow: /*.sqlite$
+
+# 一時ファイルを除外
+Disallow: /check/
+Disallow: /*.php$
+
+# 検索結果ページを除外（もしあれば）
+Disallow: /*?*
+
+# Sitemap
+Sitemap: https://kaleidochrome.com/sitemap.xml
