@@ -945,6 +945,150 @@ HOME → TALENTS → BLOG → Vライバーとは → 個人配信者の方へ �
 
 ---
 
+### v2.6 - Vision Block Section UI/UX改善（完了）
+**実装日**: 2025-11-20
+**説明**: トップページ（index.html）にVision Block Sectionを新規作成。3つの横並びブロックに画像とテキストを配置し、レインボーキャッチフレーズと底部画像を追加。
+
+**変更内容**:
+
+#### 1. Vision Block Section 構造
+**配置**: 「私たちのビジョン」セクションの上に新規追加
+
+**構成要素**:
+- `.vision-block-section`: 外枠コンテナ
+- `.vision-block-container`: ガラスモーフィズム背景（`rgba(255, 255, 255, 0.4)`, `blur(5px)`）
+- `.vision-block-item`: 3つの横並びブロック
+- `.vision-catchphrase`: レインボーキャッチフレーズ
+- `.vision-bottom-images`: 底部の3画像エリア
+
+#### 2. 3つの横並びブロック
+**ブロック1（左・青）**:
+- 画像: `top1.png`
+- 斜めテキスト: 「学生さん」（濃い青 #003d82）
+- 下部テキスト: 「未経験者<br class="tablet-only">大歓迎♪」
+
+**ブロック2（中央・黄色）**:
+- 画像: `top2.png`
+- 斜めテキスト: 「社会人」（金色 #d4a017）
+- 下部テキスト: 「スキマ時間<br class="tablet-only">を活用！」
+
+**ブロック3（右・緑）**:
+- 画像: `top3.png`
+- 斜めテキスト: 「主婦の方」（濃い緑 #228b22）
+- 下部テキスト: 「主婦の方も<br class="tablet-only">活躍中！」
+
+**背景色**:
+- 左: `rgba(173, 216, 230, 0.2)` （ライトブルー）
+- 中央: `rgba(255, 255, 153, 0.2)` （イエロー）
+- 右: `rgba(144, 238, 144, 0.2)` （ライトグリーン）
+
+#### 3. 画像上の斜めテキスト
+**スタイル**:
+- フォント: 'Yusei Magic', sans-serif（Google Fonts）
+- サイズ: 36px（PC/タブレット）、42px（スマホ）
+- 回転: `transform: rotate(15deg)`
+- 位置: 右上（`top: 2%, right: 2%`）
+- 白縁: `7px white`（`-webkit-text-stroke`）
+
+**Google Fonts追加**:
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
+```
+
+#### 4. 画像下のピンクテキスト
+**スタイル**:
+- フォントサイズ: 24px（PC/タブレット）、28px（スマホ）
+- 色: ピンク `#ff69b4`
+- 白縁: `2px white`（袋文字）
+- 余白: 上下 `5px`（画像との間）
+
+**タブレット用改行**:
+- `.tablet-only` クラス: 769px～1200pxで表示
+- 例: 「未経験者」→改行→「大歓迎♪」
+
+#### 5. レインボーキャッチフレーズ
+**テキスト**: 「あなたもVTuberになれる！」
+
+**スタイル**:
+- フォントサイズ: 42px（PC/タブレット）、6vw（スマホ）
+- グラデーション: `linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red)`
+- アニメーション: 右から左へスクロール（6秒ループ）
+- 白影: `filter: drop-shadow(3px 3px 3px rgb(255, 255, 255))`
+- 背景クリッピング: `background-clip: text`, `-webkit-text-fill-color: transparent`
+
+**アニメーション**:
+```css
+@keyframes rainbowScroll {
+    0% { background-position: 200% 0%; }
+    100% { background-position: 0% 0%; }
+}
+```
+
+#### 6. 底部の3画像（横並び）
+**画像**:
+- `topv.png`: 青い影（`rgba(0, 100, 255, 0.6)`）
+- `topv2.png`: 黄色い影（`rgba(255, 255, 0, 0.6)`）
+- `topv3.png`: 緑の影（`rgba(0, 200, 0, 0.6)`）
+
+**レイアウト**:
+- 常に横並び（スマホでも）
+- Flexbox: `gap: 20px`（PC/タブレット）、`10px`（スマホ）
+- 最大幅: 250px（PC/タブレット）
+- 影: `filter: drop-shadow(0 10px 20px rgba(...))`（透明度対応）
+
+#### 7. レスポンシブデザイン
+**PC/タブレット（769px以上）**:
+- 3ブロック横並び（`flex-wrap: wrap`）
+- パディング: 上下 20px、左右 30px
+
+**タブレット（769px～1200px）**:
+- `.tablet-only` の `<br>` タグ表示
+- テキスト折り返し対応
+
+**スマホ（768px以下）**:
+- 3ブロック縦並び（`flex-direction: column`）
+- 画像最大幅: 300px
+- レインボーテキスト: `6vw`（画面幅に追従）
+
+#### 8. 余白調整（最終）
+**Vision Block Item**:
+- パディング: `20px 30px`（上下縮小）
+
+**Vision Image Wrapper**:
+- マージン下: `5px`（15px → 5px）
+
+**効果**: 画像と下部テキストの間隔を大幅に縮小し、コンパクトなレイアウトを実現
+
+#### 9. 技術的なポイント
+**filter: drop-shadow vs box-shadow**:
+- `drop-shadow`: 透明部分を除外した影（画像の形に沿った影）
+- `box-shadow`: 要素の矩形全体に影
+- 底部画像は透明PNGのため `drop-shadow` を使用
+
+**背景クリッピング**:
+```css
+background: linear-gradient(...);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+```
+テキストにグラデーションを適用する手法
+
+**袋文字（Outlined Text）**:
+```css
+-webkit-text-stroke: 2px white;
+text-stroke: 2px white;
+paint-order: stroke fill;
+```
+
+**Google Fonts読み込み**:
+- `rel="preconnect"` で高速化
+- `crossorigin` 属性で CORS 対応
+
+---
+
 ## 連絡先
 
 開発者: Claude Code

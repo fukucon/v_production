@@ -584,6 +584,172 @@ section {
     margin: 0 auto;
 }
 
+/* ===== Vision Block Section ===== */
+.vision-block-section {
+    padding: 80px 0 0 0;
+    background: transparent;
+    position: relative;
+    z-index: 10;
+}
+
+.vision-block-container {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.vision-block-item {
+    flex: 1;
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 20px 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.vision-block-item:nth-child(1) {
+    background: rgba(173, 216, 230, 0.2);
+}
+
+.vision-block-item:nth-child(2) {
+    background: rgba(255, 255, 153, 0.2);
+}
+
+.vision-block-item:nth-child(3) {
+    background: rgba(144, 238, 144, 0.2);
+}
+
+.vision-image-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.vision-block-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.vision-overlay-text {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    font-size: 36px;
+    font-weight: 700;
+    color: #ff1744;
+    transform: rotate(15deg);
+    z-index: 10;
+    white-space: nowrap;
+    font-family: 'Yusei Magic', sans-serif;
+    -webkit-text-stroke: 7px white;
+    text-stroke: 7px white;
+    paint-order: stroke fill;
+}
+
+.vision-block-item:nth-child(1) .vision-overlay-text {
+    color: #003d82;
+}
+
+.vision-block-item:nth-child(2) .vision-overlay-text {
+    color: #d4a017;
+}
+
+.vision-block-item:nth-child(3) .vision-overlay-text {
+    color: #228b22;
+}
+
+.vision-catchphrase {
+    width: 100%;
+    text-align: center;
+    font-size: 42px;
+    font-weight: 900;
+    margin-top: 10px;
+    margin-bottom: 0;
+    line-height: 1;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    overflow: visible;
+    background: linear-gradient(90deg,
+        red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(3px 3px 3px rgb(255, 255, 255))
+            drop-shadow(-2px -2px 2px rgb(255, 255, 255))
+            drop-shadow(0 0 6px rgb(255, 255, 255));
+    animation: rainbowScroll 6s linear infinite;
+}
+
+@keyframes rainbowScroll {
+    0% {
+        background-position: 200% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.vision-bottom-images {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.vision-bottom-item {
+    flex: 1;
+    max-width: 250px;
+}
+
+.vision-bottom-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.vision-bottom-item:nth-child(1) img {
+    filter: drop-shadow(0 10px 20px rgba(0, 100, 255, 0.6));
+}
+
+.vision-bottom-item:nth-child(2) img {
+    filter: drop-shadow(0 10px 20px rgba(255, 255, 0, 0.6));
+}
+
+.vision-bottom-item:nth-child(3) img {
+    filter: drop-shadow(0 10px 20px rgba(0, 200, 0, 0.6));
+}
+
+.vision-block-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff69b4;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+    -webkit-text-stroke: 2px white;
+    text-stroke: 2px white;
+    paint-order: stroke fill;
+}
+
+.tablet-only {
+    display: none;
+}
+
 /* ===== About Section ===== */
 .about {
     background: transparent;
@@ -1056,6 +1222,13 @@ section {
 }
 
 /* ===== Responsive Design ===== */
+/* ===== Tablet and Medium Screen (769px - 1200px) ===== */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .tablet-only {
+        display: inline;
+    }
+}
+
 @media (max-width: 1024px) {
     .nav-menu {
         position: fixed;
@@ -1097,6 +1270,41 @@ section {
     .hero-image {
         max-width: 100%;
         max-height: 70vh;
+    }
+
+    .vision-block-container {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .vision-block-item {
+        width: 100%;
+    }
+
+    .vision-image-wrapper {
+        max-width: 300px;
+        margin: 0 auto 5px auto;
+    }
+
+    .vision-overlay-text {
+        font-size: 42px;
+    }
+
+    .vision-block-text {
+        font-size: 28px;
+    }
+
+    .vision-catchphrase {
+        font-size: 6vw;
+        letter-spacing: 0.5px;
+    }
+
+    .vision-bottom-images {
+        gap: 10px;
+    }
+
+    .vision-bottom-item {
+        max-width: none;
     }
 
     .about-text,
