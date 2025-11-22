@@ -475,7 +475,7 @@ html {
     z-index: 10;
     overflow: hidden;
     padding-top: 0;
-    margin-top: 80px;
+    margin-top: 0;
 }
 
 /* Kaleidoscope styles removed - now using canvas-based background */
@@ -485,7 +485,7 @@ html {
     position: relative;
     z-index: 10;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1260,11 +1260,11 @@ section {
     }
 
     .hero {
-        margin-top: 60px;
+        margin-top: 0;
     }
 
     .hero-image-container {
-        height: calc(100vh - 60px);
+        height: 100vh;
     }
 
     .hero-image {
@@ -1361,11 +1361,11 @@ section {
 
 @media (max-width: 480px) {
     .hero {
-        margin-top: 60px;
+        margin-top: 0;
     }
 
     .hero-image-container {
-        height: calc(100vh - 60px);
+        height: 100vh;
     }
 
     .hero-image {
