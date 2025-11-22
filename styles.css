@@ -522,6 +522,31 @@ html {
     display: block;
     white-space: nowrap;
     font-family: 'Shippori Mincho', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-catchphrase::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: shine 0.8s ease-in-out 4.2s 1;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
 
 @keyframes fadeInUp {
