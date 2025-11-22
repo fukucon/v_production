@@ -2230,7 +2230,7 @@ section {
 /* Index page delayed appearance */
 .floating-application-btn.index-page-delayed {
     opacity: 0;
-    animation: float-pulse 2s ease-in-out infinite, fadeInBtn 1s ease-out 4.2s forwards;
+    animation: float-pulse 2s ease-in-out infinite, fadeInBtn 1s ease-out 3.2s forwards;
 }
 
 @keyframes fadeInBtn {
