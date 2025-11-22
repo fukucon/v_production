@@ -1455,6 +1455,7 @@ section {
 /* Liver Hero */
 .liver-hero {
     min-height: 60vh;
+    padding-top: 120px;
 }
 
 .page-title {
