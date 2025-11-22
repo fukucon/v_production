@@ -606,7 +606,7 @@ section {
 
 .section-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .section-title {
@@ -1620,7 +1620,7 @@ section {
 
 .process-timeline {
     max-width: 700px;
-    margin: 60px auto 0;
+    margin: 20px auto 0;
     display: grid;
     gap: 30px;
 }
@@ -1865,7 +1865,7 @@ section {
 
 .recommend-content {
     max-width: 900px;
-    margin: 60px auto 0;
+    margin: 20px auto 0;
 }
 
 .recommend-content h3 {
