@@ -322,6 +322,7 @@ $flashMessage = getFlashMessage();
                 <li><a href="dashboard.php">ダッシュボード</a></li>
                 <li><a href="posts.php" class="active">記事管理</a></li>
                 <li><a href="talents.php">タレント登録</a></li>
+                <li><a href="change_password.php">パスワード変更</a></li>
                 <li><a href="../index.html" target="_blank">サイトを見る</a></li>
             </ul>
 
