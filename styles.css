@@ -1455,7 +1455,7 @@ section {
 /* Liver Hero */
 .liver-hero {
     min-height: auto;
-    padding: 120px 0 40px 0;
+    padding: 120px 0 0 0;
 }
 
 .page-title {
@@ -1613,7 +1613,7 @@ section {
 
 /* Process Section */
 .liver-process {
-    padding: 40px 0 100px 0;
+    padding: 20px 0 100px 0;
     position: relative;
     z-index: 10;
 }
@@ -1845,6 +1845,7 @@ section {
     line-height: 2;
     color: #1a1a1a;
     margin-top: 30px;
+    margin-bottom: 0;
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -1858,7 +1859,7 @@ section {
 
 /* Recommend Section */
 .liver-recommend {
-    padding: 40px 0 100px 0;
+    padding: 20px 0 100px 0;
     position: relative;
     z-index: 10;
 }
