@@ -1613,7 +1613,7 @@ section {
 
 /* Process Section */
 .liver-process {
-    padding: 100px 0;
+    padding: 40px 0 100px 0;
     position: relative;
     z-index: 10;
 }
@@ -1858,7 +1858,7 @@ section {
 
 /* Recommend Section */
 .liver-recommend {
-    padding: 100px 0;
+    padding: 40px 0 100px 0;
     position: relative;
     z-index: 10;
 }
