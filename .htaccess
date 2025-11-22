@@ -1,8 +1,7 @@
-# Enable rewrite engine
 RewriteEngine On
 
-# Set index.html as default directory index
-DirectoryIndex index.html
+# Set index.html and index.php as default directory index
+DirectoryIndex index.php index.html
 
 # セキュリティ: .env ファイルへのアクセスを拒否
 <Files .env>
@@ -18,6 +17,11 @@ DirectoryIndex index.html
 
 # URL Rewrite Rules for Clean URLs
 # 注意: 具体的なルールを先に記述し、一般的なルールを後に記述
+
+# 管理画面とアップロードフォルダは除外（直接アクセス許可）
+RewriteCond %{REQUEST_URI} ^/admin_kc/ [OR]
+RewriteCond %{REQUEST_URI} ^/uploads/
+RewriteRule ^ - [L]
 
 # タレント詳細ページ: /talents/[slug] → talent_detail.php?slug=[slug]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -39,12 +43,26 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^blog$ blog.php [L,QSA]
 
-# Remove .html extension from URLs
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^\.]+)$ $1.html [NC,L]
-
 # Redirect .html URLs to non-.html URLs (except index.html)
-RewriteCond %{THE_REQUEST} ^GET\ /(.+)\.html\ HTTP
+RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?]
 RewriteCond %{REQUEST_URI} !^/index\.html$
 RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+
+# Redirect .php URLs to non-.php URLs (for blog and talents)
+RewriteCond %{THE_REQUEST} \s/(.+?)\.php[\s?]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} !^/admin_kc/
+RewriteRule ^(.+)\.php$ /$1 [R=301,L]
+
+# Add .html extension internally if file exists
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.html [L]
+
+# Add .php extension internally if file exists
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/admin_kc/
+RewriteRule ^([^\.]+)$ $1.php [L]

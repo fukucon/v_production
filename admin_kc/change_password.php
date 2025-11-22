@@ -3,17 +3,13 @@
  * KaleidoChrome - パスワード変更
  */
 
-session_start();
-
-// ログインチェック
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: index.php');
-    exit;
-}
-
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/functions.php';
 
+requireLogin();
+
+$admin = getAdminUser();
 $error = '';
 $success = '';
 
@@ -31,16 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'パスワードは8文字以上にしてください。';
     } else {
         // 現在のパスワード確認
-        $admin = db()->selectOne("SELECT * FROM admin_users WHERE id = :id", ['id' => $_SESSION['admin_id']]);
+        $current_admin = db()->selectOne("SELECT * FROM admin_users WHERE id = :id", ['id' => $admin['id']]);
 
-        if (!$admin || !password_verify($current_password, $admin['password'])) {
+        if (!$current_admin || !password_verify($current_password, $current_admin['password'])) {
             $error = '現在のパスワードが正しくありません。';
         } else {
             // パスワード更新
             $new_hash = password_hash($new_password, PASSWORD_DEFAULT);
             $updated = db()->update(
                 "UPDATE admin_users SET password = :password WHERE id = :id",
-                ['password' => $new_hash, 'id' => $_SESSION['admin_id']]
+                ['password' => $new_hash, 'id' => $admin['id']]
             );
 
             if ($updated !== false) {
@@ -51,9 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-// 現在のユーザー情報取得
-$admin = db()->selectOne("SELECT username, email FROM admin_users WHERE id = :id", ['id' => $_SESSION['admin_id']]);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -195,16 +188,16 @@ $admin = db()->selectOne("SELECT username, email FROM admin_users WHERE id = :id
         <h1>パスワード変更</h1>
 
         <div class="user-info">
-            <p><strong>ユーザー名:</strong> <?php echo htmlspecialchars($admin['username']); ?></p>
-            <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($admin['email']); ?></p>
+            <p><strong>ユーザー名:</strong> <?php echo h($admin['username']); ?></p>
+            <p><strong>メールアドレス:</strong> <?php echo h($admin['email']); ?></p>
         </div>
 
         <?php if ($error): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
+            <div class="error"><?php echo h($error); ?></div>
         <?php endif; ?>
 
         <?php if ($success): ?>
-            <div class="success"><?php echo htmlspecialchars($success); ?></div>
+            <div class="success"><?php echo h($success); ?></div>
         <?php endif; ?>
 
         <form method="POST">
