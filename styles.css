@@ -512,6 +512,22 @@ html {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.9) 80%, rgba(0, 0, 0, 0) 100%);
     opacity: 0;
     animation: fadeInUp 3.0s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+    overflow: hidden;
+}
+
+.hero-text-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: shine 0.8s ease-in-out 2.5s 1;
+    pointer-events: none;
 }
 
 .hero-catchphrase {
@@ -523,22 +539,6 @@ html {
     white-space: nowrap;
     font-family: 'Shippori Mincho', serif;
     position: relative;
-    overflow: hidden;
-}
-
-.hero-catchphrase::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    animation: shine 0.8s ease-in-out 3.5s 1;
-    pointer-events: none;
 }
 
 @keyframes shine {
