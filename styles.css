@@ -477,6 +477,7 @@ html {
     justify-content: center;
     z-index: 10;
     overflow: hidden;
+    padding-top: 80px;
 }
 
 /* Kaleidoscope styles removed - now using canvas-based background */
@@ -485,19 +486,19 @@ html {
 .hero-image-container {
     position: relative;
     z-index: 10;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 80px;
     animation: fadeInUp 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .hero-image {
-    max-width: 90%;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     filter: drop-shadow(0 20px 60px rgba(220, 20, 60, 0.4));
 }
 
@@ -1263,13 +1264,14 @@ section {
         display: none;
     }
 
-    .hero-image-container {
-        margin-top: 100px;
+    .hero {
+        padding-top: 100px;
     }
 
     .hero-image {
-        max-width: 100%;
-        max-height: 70vh;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .vision-block-container {
@@ -1359,13 +1361,14 @@ section {
 }
 
 @media (max-width: 480px) {
-    .hero-image-container {
-        margin-top: 100px;
+    .hero {
+        padding-top: 100px;
     }
 
     .hero-image {
-        max-width: 100%;
-        max-height: 65vh;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .section-title {
