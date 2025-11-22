@@ -15,7 +15,7 @@ if (empty($slug)) {
 }
 
 // 記事取得（公開中かつ投稿日時が現在以前）
-$post = db()->selectOne("SELECT * FROM posts WHERE slug = :slug AND status = 'published' AND published_at <= datetime('now', 'localtime')", ['slug' => $slug]);
+$post = db()->selectOne("SELECT * FROM posts WHERE slug = :slug AND status = 'published' AND published_at <= NOW()", ['slug' => $slug]);
 
 if (!$post) {
     header('HTTP/1.0 404 Not Found');

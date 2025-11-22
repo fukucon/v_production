@@ -12,10 +12,10 @@ $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $offset = getOffset($page);
 
 // 公開中かつ投稿日時が現在以前の記事のみ取得
-$posts = db()->select("SELECT * FROM posts WHERE status = 'published' AND published_at <= datetime('now', 'localtime') ORDER BY published_at DESC LIMIT " . POSTS_PER_PAGE . " OFFSET " . $offset);
+$posts = db()->select("SELECT * FROM posts WHERE status = 'published' AND published_at <= NOW() ORDER BY published_at DESC LIMIT " . POSTS_PER_PAGE . " OFFSET " . $offset);
 
 // 総記事数取得
-$totalPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'published' AND published_at <= datetime('now', 'localtime')")['count'] ?? 0;
+$totalPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'published' AND published_at <= NOW()")['count'] ?? 0;
 $totalPages = getTotalPages($totalPosts);
 ?>
 <!DOCTYPE html>
