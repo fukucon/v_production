@@ -1858,6 +1858,13 @@ section {
     font-weight: 600;
 }
 
+/* VTuber Images Section */
+.liver-vtuber-images {
+    padding: 40px 0 20px 0;
+    position: relative;
+    z-index: 10;
+}
+
 /* Recommend Section */
 .liver-recommend {
     padding: 0 0 100px 0;
