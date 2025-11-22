@@ -497,7 +497,7 @@ html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: 50% 25%;
     filter: drop-shadow(0 20px 60px rgba(220, 20, 60, 0.4));
     -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
@@ -1271,6 +1271,7 @@ section {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center top;
     }
 
     .vision-block-container {
@@ -1372,6 +1373,7 @@ section {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center top;
     }
 
     .section-title {
