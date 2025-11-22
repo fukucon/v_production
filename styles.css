@@ -2226,6 +2226,21 @@ section {
     z-index: 1;
 }
 
+/* Index page delayed appearance */
+.floating-application-btn.index-page-delayed {
+    opacity: 0;
+    animation: float-pulse 2s ease-in-out infinite, fadeInBtn 1s ease-out 4.2s forwards;
+}
+
+@keyframes fadeInBtn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @keyframes float-pulse {
     0%, 100% {
         transform: translateX(-50%) translateY(0);
