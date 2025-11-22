@@ -535,9 +535,10 @@ html {
     height: 100%;
     background: linear-gradient(90deg,
         rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.9) 50%,
         rgba(255, 255, 255, 0) 100%);
-    animation: shine 0.8s ease-in-out 4.2s 1;
+    mix-blend-mode: screen;
+    animation: shine 0.8s ease-in-out 3.5s 1;
 }
 
 @keyframes shine {
