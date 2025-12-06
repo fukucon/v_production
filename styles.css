@@ -385,6 +385,23 @@ html {
     z-index: 1001;
 }
 
+.logo-image {
+    height: 60px;
+    width: auto;
+    display: block;
+    margin: -10px 0;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 6px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 9px rgba(255, 255, 255, 0.9));
+}
+
+@media (max-width: 1024px) {
+    .logo-image {
+        height: 45px;
+        margin: -8px 0;
+    }
+}
+
 .logo-text {
     font-size: 24px;
     font-weight: 700;
@@ -2274,6 +2291,120 @@ section {
     }
     100% {
         left: 100%;
+    }
+}
+
+/* Cookie Consent Banner */
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    z-index: 900;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(100%);
+    transition: transform 0.4s ease-out;
+}
+
+.cookie-consent.show {
+    transform: translateY(0);
+}
+
+.cookie-consent-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cookie-consent-text {
+    flex: 1;
+    min-width: 250px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.cookie-consent-text a {
+    color: #ff4081;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.cookie-consent-text a:hover {
+    color: #ff1744;
+}
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.cookie-consent-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.cookie-consent-btn-accept {
+    background: linear-gradient(135deg, #dc143c, #ff1744);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+}
+
+.cookie-consent-btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
+}
+
+.cookie-consent-btn-decline {
+    background: transparent;
+    color: #999;
+    border: 2px solid #555;
+}
+
+.cookie-consent-btn-decline:hover {
+    color: #fff;
+    border-color: #777;
+}
+
+@media (max-width: 768px) {
+    .cookie-consent {
+        padding: 15px;
+    }
+
+    .cookie-consent-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .cookie-consent-text {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .cookie-consent-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cookie-consent-btn {
+        width: 100%;
+        padding: 14px;
     }
 }
 

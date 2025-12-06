@@ -557,61 +557,6 @@ window.addEventListener('scroll', () => {
 // ===== Loading Animation =====
 // Removed to prevent flickering on page transitions
 
-// ===== Easter Egg: Konami Code =====
-let konamiCode = [];
-const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-
-document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.key);
-    konamiCode = konamiCode.slice(-10);
-
-    if (konamiCode.join(',') === konamiPattern.join(',')) {
-        activateKaleidoscopeMode();
-    }
-});
-
-function activateKaleidoscopeMode() {
-    const body = document.body;
-    body.style.animation = 'rainbow 2s linear infinite';
-
-    const rainbowStyle = document.createElement('style');
-    rainbowStyle.textContent = `
-        @keyframes rainbow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-    `;
-    document.head.appendChild(rainbowStyle);
-
-    // Show easter egg message
-    const easterEggMsg = document.createElement('div');
-    easterEggMsg.textContent = '🌈 Kaleidoscope Mode Activated! 🌈';
-    easterEggMsg.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-        background-size: 400% 400%;
-        animation: gradient 2s ease infinite;
-        color: white;
-        padding: 30px 50px;
-        border-radius: 10px;
-        font-size: 24px;
-        font-weight: bold;
-        z-index: 10000;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    `;
-
-    document.body.appendChild(easterEggMsg);
-
-    setTimeout(() => {
-        body.style.animation = '';
-        document.body.removeChild(easterEggMsg);
-        document.head.removeChild(rainbowStyle);
-    }, 5000);
-}
-
 // ===== Performance Optimization =====
 // Pause canvas animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
@@ -621,6 +566,71 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-console.log('%c🌈 KaleidoChrome 🌈', 'font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #dc143c, #ff1744); color: white; padding: 10px 20px; border-radius: 5px;');
-console.log('%c個性が輝く無限の可能性', 'font-size: 14px; color: #dc143c; font-weight: bold;');
-console.log('Try the Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A');
+// ===== Cookie Consent Banner =====
+(function() {
+    const COOKIE_CONSENT_KEY = 'kaleidochrome_cookie_consent';
+    const cookieBanner = document.getElementById('cookie-consent-banner');
+
+    if (!cookieBanner) return;
+
+    // Check if user has already given consent
+    const hasConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+
+    if (!hasConsent) {
+        // Check if this is the index page
+        const isIndexPage = window.location.pathname === '/' ||
+                           window.location.pathname.endsWith('/index.html') ||
+                           window.location.pathname === '/index.html';
+
+        if (isIndexPage) {
+            // トップページ: 応募ボタンのアニメーション完了後（4.5秒後）からスクロール検知開始
+            setTimeout(() => {
+                let bannerShown = false;
+                window.addEventListener('scroll', () => {
+                    if (!bannerShown && window.scrollY > 300) {
+                        bannerShown = true;
+                        cookieBanner.classList.add('show');
+                    }
+                });
+
+                // すでに300px以上スクロールしている場合は即座に表示
+                if (window.scrollY > 300) {
+                    cookieBanner.classList.add('show');
+                }
+            }, 4500);
+        } else {
+            // その他のページ: 1秒後に自動表示
+            setTimeout(() => {
+                cookieBanner.classList.add('show');
+            }, 1000);
+        }
+    }
+
+    // Accept button
+    const acceptBtn = document.getElementById('cookie-accept');
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+            cookieBanner.classList.remove('show');
+
+            // Remove from DOM after animation completes
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 400);
+        });
+    }
+
+    // Decline button
+    const declineBtn = document.getElementById('cookie-decline');
+    if (declineBtn) {
+        declineBtn.addEventListener('click', () => {
+            localStorage.setItem(COOKIE_CONSENT_KEY, 'declined');
+            cookieBanner.classList.remove('show');
+
+            // Remove from DOM after animation completes
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 400);
+        });
+    }
+})();

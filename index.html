@@ -6,29 +6,33 @@
     <title>KaleidoChrome - カレイドクローム | IRIAM・VTuber事務所</title>
     <meta name="description" content="個性が輝く無限の可能性 - KaleidoChrome VTuber事務所">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+
     <!-- OGP (Open Graph Protocol) -->
     <meta property="og:site_name" content="KaleidoChrome">
     <meta property="og:title" content="KaleidoChrome - カレイドクローム | IRIAM・VTuber事務所">
     <meta property="og:description" content="個性が輝く無限の可能性 - KaleidoChrome VTuber事務所">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kaleidochrome.com/">
-    <meta property="og:image" content="https://kaleidochrome.com/images/ogp.png">
+    <meta property="og:url" content="https://kaleido-c.jp/">
+    <meta property="og:image" content="https://kaleido-c.jp/images/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:locale" content="ja_JP">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="KaleidoChrome - カレイドクローム | IRIAM・VTuber事務所">
     <meta name="twitter:description" content="個性が輝く無限の可能性 - KaleidoChrome VTuber事務所">
-    <meta name="twitter:image" content="https://kaleidochrome.com/images/ogp.png">
+    <meta name="twitter:image" content="https://kaleido-c.jp/images/ogp.png">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://kaleidochrome.com/">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://kaleido-c.jp/">
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
@@ -38,6 +42,16 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://forms.office.com">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17756031681"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-17756031681');
+    </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,7 +133,7 @@
     <nav class="nav">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-text">Kaleido<span class="logo-chrome">Chrome</span></span>
+                <img src="images/header.webp" alt="KaleidoChrome" class="logo-image">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">HOME</a></li>
@@ -303,6 +317,19 @@
     <a href="check.html" class="floating-application-btn index-page-delayed">
         <span>応募はこちらから</span>
     </a>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="cookie-consent">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                当サイトでは、サービス向上のためにCookieを使用しています。詳細は<a href="privacy.html">プライバシーポリシー</a>をご確認ください。
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="cookie-accept" class="cookie-consent-btn cookie-consent-btn-accept">同意する</button>
+                <button id="cookie-decline" class="cookie-consent-btn cookie-consent-btn-decline">拒否</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -413,6 +413,10 @@ $flashMessage = getFlashMessage();
                         <div class="form-group">
                             <label for="content">本文 *</label>
                             <textarea id="content" name="content" required><?php echo $editPost ? h($editPost['content']) : ''; ?></textarea>
+                            <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                                <strong>リンクの書き方:</strong> &lt;a href="https://example.com"&gt;リンクテキスト&lt;/a&gt;<br>
+                                <strong>見出し:</strong> &lt;h2&gt;見出し&lt;/h2&gt;（h2, h3が使えます）
+                            </small>
                         </div>
 
                         <div class="form-group">

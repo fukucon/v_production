@@ -34,3 +34,24 @@ temp/
 # Cache
 cache/
 *.cache
+
+# Development documentation (contains sensitive info - DO NOT upload to production)
+DEVELOPMENT.md
+README.md
+README_SETUP.md
+UPLOAD_GUIDE.md
+
+# Local development files
+database/
+*.db
+*.sqlite
+clean_zone.sh
+
+# Test files
+cookie_test.html
+generate_password.php
+
+# Backup files
+*.tar.gz
+*.zip
+sample*
