@@ -1,3 +1,33 @@
+// ===== Opening Animation =====
+(function() {
+    const openingAnimation = document.querySelector('.opening-animation');
+    const openingImageContainer = document.querySelector('.opening-image-container');
+    const openingImage = document.querySelector('.opening-image');
+
+    if (!openingAnimation || !openingImageContainer || !openingImage) return;
+
+    // Wait for image to load before starting animation
+    const startAnimation = () => {
+        openingImageContainer.classList.add('loaded');
+
+        // Total animation duration after image loads:
+        // - Image float: 0-2.0s
+        // - Image fadeout: 2.0-2.3s
+        const animationDuration = 2500;
+
+        setTimeout(() => {
+            openingAnimation.classList.add('hidden');
+        }, animationDuration);
+    };
+
+    // Check if image is already cached/loaded
+    if (openingImage.complete) {
+        startAnimation();
+    } else {
+        openingImage.addEventListener('load', startAnimation);
+    }
+})();
+
 // ===== Kaleidoscope Particle Animation =====
 const canvas = document.getElementById('particles');
 if (!canvas) {
@@ -257,37 +287,52 @@ window.addEventListener('resize', () => {
 // ===== Navigation =====
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
+const navOverlay = document.querySelector('.nav-overlay');
 const navLinks = document.querySelectorAll('.nav-link');
+
+// Function to close menu
+function closeMenu() {
+    navMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+    if (navOverlay) navOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+}
+
+// Function to open menu
+function openMenu() {
+    navMenu.classList.add('active');
+    hamburger.classList.add('active');
+    if (navOverlay) navOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('menu-open');
+}
 
 // Toggle mobile menu
 if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        hamburger.classList.toggle('active');
+        if (navMenu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     });
 }
+
+// Close mobile menu when clicking overlay (body::before)
+document.body.addEventListener('click', (e) => {
+    if (document.body.classList.contains('menu-open')) {
+        // Close if clicking outside nav-menu and hamburger
+        if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
+            closeMenu();
+        }
+    }
+});
 
 // Close mobile menu when clicking a link
 if (navLinks.length > 0 && navMenu && hamburger) {
     navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            hamburger.classList.remove('active');
-        });
-    });
-}
-
-// Close mobile menu when clicking outside
-if (hamburger && navMenu) {
-    document.addEventListener('click', (e) => {
-        // メニューが開いている時だけ処理
-        if (navMenu.classList.contains('active')) {
-            // クリックされた要素がハンバーガーボタンでもメニューでもない場合
-            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        }
+        link.addEventListener('click', closeMenu);
     });
 }
 

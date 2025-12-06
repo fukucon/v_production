@@ -271,7 +271,7 @@ sort($allTags);
         <div class="nav-container">
             <div class="logo">
                 <a href="index.html" style="text-decoration: none;">
-                    <span class="logo-text">Kaleido<span class="logo-chrome">Chrome</span></span>
+                    <img src="images/header.webp" alt="KaleidoChrome" class="logo-image">
                 </a>
             </div>
             <ul class="nav-menu">
@@ -281,6 +281,22 @@ sort($allTags);
                 <li><a href="liver.html" class="nav-link">Vライバーとは</a></li>
                 <li><a href="linkup.html" class="nav-link">個人配信者の方へ</a></li>
                 <li><a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank" class="nav-link">お問い合わせ</a></li>
+                <li class="nav-bottom-buttons mobile-only">
+                    <a href="https://x.com/kaleidochrome" target="_blank" class="nav-x-btn" title="公式X">𝕏</a>
+                    <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="nav-apply-circle">
+                        <span class="rotating-text">
+                            <svg viewBox="0 0 100 100">
+                                <defs>
+                                    <path id="circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
+                                </defs>
+                                <text>
+                                    <textPath href="#circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                                </text>
+                            </svg>
+                        </span>
+                        ライバー<br>募集中！
+                    </a>
+                </li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -288,6 +304,7 @@ sort($allTags);
                 <span></span>
             </div>
         </div>
+        <div class="nav-overlay"></div>
     </nav>
 
     <!-- Talents Section -->
@@ -336,7 +353,7 @@ sort($allTags);
 
             <?php if (!$hasTalents): ?>
                 <div style="text-align: center; margin-top: 100px;">
-                    <a href="check.html" style="font-size: 32px; font-weight: 700; color: #dc143c; text-decoration: none; transition: opacity 0.3s;">1期生募集中！</a>
+                    <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" style="font-size: 32px; font-weight: 700; color: #dc143c; text-decoration: none; transition: opacity 0.3s;">1期生募集中！</a>
                 </div>
             <?php elseif (empty($talents)): ?>
                 <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(255, 255, 255, 0.95); border-radius: 15px;">
@@ -391,8 +408,18 @@ sort($allTags);
     </footer>
 
     <!-- Floating Application Button -->
-    <a href="check.html" class="floating-application-btn">
-        <span>応募はこちらから</span>
+    <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="floating-application-btn">
+        <span class="floating-rotating-text">
+            <svg viewBox="0 0 100 100">
+                <defs>
+                    <path id="floating-circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
+                </defs>
+                <text>
+                    <textPath href="#floating-circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                </text>
+            </svg>
+        </span>
+        <span>ライバー<br>募集中！</span>
     </a>
 
     <script>
