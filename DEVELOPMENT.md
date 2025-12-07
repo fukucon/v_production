@@ -1434,6 +1434,48 @@ text-shadow:
 
 ---
 
+### v2.11 - レイアウト調整・フォント統一（完了）
+**実装日**: 2025-12-07
+**説明**: グレーブロックの横幅調整、展開時の横幅拡大、私たちのビジョンの白ブロック化、フッターのフォント統一
+
+**変更内容**:
+
+#### 1. グレーブロック（.about-text）の横幅変更
+- `max-width: 600px` → `max-width: 800px`
+
+#### 2. 白ブロック（.expandable-list）の展開時横幅拡大
+- 閉じている時: `max-width: 400px`
+- 開いている時: `max-width: 700px`（`:has(.expandable-detail.show)`で判定）
+- アニメーション: `transition: max-width 0.3s ease`
+
+#### 3. 詳細テキストのフォントサイズ変更
+- `.expandable-detail`: `font-size: 14px` → `font-size: 16px`
+
+#### 4. タイトル白縁の細さ調整
+- `.about-text h3`: `text-shadow` を `1px` → `0.6px` に変更
+
+#### 5. 「私たちのビジョン」を白ブロックに変更
+- 同じAbout Section内に移動（余白統一のため）
+- 2つの白ブロック（ピンク・紫）で構成
+  - **ピンク**: 安心して稼げるIRIAM事務所
+  - **紫**: 無限の可能性
+- 詳細は最初から展開状態（`show`クラス付き）
+
+#### 6. お問い合わせセクションの調整
+- `padding-top: 0` で上の余白を詰める
+- `.contact-info p`: `font-weight: 600` → `font-weight: 400`（Noto Sans JP）
+
+#### 7. フッターのフォント統一
+- `.footer`: `font-family: 'Noto Sans JP', sans-serif` を追加
+- 全ページで統一されたフォント表示
+
+#### 8. フッターXボタンの背景色変更
+- 青グラデーション → グレー（`#666`）
+- ホバー時: `#888`
+- box-shadowを削除してシンプルに
+
+---
+
 ## 連絡先
 
 開発者: Claude Code
