@@ -25,6 +25,83 @@ body {
     position: relative;
 }
 
+/* ===== Opening Animation ===== */
+.opening-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.opening-animation.hidden {
+    display: none;
+}
+
+/* Curtains - hidden, not used */
+.opening-curtain {
+    display: none;
+}
+
+/* IRIAM image container - wait for image load */
+.opening-image-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) perspective(800px) rotateY(-12deg) scale(1);
+    z-index: 1;
+    opacity: 0;
+}
+
+.opening-image-container.loaded {
+    animation: opening-image-fadein 0.2s ease-out forwards,
+               opening-image-float 2.0s ease-in-out 0.2s forwards,
+               opening-image-fadeout 0.3s ease-out 2.2s forwards;
+}
+
+@keyframes opening-image-fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.opening-image {
+    max-width: 80vw;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes opening-image-float {
+    0% {
+        transform: translate(-50%, -50%) perspective(800px) rotateY(-12deg) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -52%) perspective(800px) rotateY(-12deg) scale(1.02);
+    }
+    100% {
+        transform: translate(-50%, -50%) perspective(800px) rotateY(-12deg) scale(1);
+    }
+}
+
+@keyframes opening-image-fadeout {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) perspective(800px) rotateY(-12deg) scale(1) translateZ(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) perspective(800px) rotateY(0deg) scale(1.3) translateZ(150px);
+    }
+}
+
 /* ===== Animated Background ===== */
 .animated-background {
     position: fixed;
@@ -352,21 +429,8 @@ html {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(10, 10, 10, 0);
-    backdrop-filter: blur(0px);
+    background: transparent;
     z-index: 1000;
-    animation: nav-fade-in 0.8s ease-out 1.54s forwards;
-}
-
-@keyframes nav-fade-in {
-    0% {
-        background: rgba(10, 10, 10, 0);
-        backdrop-filter: blur(0px);
-    }
-    100% {
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(5px);
-    }
 }
 
 .nav-container {
@@ -425,6 +489,11 @@ html {
     gap: 40px;
     position: relative;
     z-index: auto;
+}
+
+/* PC時は応募ボタンを非表示 */
+.nav-apply-btn-wrapper {
+    display: none;
 }
 
 .nav-link {
@@ -556,6 +625,19 @@ html {
     white-space: nowrap;
     font-family: 'Shippori Mincho', serif;
     position: relative;
+}
+
+.hero-catchphrase .text-white {
+    color: #ffffff;
+}
+
+.hero-catchphrase ruby {
+    ruby-position: over;
+}
+
+.hero-catchphrase rt {
+    font-size: 0.4em;
+    color: inherit;
 }
 
 @keyframes shine {
@@ -1292,29 +1374,164 @@ section {
 @media (max-width: 1024px) {
     .nav-menu {
         position: fixed;
-        top: -500px;
-        left: 0;
+        top: 0;
         right: 0;
-        flex-direction: column;
-        background: rgba(10, 10, 10, 0.98);
+        bottom: 0;
+        left: auto;
         width: 100%;
-        padding: 40px 40px 40px 20px;
-        gap: 20px;
-        transition: top 0.3s ease-in-out;
+        max-width: 100%;
+        height: 100vh;
+        flex-direction: column;
+        background: transparent;
+        padding: 120px 50px 40px 80px;
+        gap: 25px;
         text-align: right;
         align-items: flex-end;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        z-index: 100;
+        justify-content: flex-start;
+        z-index: 1002;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-out;
+        clip-path: polygon(35% 0, 100% 0, 100% 100%, 15% 100%);
+    }
+
+    .nav-menu::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: -1;
     }
 
     .nav-menu.active {
-        top: 70px;
+        transform: translateX(0);
+    }
+
+    .nav-link {
+        font-size: 18px;
+        letter-spacing: 2px;
+        padding: 10px 0;
     }
 
     .hamburger {
         display: flex;
         position: relative;
         z-index: 1001;
+    }
+
+    /* ナビゲーション背景を常に透明に */
+    .nav {
+        background: transparent !important;
+    }
+
+    /* バーガーメニュー内の丸い応募ボタン */
+    .nav-apply-btn-wrapper {
+        display: block;
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        list-style: none;
+    }
+
+    .nav-apply-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background:
+            radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.8) 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 30%, rgba(30, 144, 255, 0.8) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 70%, rgba(220, 20, 60, 0.8) 0%, transparent 50%),
+            radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.6) 0%, transparent 40%),
+            radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.6) 0%, transparent 40%),
+            linear-gradient(135deg, #8b5cf6 0%, #3b82f6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
+        background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+        animation: watercolor-shift 8s ease-in-out infinite;
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.3;
+        position: relative;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-apply-circle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(139, 92, 246, 0.7);
+    }
+
+    @keyframes watercolor-shift {
+        0%, 100% {
+            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 50%;
+        }
+        50% {
+            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 100% 50%;
+        }
+    }
+
+    .rotating-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        animation: rotate-text 10s linear infinite;
+    }
+
+    .rotating-text svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .rotating-text text {
+        fill: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    @keyframes rotate-text {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+/* メニュー背後のオーバーレイ（body直下に配置） */
+.nav-overlay {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .nav-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        z-index: 999;
+    }
+
+    .nav-overlay.active {
+        opacity: 1;
+        visibility: visible;
     }
 }
 
@@ -2207,90 +2424,92 @@ section {
     box-shadow: 0 12px 25px rgba(16, 185, 129, 0.6);
 }
 
-/* ===== Floating Application Button ===== */
+/* ===== Floating Application Button (Circle) ===== */
 .floating-application-btn {
     position: fixed;
     bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 30px;
     z-index: 999;
-    padding: 12px 50px;
-    background: linear-gradient(135deg, #ff1744 0%, #ff4081 100%);
-    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(30, 144, 255, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 70%, rgba(220, 20, 60, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.6) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.6) 0%, transparent 40%),
+        linear-gradient(135deg, #8b5cf6 0%, #3b82f6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+    animation: watercolor-float 8s ease-in-out infinite, float-pulse-circle 2s ease-in-out infinite;
     text-decoration: none;
-    font-size: 18px;
+    color: #fff;
+    font-size: 16px;
     font-weight: 700;
-    border-radius: 50px;
-    box-shadow: 0 8px 20px rgba(255, 23, 68, 0.5),
-                0 4px 8px rgba(0, 0, 0, 0.3),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    animation: float-pulse 2s ease-in-out infinite;
-    overflow: hidden;
-}
-
-.floating-application-btn::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 50%;
-    height: 200%;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(255, 255, 255, 0.6),
-        transparent);
-    transform: skewX(-25deg);
-    animation: shine 3s infinite;
+    text-align: center;
+    line-height: 1.3;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .floating-application-btn:hover {
-    transform: translateX(-50%) translateY(-5px);
-    box-shadow: 0 12px 30px rgba(255, 64, 129, 0.7),
-                0 6px 12px rgba(0, 0, 0, 0.4),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.7);
 }
 
-.floating-application-btn span {
-    display: block;
-    letter-spacing: 1px;
+.floating-application-btn > span:last-child {
     position: relative;
     z-index: 1;
 }
 
-/* Index page delayed appearance */
-.floating-application-btn.index-page-delayed {
-    opacity: 0;
-    animation: float-pulse 2s ease-in-out infinite, fadeInBtn 1s ease-out 3.2s forwards;
+.floating-rotating-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotate-text-floating 10s linear infinite;
 }
 
-@keyframes fadeInBtn {
+.floating-rotating-text svg {
+    width: 100%;
+    height: 100%;
+}
+
+.floating-rotating-text text {
+    fill: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+@keyframes rotate-text-floating {
     from {
-        opacity: 0;
+        transform: rotate(0deg);
     }
     to {
-        opacity: 1;
+        transform: rotate(360deg);
     }
 }
 
-@keyframes float-pulse {
+@keyframes watercolor-float {
     0%, 100% {
-        transform: translateX(-50%) translateY(0);
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 50%;
     }
     50% {
-        transform: translateX(-50%) translateY(-8px);
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 100% 50%;
     }
 }
 
-@keyframes shine {
-    0% {
-        left: -100%;
+@keyframes float-pulse-circle {
+    0%, 100% {
+        transform: translateY(0);
     }
-    20% {
-        left: 100%;
-    }
-    100% {
-        left: 100%;
+    50% {
+        transform: translateY(-8px);
     }
 }
 
@@ -2410,16 +2629,28 @@ section {
 
 @media (max-width: 768px) {
     .floating-application-btn {
-        padding: 10px 40px;
-        font-size: 16px;
+        width: 100px;
+        height: 100px;
+        font-size: 14px;
         bottom: 20px;
+        right: 20px;
+    }
+
+    .floating-rotating-text text {
+        font-size: 9px;
     }
 }
 
 @media (max-width: 480px) {
     .floating-application-btn {
-        padding: 8px 35px;
-        font-size: 14px;
+        width: 90px;
+        height: 90px;
+        font-size: 12px;
         bottom: 15px;
+        right: 15px;
+    }
+
+    .floating-rotating-text text {
+        font-size: 8px;
     }
 }

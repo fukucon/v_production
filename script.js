@@ -296,7 +296,6 @@ function closeMenu() {
     hamburger.classList.remove('active');
     if (navOverlay) navOverlay.classList.remove('active');
     document.body.style.overflow = '';
-    document.body.classList.remove('menu-open');
 }
 
 // Function to open menu
@@ -305,7 +304,6 @@ function openMenu() {
     hamburger.classList.add('active');
     if (navOverlay) navOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    document.body.classList.add('menu-open');
 }
 
 // Toggle mobile menu
@@ -319,20 +317,19 @@ if (hamburger && navMenu) {
     });
 }
 
-// Close mobile menu when clicking overlay (body::before)
-document.body.addEventListener('click', (e) => {
-    if (document.body.classList.contains('menu-open')) {
-        // Close if clicking outside nav-menu and hamburger
-        if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
-            closeMenu();
-        }
-    }
-});
+// Close mobile menu when clicking overlay
+if (navOverlay) {
+    navOverlay.addEventListener('click', () => {
+        closeMenu();
+    });
+}
 
 // Close mobile menu when clicking a link
 if (navLinks.length > 0 && navMenu && hamburger) {
     navLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
     });
 }
 

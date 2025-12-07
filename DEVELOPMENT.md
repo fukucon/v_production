@@ -1089,6 +1089,110 @@ paint-order: stroke fill;
 
 ---
 
+### v2.7 - オープニングアニメーション・UI改善（完了）
+**実装日**: 2025-12-07
+**説明**: トップページにオープニングアニメーション追加、バーガーメニューのUI改善、サークル応募ボタン実装
+
+**変更内容**:
+
+#### 1. オープニングアニメーション
+**構成要素**:
+- `.opening-animation`: 固定オーバーレイ（z-index: 9999）
+- `.opening-image-container`: 画像コンテナ（3D回転付き）
+- `.opening-image`: iriam_image.webp表示
+
+**アニメーション効果**:
+- 画像表示: perspective(800px) rotateY(-12deg) で右に傾斜
+- フェードイン: 0.2秒
+- フロート: 2.0秒（上下に軽く浮遊）
+- フェードアウト: 0.3秒（拡大しながら手前に消える）
+
+**JavaScript制御**:
+- 画像ロード待機（`openingImage.complete`チェック）
+- ロード完了後に`.loaded`クラス追加でアニメーション開始
+- 2.5秒後に`.hidden`クラス追加で非表示
+
+#### 2. ヒーローキャッチフレーズ変更
+**変更前**: 「あなたらしさ×万華鏡」
+
+**変更後**: 「いま、稼ぐならVライバー」
+- 「いま、」「なら」: 赤色（#ff0000）
+- 「稼ぐ」「Vライバー」: 白色（#ffffff）
+- ルビ対応: 「稼」→「かせ」、「V」→「ブイ」
+
+#### 3. バーガーメニューUI改善（Razz.jp参考）
+**スライド方向**: 右から左へスライドイン
+
+**斜めカット背景**:
+```css
+clip-path: polygon(35% 0, 100% 0, 100% 100%, 15% 100%);
+```
+- 右上から左下へ斜めにカット
+- 背景: ぼかし効果付き（`backdrop-filter: blur(10px)`）
+
+**Z-index階層**:
+- nav-overlay: 999（クリックで閉じる用）
+- nav: 1000
+- hamburger: 1001
+- nav-menu: 1002
+
+**ヘッダー透明化**:
+- 常に透明（`background: transparent`）
+- スクロール時も透明を維持
+
+#### 4. サークル応募ボタン（水彩グラデーション）
+**バーガーメニュー内ボタン（.nav-apply-circle）**:
+- 位置: メニュー下部
+- 表示: モバイル時のみ（`.mobile-only`）
+
+**フローティングボタン（.floating-application-btn）**:
+- 位置: 右下固定（bottom: 30px, right: 30px）
+- サイズ: 120x120px（PC）、100x100px（タブレット）、90x90px（スマホ）
+
+**デザイン**:
+- 水彩風グラデーション（紫・青・赤）
+```css
+background:
+    radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(30, 144, 255, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 70%, rgba(220, 20, 60, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.6) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.6) 0%, transparent 40%),
+    linear-gradient(135deg, #8b5cf6 0%, #3b82f6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
+```
+
+**回転テキスト**:
+- テキスト: 「Become a V-Liver! Become a V-Liver!」
+- SVG textPathで円周上に配置
+- 10秒で1回転（`@keyframes rotate-text-floating`）
+
+**中央テキスト**: 「ライバー<br>募集中！」
+
+**リンク先**: `https://forms.office.com/r/N1cAFSeNu0`
+
+#### 5. check.htmlリンク削除
+- 全ページからcheck.htmlへのリンクを削除
+- 応募ボタンはすべてMicrosoft Formsへ直接リンク
+
+#### 6. 対象ファイル
+**HTML/PHP**:
+- `index.html`: オープニングアニメーション、バーガーメニュー、サークルボタン
+- `liver.html`: サークルボタン更新
+- `linkup.html`: サークルボタン更新
+
+**CSS（styles.css）**:
+- オープニングアニメーションスタイル
+- バーガーメニュー斜めカット（clip-path）
+- ヘッダー透明化
+- サークルボタンスタイル（水彩グラデーション、回転テキスト）
+- レスポンシブ対応（768px、480px）
+
+**JavaScript（script.js）**:
+- オープニングアニメーション制御
+- nav-overlayクリックでメニュー閉じる
+
+---
+
 ## 連絡先
 
 開発者: Claude Code
