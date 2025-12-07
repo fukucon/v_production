@@ -667,3 +667,20 @@ document.addEventListener('visibilitychange', () => {
         });
     }
 })();
+
+// ===== Vライバーの魅力 Detail Toggle =====
+function toggleVliberDetail() {
+    const details = document.querySelectorAll('.feature-detail');
+    const btn = document.querySelector('.detail-toggle-btn');
+    if (details.length > 0 && btn) {
+        const isShowing = details[0].classList.contains('show');
+        details.forEach(detail => {
+            if (isShowing) {
+                detail.classList.remove('show');
+            } else {
+                detail.classList.add('show');
+            }
+        });
+        btn.textContent = isShowing ? 'もっと詳しく' : '閉じる';
+    }
+}

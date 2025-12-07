@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
+    font-family: 'Noto Sans JP', 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
     background-color: var(--black);
     color: var(--white);
     overflow-x: hidden;
@@ -1031,6 +1031,95 @@ section {
 .about-text li {
     color: #ffffff;
     font-weight: 600;
+}
+
+/* Compact About Text */
+.about-text-compact {
+    position: relative;
+    padding: 25px 40px;
+}
+
+.about-text-compact h3 {
+    margin-bottom: 10px;
+}
+
+/* Detail Toggle Button */
+.detail-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.detail-toggle-btn:hover {
+    background: #555;
+    transform: scale(1.05);
+}
+
+/* Expandable Feature List */
+.feature-list-expandable {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.feature-item-expandable {
+    background: #fff;
+    border-left: 4px solid #888;
+    padding: 12px 15px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+
+.feature-item-expandable.border-orange {
+    border-left-color: #ff9800;
+}
+
+.feature-item-expandable.border-orange .feature-summary {
+    color: #ff9800;
+}
+
+.feature-item-expandable.border-green {
+    border-left-color: #4caf50;
+}
+
+.feature-item-expandable.border-green .feature-summary {
+    color: #4caf50;
+}
+
+.feature-item-expandable.border-blue {
+    border-left-color: #2196f3;
+}
+
+.feature-item-expandable.border-blue .feature-summary {
+    color: #2196f3;
+}
+
+.feature-summary {
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.feature-detail {
+    display: none;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    margin-top: 8px;
+    font-family: 'Noto Sans JP', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+.feature-detail.show {
+    display: block;
 }
 
 .feature-section {
