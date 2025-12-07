@@ -351,7 +351,7 @@ $postTalents = db()->select("
                                     <path id="circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
                                 </defs>
                                 <text>
-                                    <textPath href="#circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                                    <textPath href="#circle-path" textLength="238" lengthAdjust="spacing">Become a V-Liver! Become a V-Liver!</textPath>
                                 </text>
                             </svg>
                         </span>
@@ -365,8 +365,8 @@ $postTalents = db()->select("
                 <span></span>
             </div>
         </div>
-        <div class="nav-overlay"></div>
     </nav>
+    <div class="nav-overlay"></div>
 
     <!-- Article -->
     <article class="article-container">

@@ -202,7 +202,7 @@ $totalPages = getTotalPages($totalPosts);
                                     <path id="circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
                                 </defs>
                                 <text>
-                                    <textPath href="#circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                                    <textPath href="#circle-path" textLength="238" lengthAdjust="spacing">Become a V-Liver! Become a V-Liver!</textPath>
                                 </text>
                             </svg>
                         </span>
@@ -216,8 +216,8 @@ $totalPages = getTotalPages($totalPosts);
                 <span></span>
             </div>
         </div>
-        <div class="nav-overlay"></div>
     </nav>
+    <div class="nav-overlay"></div>
 
     <!-- Hero Section -->
     <section class="hero liver-hero blog-hero">
@@ -225,7 +225,7 @@ $totalPages = getTotalPages($totalPosts);
             <div class="hero-content">
                 <h1 class="page-title">Blog</h1>
                 <p class="hero-description">
-                    KaleidoChromeからのお知らせや<br>
+                    カレイドクロームからのお知らせや<br>
                     所属ライバーの活動情報をお届けします
                 </p>
             </div>

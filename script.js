@@ -341,16 +341,7 @@ setTimeout(() => {
     navAnimationComplete = true;
 }, 2340);
 
-window.addEventListener('scroll', () => {
-    const nav = document.querySelector('.nav');
-    if (nav && navAnimationComplete) {
-        if (window.scrollY > 100) {
-            nav.style.background = 'rgba(10, 10, 10, 0.98)';
-        } else {
-            nav.style.background = 'rgba(10, 10, 10, 0.95)';
-        }
-    }
-});
+// Navigation scroll background change removed - keep transparent always
 
 // ===== Check Page Floating Button =====
 const checkFloatingBtn = document.getElementById('check-floating-btn');

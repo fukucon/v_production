@@ -290,7 +290,7 @@ sort($allTags);
                                     <path id="circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
                                 </defs>
                                 <text>
-                                    <textPath href="#circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                                    <textPath href="#circle-path" textLength="238" lengthAdjust="spacing">Become a V-Liver! Become a V-Liver!</textPath>
                                 </text>
                             </svg>
                         </span>
@@ -304,8 +304,8 @@ sort($allTags);
                 <span></span>
             </div>
         </div>
-        <div class="nav-overlay"></div>
     </nav>
+    <div class="nav-overlay"></div>
 
     <!-- Talents Section -->
     <section id="talents" class="talents" style="padding-top: 120px;">
@@ -415,7 +415,7 @@ sort($allTags);
                     <path id="floating-circle-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
                 </defs>
                 <text>
-                    <textPath href="#floating-circle-path">Become a V-Liver! Become a V-Liver! </textPath>
+                    <textPath href="#floating-circle-path" textLength="238" lengthAdjust="spacing">Become a V-Liver! Become a V-Liver!</textPath>
                 </text>
             </svg>
         </span>
