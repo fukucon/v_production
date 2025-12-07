@@ -11,9 +11,9 @@
         openingImageContainer.classList.add('loaded');
 
         // Total animation duration after image loads:
-        // - Image float: 0-2.0s
-        // - Image fadeout: 2.0-2.3s
-        const animationDuration = 2500;
+        // - Image float: 0-1.0s
+        // - Image fadeout: 1.0-1.3s
+        const animationDuration = 1400;
 
         setTimeout(() => {
             openingAnimation.classList.add('hidden');
