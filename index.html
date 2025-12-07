@@ -207,6 +207,62 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
+            <div class="about-text about-text-compact">
+                <h3>Vライバーの魅力</h3>
+                <button class="detail-toggle-btn" data-group="vliber" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+                <div class="expandable-list" data-group="vliber">
+                    <div class="expandable-item border-orange" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">スマホひとつで活動できる！</div>
+                        <div class="expandable-detail">配信に必要なのはスマホだけ！高機能PCや動画編集スキルは必要なし。アイコンやSNS用の画像編集、動画編集はカレイドクロームに任せてOK！</div>
+                    </div>
+                    <div class="expandable-item border-green" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">顔バレしない！</div>
+                        <div class="expandable-detail">Vライバー配信はイラストを画面に表示するため、あなたの顔や部屋は映りません。安心して配信が可能！</div>
+                    </div>
+                    <div class="expandable-item border-blue" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">配信・交流が楽しい！</div>
+                        <div class="expandable-detail">かわいいキャラクターがあなたの動きに合わせて表情を変え、VTuberやアニメのような配信が楽しく、リスナーさんとの交流もとても楽しい！</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text about-text-compact">
+                <h3>どんな配信をする？</h3>
+                <button class="detail-toggle-btn" data-group="streaming" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+                <div class="expandable-list" data-group="streaming">
+                    <div class="expandable-item border-pink" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">なんでもOK！</div>
+                        <div class="expandable-detail">最近あった出来事や、趣味・アニメ・推しの話をしたり、歌を歌ったり、なんでもOK！</div>
+                    </div>
+                    <div class="expandable-item border-purple" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">特技や才能は必要なし！</div>
+                        <div class="expandable-detail">特別なことをしなければ！なんてことはありません。大切なことは楽しく配信することです。配信についての疑問質問は、カレイドクロームになんでもご相談ください。</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text about-text-compact">
+                <h3>カレイドクロームの魅力</h3>
+                <button class="detail-toggle-btn" data-group="appeal" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+                <div class="expandable-list" data-group="appeal">
+                    <div class="expandable-item border-orange" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">初期費用なしでスタート！</div>
+                        <div class="expandable-detail">イラストは事務所でご準備いたします。（依頼したいイラストレーターさんがいる場合、費用を補助いたします）<br><span style="font-size: 12px; color: #666;">※配信時間などの条件・補助金額の上限あり</span></div>
+                    </div>
+                    <div class="expandable-item border-green" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">丁寧で手厚いサポート！</div>
+                        <div class="expandable-detail">活動の悩み、宣伝方法や機材設定など多岐にわたりサポートいたします。チャットやオンラインミーティングでお話しします。</div>
+                    </div>
+                    <div class="expandable-item border-blue" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">トラブルサポートは万全！</div>
+                        <div class="expandable-detail">ファンとの間にトラブルがあったり、悪質なリスナーから被害があっても弊社と弁護士連携のもと対応いたします。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="about" style="padding-top: 0;">
+        <div class="container">
             <div class="about-text">
                 <h3>私たちのビジョン</h3>
                 <p>
@@ -216,58 +272,6 @@
                 <p>
                     万華鏡のように、一つ一つの個性が組み合わさることで、無限の可能性を生み出します。<br class="pc-only">あなたの才能を、私たちと共に世界へ届けましょう。
                 </p>
-            </div>
-            <div class="about-text about-text-compact">
-                <h3>Vライバーの魅力</h3>
-                <button class="detail-toggle-btn" onclick="toggleVliberDetail()">もっと詳しく</button>
-                <div class="feature-list-expandable">
-                    <div class="feature-item-expandable border-orange">
-                        <div class="feature-summary">スマホひとつで活動できる！</div>
-                        <div class="feature-detail">配信に必要なのはスマホだけ！高機能PCや動画編集スキルは必要なし。アイコンやSNS用の画像編集、動画編集はカレイドクロームに任せてOK！</div>
-                    </div>
-                    <div class="feature-item-expandable border-green">
-                        <div class="feature-summary">顔バレしない！</div>
-                        <div class="feature-detail">Vライバー配信はイラストを画面に表示するため、あなたの顔や部屋は映りません。安心して配信が可能！</div>
-                    </div>
-                    <div class="feature-item-expandable border-blue">
-                        <div class="feature-summary">配信・交流が楽しい！</div>
-                        <div class="feature-detail">かわいいキャラクターがあなたの動きに合わせて表情を変え、VTuberやアニメのような配信が楽しく、リスナーさんとの交流もとても楽しい！</div>
-                    </div>
-                </div>
-            </div>
-            <div class="about-text">
-                <h3>どんな配信をする？</h3>
-                <p>
-                    最近あった出来事や、趣味・アニメ・推しの話をしたり、歌を歌ったり、なんでもOKです！
-                </p>
-                <p>
-                    特別なことをしなければ！なんてことはありません。大切なことは楽しく配信することです。<br class="pc-only">配信についての疑問質問は、カレイドクロームになんでもご相談ください。
-                </p>
-            </div>
-            <div class="about-text about-features" style="padding-bottom: 0;">
-                <h3>カレイドクロームの魅力</h3>
-                <div class="feature-section">
-                    <h4>初期費用なし</h4>
-                    <p>
-                        イラストは事務所でご準備いたします。（依頼したいイラストレーターさんがいる場合、費用を補助いたします）<br>
-                        <span class="note">※配信時間などの条件・補助金額の上限あり</span>
-                    </p>
-                </div>
-                <div class="feature-section">
-                    <h4>丁寧なサポート</h4>
-                    <p>
-                        活動の悩み、宣伝方法や機材設定など多岐にわたりサポートいたします。<br class="pc-only">チャットやオンラインミーティングでお話しします。
-                    </p>
-                </div>
-                <div class="feature-section">
-                    <h4>トラブルサポート</h4>
-                    <p>
-                        ファンとの間にトラブルがあったり、悪質なリスナーから被害があっても弊社と弁護士連携のもと対応いたします。
-                    </p>
-                </div>
-                <div style="text-align: center; margin-top: 30px; margin-bottom: 0;">
-                    <img src="images/topv4.webp" alt="KaleidoChrome イメージ" loading="lazy" style="max-width: 200px; height: auto; display: block; margin: 0 auto;">
-                </div>
             </div>
         </div>
     </section>

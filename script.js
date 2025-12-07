@@ -668,19 +668,58 @@ document.addEventListener('visibilitychange', () => {
     }
 })();
 
-// ===== Vライバーの魅力 Detail Toggle =====
-function toggleVliberDetail() {
-    const details = document.querySelectorAll('.feature-detail');
-    const btn = document.querySelector('.detail-toggle-btn');
-    if (details.length > 0 && btn) {
-        const isShowing = details[0].classList.contains('show');
-        details.forEach(detail => {
-            if (isShowing) {
-                detail.classList.remove('show');
-            } else {
-                detail.classList.add('show');
-            }
-        });
-        btn.textContent = isShowing ? 'もっと詳しく' : '閉じる';
+// ===== 汎用展開ブロック（Expandable Block）=====
+// 使い方:
+// HTML: <div class="expandable-list" data-group="グループ名">
+//         <div class="expandable-item border-色" onclick="toggleExpandable(this)">
+//           <div class="expandable-summary">見出し</div>
+//           <div class="expandable-detail">詳細</div>
+//         </div>
+//       </div>
+//       <button class="detail-toggle-btn" data-group="グループ名" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+//
+// 色: border-orange, border-green, border-blue, border-red, border-purple, border-pink
+
+// 個別ブロックのトグル
+function toggleExpandable(element) {
+    const detail = element.querySelector('.expandable-detail');
+    if (detail) {
+        detail.classList.toggle('show');
+        // 同じグループのボタンテキストを更新
+        const list = element.closest('.expandable-list');
+        if (list) {
+            const group = list.dataset.group;
+            updateExpandableButtonText(group);
+        }
     }
+}
+
+// 全展開/全閉じるボタン
+function toggleAllExpandables(btn) {
+    const group = btn.dataset.group;
+    const list = document.querySelector(`.expandable-list[data-group="${group}"]`);
+    if (!list) return;
+
+    const details = list.querySelectorAll('.expandable-detail');
+    const allOpen = Array.from(details).every(d => d.classList.contains('show'));
+
+    details.forEach(detail => {
+        if (allOpen) {
+            detail.classList.remove('show');
+        } else {
+            detail.classList.add('show');
+        }
+    });
+    updateExpandableButtonText(group);
+}
+
+// ボタンテキストを状態に合わせて更新
+function updateExpandableButtonText(group) {
+    const list = document.querySelector(`.expandable-list[data-group="${group}"]`);
+    const btn = document.querySelector(`.detail-toggle-btn[data-group="${group}"]`);
+    if (!list || !btn) return;
+
+    const details = list.querySelectorAll('.expandable-detail');
+    const allOpen = Array.from(details).every(d => d.classList.contains('show'));
+    btn.textContent = allOpen ? '閉じる' : 'もっと詳しく';
 }

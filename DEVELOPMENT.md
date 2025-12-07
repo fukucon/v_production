@@ -1333,10 +1333,104 @@ clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 
 **閉じている時**: 中央寄り（`display: inline-flex`）
 **展開時**: 詳細が各項目の直下に表示
 
-**技術仕様**:
-- JavaScript: `toggleVliberDetail()`関数で全`.feature-detail`をトグル
-- CSS: `!important`で親要素のfont-weight継承を上書き
-- HTML: ul/liからdiv構造に変更
+---
+
+## 汎用コンポーネント
+
+### 展開ブロック（Expandable Block）
+**場所**: styles.css / script.js
+**用途**: 見出しクリックで詳細が展開するUI。複数セクションで再利用可能。
+
+#### HTML構造
+```html
+<!-- 全展開ボタン（任意） -->
+<button class="detail-toggle-btn" data-group="グループ名" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+
+<!-- ブロックリスト -->
+<div class="expandable-list" data-group="グループ名">
+    <div class="expandable-item border-色" onclick="toggleExpandable(this)">
+        <div class="expandable-summary">見出し</div>
+        <div class="expandable-detail">詳細テキスト</div>
+    </div>
+    <!-- 繰り返し -->
+</div>
+```
+
+#### 左線カラーバリエーション
+| クラス | 色 | HEX |
+|--------|------|---------|
+| `border-orange` | オレンジ | #ff9800 |
+| `border-green` | 緑 | #4caf50 |
+| `border-blue` | 青 | #2196f3 |
+| `border-red` | 赤 | #dc143c |
+| `border-purple` | 紫 | #9c27b0 |
+| `border-pink` | ピンク | #e91e63 |
+
+#### JavaScript関数
+| 関数 | 用途 |
+|------|------|
+| `toggleExpandable(element)` | 個別ブロックの開閉 |
+| `toggleAllExpandables(btn)` | 全ブロック一括開閉 |
+| `updateExpandableButtonText(group)` | ボタンテキスト自動更新 |
+
+#### data-group属性
+- 同じ`data-group`値を持つリストとボタンが連動
+- 複数セクションで別々のグループを設定可能
+- 例: `data-group="vliber"`, `data-group="vision"`, `data-group="faq"`
+
+#### 特徴
+- **個別クリック**: そのブロックだけ開閉
+- **全展開ボタン**: 全て開く/閉じる
+- **ボタンテキスト自動更新**: 全て開いている時だけ「閉じる」表示
+- **ホバーエフェクト（PC）**: 右に3pxスライド（スマホではタップで動作）
+- **斜めカット**: 右下15pxカット（clip-path）
+
+#### デザイン
+- 背景: 白（#fff）
+- 見出し色: 左線と同色
+- 詳細文字色: 黒（#333）
+- フォント: Noto Sans JP、font-weight: 400
+
+---
+
+### v2.10 - ヘッダー常時バーガーメニュー化・タイトル白縁追加（完了）
+**実装日**: 2025-12-07
+**説明**: ヘッダーを常時バーガーメニュー表示に変更。「Vライバーの魅力」タイトルに白縁を追加。
+
+**変更内容**:
+
+#### 1. ヘッダー常時バーガーメニュー化
+**変更前**: PC時はテキストメニュー、スマホ時のみバーガーメニュー
+
+**変更後**: 全デバイスで常にバーガーメニュー表示
+
+**CSS変更**:
+- `.nav-menu`: 常に`position: fixed`, `right: -100%`で画面外に配置
+- `.nav-menu.active`: `right: 0`でスライドイン
+- `.hamburger`: 常に`display: flex`
+- メディアクエリ内の重複スタイル削除
+
+**修正した問題**:
+- 回転テキスト（`.rotating-text`）がPCで表示されない → デフォルトスタイルに移動
+- `.nav-apply-circle`に`position: relative`追加（回転テキストの親要素として必要）
+- `.nav-overlay`のデフォルトスタイル追加
+
+#### 2. 「Vライバーの魅力」タイトルに白縁追加
+**適用箇所**: `.about-text h3`
+
+**スタイル**:
+```css
+text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+```
+
+**効果**: 背景が暗い場所でも赤いタイトルが見やすくなる
+
+#### 3. 削除した画像
+- `images/topv4.webp`: 未使用画像を削除
 
 ---
 

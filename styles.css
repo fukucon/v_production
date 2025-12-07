@@ -487,19 +487,136 @@ html {
     display: flex;
     list-style: none;
     gap: 40px;
-    position: relative;
-    z-index: auto;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 15%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    transition: right 0.4s ease-in-out;
+    z-index: 1002;
+    clip-path: polygon(65% 0, 100% 0, 100% 100%, 15% 100%);
 }
 
-/* PC時は応募ボタンを非表示 */
+.nav-menu.active {
+    right: 0;
+}
+
+/* バーガーメニュー内のボタンエリア */
 .nav-bottom-buttons {
-    display: none;
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    list-style: none;
+}
+
+/* Xボタン */
+.nav-x-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.4);
+    text-decoration: none;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.nav-x-btn:hover {
+    background: rgba(128, 128, 128, 0.6);
+    transform: scale(1.1);
+}
+
+/* 応募ボタン（水彩グラデーション） */
+.nav-apply-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(30, 144, 255, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 70%, rgba(220, 20, 60, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.6) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.6) 0%, transparent 40%),
+        linear-gradient(135deg, #8b5cf6 0%, #3b82f6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+    animation: watercolor-shift 8s ease-in-out infinite;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.3;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-apply-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.7);
+}
+
+@keyframes watercolor-shift {
+    0%, 100% {
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 50%;
+    }
+    50% {
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 100% 50%;
+    }
+}
+
+/* 回転テキスト */
+.rotating-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotate-text 10s linear infinite;
+}
+
+.rotating-text svg {
+    width: 100%;
+    height: 100%;
+}
+
+.rotating-text text {
+    fill: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+@keyframes rotate-text {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .nav-link {
-    color: var(--red);
+    color: #fff;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 18px;
     letter-spacing: 1px;
     text-transform: uppercase;
     position: relative;
@@ -526,10 +643,11 @@ html {
 }
 
 .hamburger {
-    display: none;
+    display: flex;
     flex-direction: column;
     cursor: pointer;
     gap: 5px;
+    z-index: 1003;
 }
 
 .hamburger span {
@@ -1017,6 +1135,11 @@ section {
     margin-bottom: 20px;
     color: var(--red);
     font-weight: 700;
+    text-shadow:
+        -1px -1px 0 #fff,
+        1px -1px 0 #fff,
+        -1px 1px 0 #fff,
+        1px 1px 0 #fff;
 }
 
 .about-text p {
@@ -1036,7 +1159,7 @@ section {
 /* Compact About Text */
 .about-text-compact {
     position: relative;
-    padding: 25px 40px;
+    padding: 15px 40px 25px;
 }
 
 .about-text-compact h3 {
@@ -1046,7 +1169,7 @@ section {
 /* Detail Toggle Button */
 .detail-toggle-btn {
     position: absolute;
-    top: 20px;
+    top: 12px;
     right: 20px;
     background: #333;
     color: white;
@@ -1063,52 +1186,65 @@ section {
     transform: scale(1.05);
 }
 
-/* Expandable Feature List */
-.feature-list-expandable {
-    display: inline-flex;
+/* =============================================
+   汎用展開ブロック（Expandable Block）
+   - 他のセクションでも再利用可能
+   ============================================= */
+
+/* コンテナ */
+.expandable-list {
+    display: flex;
     flex-direction: column;
     gap: 10px;
     text-align: left;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
-.feature-item-expandable {
+
+/* 各ブロック */
+.expandable-item {
     background: #fff;
     border-left: 4px solid #888;
     padding: 12px 15px;
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.feature-item-expandable.border-orange {
-    border-left-color: #ff9800;
+.expandable-item:hover {
+    transform: translateX(3px);
 }
 
-.feature-item-expandable.border-orange .feature-summary {
-    color: #ff9800;
-}
+/* 左線カラーバリエーション */
+.expandable-item.border-orange { border-left-color: #ff9800; }
+.expandable-item.border-orange .expandable-summary { color: #ff9800; }
 
-.feature-item-expandable.border-green {
-    border-left-color: #4caf50;
-}
+.expandable-item.border-green { border-left-color: #4caf50; }
+.expandable-item.border-green .expandable-summary { color: #4caf50; }
 
-.feature-item-expandable.border-green .feature-summary {
-    color: #4caf50;
-}
+.expandable-item.border-blue { border-left-color: #2196f3; }
+.expandable-item.border-blue .expandable-summary { color: #2196f3; }
 
-.feature-item-expandable.border-blue {
-    border-left-color: #2196f3;
-}
+.expandable-item.border-red { border-left-color: #dc143c; }
+.expandable-item.border-red .expandable-summary { color: #dc143c; }
 
-.feature-item-expandable.border-blue .feature-summary {
-    color: #2196f3;
-}
+.expandable-item.border-purple { border-left-color: #9c27b0; }
+.expandable-item.border-purple .expandable-summary { color: #9c27b0; }
 
-.feature-summary {
+.expandable-item.border-pink { border-left-color: #e91e63; }
+.expandable-item.border-pink .expandable-summary { color: #e91e63; }
+
+/* 見出し */
+.expandable-summary {
     font-size: 16px;
     line-height: 1.6;
     font-weight: 400;
 }
 
-.feature-detail {
+/* 詳細（デフォルト非表示） */
+.expandable-detail {
     display: none;
     font-size: 14px;
     line-height: 1.6;
@@ -1118,7 +1254,7 @@ section {
     font-weight: 400 !important;
 }
 
-.feature-detail.show {
+.expandable-detail.show {
     display: block;
 }
 
@@ -1559,191 +1695,24 @@ section {
     }
 }
 
-@media (max-width: 1024px) {
-    .nav-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: auto;
-        width: 100%;
-        max-width: 100%;
-        height: 100vh;
-        flex-direction: column;
-        background: transparent;
-        padding: 120px 50px 40px 80px;
-        gap: 25px;
-        text-align: right;
-        align-items: flex-end;
-        justify-content: flex-start;
-        z-index: 1002;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-out;
-        clip-path: polygon(65% 0, 100% 0, 100% 100%, 15% 100%);
-    }
-
-    .nav-menu::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        z-index: -1;
-    }
-
-    .nav-menu.active {
-        transform: translateX(0);
-    }
-
-    .nav-link {
-        font-size: 18px;
-        letter-spacing: 2px;
-        padding: 10px 0;
-    }
-
-    .hamburger {
-        display: flex;
-        position: relative;
-        z-index: 1003;
-    }
-
-    /* ナビゲーション背景を常に透明に */
-    .nav {
-        background: transparent !important;
-    }
-
-    /* バーガーメニュー内のボタンエリア */
-    .nav-bottom-buttons {
-        display: flex;
-        align-items: flex-end;
-        gap: 30px;
-        position: absolute;
-        bottom: 40px;
-        right: 40px;
-        list-style: none;
-    }
-
-    /* Xボタン */
-    .nav-x-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: rgba(128, 128, 128, 0.4);
-        text-decoration: none;
-        color: #fff;
-        font-size: 22px;
-        font-weight: 700;
-        transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .nav-x-btn:hover {
-        background: rgba(128, 128, 128, 0.6);
-        transform: scale(1.1);
-    }
-
-    .nav-apply-circle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background:
-            radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.8) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 30%, rgba(30, 144, 255, 0.8) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 70%, rgba(220, 20, 60, 0.8) 0%, transparent 50%),
-            radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.6) 0%, transparent 40%),
-            radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.6) 0%, transparent 40%),
-            linear-gradient(135deg, #8b5cf6 0%, #3b82f6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
-        background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
-        animation: watercolor-shift 8s ease-in-out infinite;
-        text-decoration: none;
-        color: #fff;
-        font-size: 16px;
-        font-weight: 700;
-        text-align: center;
-        line-height: 1.3;
-        position: relative;
-        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-apply-circle:hover {
-        transform: scale(1.05);
-        box-shadow: 0 12px 35px rgba(139, 92, 246, 0.7);
-    }
-
-    @keyframes watercolor-shift {
-        0%, 100% {
-            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 50%;
-        }
-        50% {
-            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 100% 50%;
-        }
-    }
-
-    .rotating-text {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        animation: rotate-text 10s linear infinite;
-    }
-
-    .rotating-text svg {
-        width: 100%;
-        height: 100%;
-    }
-
-    .rotating-text text {
-        fill: #fff;
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 1px;
-    }
-
-    @keyframes rotate-text {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-}
-
-/* メニュー背後のオーバーレイ（body直下に配置） */
+/* メニュー背後のオーバーレイ */
 .nav-overlay {
-    display: none;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    z-index: 999;
 }
 
-@media (max-width: 1024px) {
-    .nav-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-        z-index: 999;
-    }
-
-    .nav-overlay.active {
-        opacity: 1;
-        visibility: visible;
-    }
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 @media (max-width: 768px) {
