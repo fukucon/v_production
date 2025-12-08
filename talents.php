@@ -52,56 +52,54 @@ sort($allTags);
     <meta name="description" content="KaleidoChromeの所属タレント - 個性が輝く無限の可能性">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* 検索フォーム */
-        .search-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        /* タレントヘッダーブロック */
+        .talents-header-block {
+            margin-bottom: 30px;
         }
 
-        .search-form {
+        .talents-header-block .search-form {
             display: grid;
             grid-template-columns: 1fr 1fr auto;
             gap: 15px;
             align-items: end;
+            margin-top: 20px;
         }
 
-        .search-group {
+        .talents-header-block .search-group {
             display: flex;
             flex-direction: column;
         }
 
-        .search-group label {
+        .talents-header-block .search-group label {
             font-weight: 600;
             margin-bottom: 6px;
-            color: #333;
+            color: #fff;
             font-size: 13px;
         }
 
-        .search-group select,
-        .search-group input {
+        .talents-header-block .search-group select,
+        .talents-header-block .search-group input {
             padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0;
             font-size: 14px;
             transition: border-color 0.3s;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
         }
 
-        .search-group select:focus,
-        .search-group input:focus {
+        .talents-header-block .search-group select:focus,
+        .talents-header-block .search-group input:focus {
             outline: none;
             border-color: #dc143c;
         }
 
-        .clear-btn {
+        .talents-header-block .clear-btn {
             padding: 10px 15px;
             background: #6c757d;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 0;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
@@ -111,7 +109,7 @@ sort($allTags);
             white-space: nowrap;
         }
 
-        .clear-btn:hover {
+        .talents-header-block .clear-btn:hover {
             background: #5a6268;
         }
 
@@ -152,29 +150,25 @@ sort($allTags);
         }
 
         @media (max-width: 768px) {
-            .search-form {
+            .talents-header-block .search-form {
                 grid-template-columns: 1fr 1fr auto;
                 gap: 10px;
             }
 
-            .search-group label {
+            .talents-header-block .search-group label {
                 font-size: 12px;
                 margin-bottom: 4px;
             }
 
-            .search-group select,
-            .search-group input {
+            .talents-header-block .search-group select,
+            .talents-header-block .search-group input {
                 padding: 8px 10px;
                 font-size: 13px;
             }
 
-            .clear-btn {
+            .talents-header-block .clear-btn {
                 padding: 8px 10px;
                 font-size: 12px;
-            }
-
-            .search-container {
-                padding: 15px;
             }
         }
 
@@ -187,15 +181,35 @@ sort($allTags);
         }
 
         .talent-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
+            background: #000;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .talent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.7) 0%,
+                rgba(220, 220, 230, 0.5) 30%,
+                rgba(150, 150, 160, 0.2) 50%,
+                transparent 75%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .talent-card > * {
+            position: relative;
+            z-index: 1;
         }
 
         .talent-card:hover {
-            transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(220, 20, 60, 0.3);
         }
 
@@ -226,7 +240,7 @@ sort($allTags);
         .talent-card-title {
             font-size: 18px;
             font-weight: 700;
-            color: #333;
+            color: #fff;
             line-height: 1.4;
         }
 
@@ -310,13 +324,9 @@ sort($allTags);
     <!-- Talents Section -->
     <section id="talents" class="talents" style="padding-top: 120px;">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Our Talents</h2>
-                <div class="title-underline"></div>
-            </div>
-
-            <!-- 検索フォーム -->
-            <div class="search-container">
+            <!-- タイトル＋検索フォーム統合ブロック -->
+            <div class="about-text talents-header-block">
+                <h3>Our Talents</h3>
                 <form method="GET" action="talents.php" class="search-form" id="searchForm">
                     <div class="search-group">
                         <label for="kana">あかさたな検索</label>

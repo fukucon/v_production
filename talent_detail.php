@@ -62,7 +62,7 @@ $relatedPosts = db()->select("
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
@@ -81,7 +81,7 @@ $relatedPosts = db()->select("
             width: 100%;
             aspect-ratio: 3 / 4;
             object-fit: cover;
-            border-radius: 15px;
+            border-radius: 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             transition: transform 0.05s ease-out;
             transform-style: preserve-3d;
@@ -97,7 +97,7 @@ $relatedPosts = db()->select("
             color: #999;
             font-size: 32px;
             font-weight: 600;
-            border-radius: 15px;
+            border-radius: 0;
             transition: transform 0.05s ease-out;
             transform-style: preserve-3d;
         }
@@ -162,7 +162,7 @@ $relatedPosts = db()->select("
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
@@ -182,20 +182,40 @@ $relatedPosts = db()->select("
         }
 
         .related-post-card {
-            background: white;
-            border-radius: 12px;
+            background: #000;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.8);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
+            position: relative;
+        }
+
+        .related-post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.7) 0%,
+                rgba(220, 220, 230, 0.5) 30%,
+                rgba(150, 150, 160, 0.2) 50%,
+                transparent 75%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .related-post-card > * {
+            position: relative;
+            z-index: 1;
         }
 
         .related-post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(220, 20, 60, 0.2);
+            box-shadow: 0 15px 40px rgba(220, 20, 60, 0.3);
         }
 
         .related-post-image {
@@ -223,14 +243,14 @@ $relatedPosts = db()->select("
         .related-post-title {
             font-size: 15px;
             font-weight: 600;
-            color: #333;
+            color: #fff;
             line-height: 1.4;
             margin-bottom: 8px;
         }
 
         .related-post-date {
             font-size: 12px;
-            color: #999;
+            color: #ccc;
         }
 
         .no-posts-message {
@@ -259,7 +279,6 @@ $relatedPosts = db()->select("
         }
 
         .btn-back:hover {
-            transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(220, 20, 60, 0.4);
         }
 

@@ -11,11 +11,15 @@ require_once __DIR__ . '/includes/functions.php';
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $offset = getOffset($page);
 
+// ローカル環境判定
+$isLocal = file_exists(__DIR__ . '/database/kaleidochrome.db');
+$nowFunc = $isLocal ? "datetime('now', 'localtime')" : "NOW()";
+
 // 公開中かつ投稿日時が現在以前の記事のみ取得
-$posts = db()->select("SELECT * FROM posts WHERE status = 'published' AND published_at <= NOW() ORDER BY published_at DESC LIMIT " . POSTS_PER_PAGE . " OFFSET " . $offset);
+$posts = db()->select("SELECT * FROM posts WHERE status = 'published' AND published_at <= {$nowFunc} ORDER BY published_at DESC LIMIT " . POSTS_PER_PAGE . " OFFSET " . $offset);
 
 // 総記事数取得
-$totalPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'published' AND published_at <= NOW()")['count'] ?? 0;
+$totalPosts = db()->selectOne("SELECT COUNT(*) as count FROM posts WHERE status = 'published' AND published_at <= {$nowFunc}")['count'] ?? 0;
 $totalPages = getTotalPages($totalPosts);
 ?>
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ $totalPages = getTotalPages($totalPosts);
     <style>
         .blog-hero {
             min-height: auto !important;
-            padding: 100px 0 20px 0 !important;
+            padding: 100px 0 0 0 !important;
             display: flex !important;
             align-items: center !important;
             height: auto !important;
@@ -51,16 +55,38 @@ $totalPages = getTotalPages($totalPosts);
         }
 
         .blog-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
+            background: #000;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.8);
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.7) 0%,
+                rgba(220, 220, 230, 0.5) 30%,
+                rgba(150, 150, 160, 0.2) 50%,
+                transparent 75%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 0;
+        }
+
+        .blog-card > * {
+            position: relative;
+            z-index: 1;
         }
 
         .blog-card:hover {
-            transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(220, 20, 60, 0.3);
         }
 
@@ -91,7 +117,7 @@ $totalPages = getTotalPages($totalPosts);
         .blog-card-title {
             font-size: 18px;
             font-weight: 700;
-            color: #333;
+            color: #fff;
             line-height: 1.4;
         }
 
@@ -222,9 +248,9 @@ $totalPages = getTotalPages($totalPosts);
     <!-- Hero Section -->
     <section class="hero liver-hero blog-hero">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="page-title">Blog</h1>
-                <p class="hero-description">
+            <div class="about-text">
+                <h3>Blog</h3>
+                <p>
                     カレイドクロームからのお知らせや<br>
                     所属ライバーの活動情報をお届けします
                 </p>

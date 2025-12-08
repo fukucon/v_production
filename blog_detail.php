@@ -14,8 +14,12 @@ if (empty($slug)) {
     redirect('blog.php');
 }
 
+// ローカル環境判定
+$isLocal = file_exists(__DIR__ . '/database/kaleidochrome.db');
+$nowFunc = $isLocal ? "datetime('now', 'localtime')" : "NOW()";
+
 // 記事取得（公開中かつ投稿日時が現在以前）
-$post = db()->selectOne("SELECT * FROM posts WHERE slug = :slug AND status = 'published' AND published_at <= NOW()", ['slug' => $slug]);
+$post = db()->selectOne("SELECT * FROM posts WHERE slug = :slug AND status = 'published' AND published_at <= {$nowFunc}", ['slug' => $slug]);
 
 if (!$post) {
     header('HTTP/1.0 404 Not Found');
@@ -56,7 +60,7 @@ $postTalents = db()->select("
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             padding: 25px 40px;
-            border-radius: 20px 20px 0 0;
+            border-radius: 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 0;
             text-align: center;
@@ -168,7 +172,7 @@ $postTalents = db()->select("
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             padding: 30px 40px;
-            border-radius: 0 0 20px 20px;
+            border-radius: 0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
