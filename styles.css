@@ -1120,10 +1120,33 @@ section {
     max-width: 800px;
     margin: 0 auto 40px auto;
     text-align: center;
-    background: rgba(0, 0, 0, 0.6);
+    background: #000;
     padding: 40px;
     border-radius: 0;
-    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+.about-text::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(220, 220, 230, 0.5) 30%,
+        rgba(150, 150, 160, 0.2) 50%,
+        transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about-text > * {
+    position: relative;
+    z-index: 1;
 }
 
 .about-text:last-of-type {
@@ -1135,11 +1158,7 @@ section {
     margin-bottom: 20px;
     color: var(--red);
     font-weight: 700;
-    text-shadow:
-        -0.6px -0.6px 0 #fff,
-        0.6px -0.6px 0 #fff,
-        -0.6px 0.6px 0 #fff,
-        0.6px 0.6px 0 #fff;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 .about-text p {
