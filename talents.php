@@ -50,6 +50,7 @@ sort($allTags);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Talents | KaleidoChrome - カレイドクローム</title>
     <meta name="description" content="KaleidoChromeの所属タレント - 個性が輝く無限の可能性">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* タレントヘッダーブロック */
@@ -292,7 +293,8 @@ sort($allTags);
                 <li><a href="index.html" class="nav-link">HOME</a></li>
                 <li><a href="talents.php" class="nav-link active">TALENTS</a></li>
                 <li><a href="blog.php" class="nav-link">BLOG</a></li>
-                <li><a href="liver.html" class="nav-link">Vライバーとは</a></li>
+                <li><a href="liver.html" class="nav-link">Vライバーの魅力</a></li>
+                <li><a href="agency.html" class="nav-link">カレイドクロームの魅力</a></li>
                 <li><a href="linkup.html" class="nav-link">個人配信者の方へ</a></li>
                 <li><a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank" class="nav-link">お問い合わせ</a></li>
                 <li class="nav-bottom-buttons mobile-only">
@@ -406,7 +408,8 @@ sort($allTags);
                     <a href="index.html">HOME</a>
                     <a href="talents.php">TALENTS</a>
                     <a href="blog.php">BLOG</a>
-                    <a href="liver.html">Vライバーとは</a>
+                    <a href="liver.html">Vライバーの魅力</a>
+                    <a href="agency.html">カレイドクロームの魅力</a>
                     <a href="linkup.html">個人配信者の方へ</a>
                     <a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank">お問い合わせ</a>
                 </div>

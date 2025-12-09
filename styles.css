@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: 'Noto Sans JP', 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     background-color: var(--black);
     color: var(--white);
     overflow-x: hidden;
@@ -503,6 +503,27 @@ html {
     clip-path: polygon(65% 0, 100% 0, 100% 100%, 15% 100%);
 }
 
+.nav-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 215, 0, 0.9) 0%,
+        rgba(255, 255, 200, 1) 30%,
+        rgba(255, 215, 0, 0.9) 50%,
+        rgba(212, 160, 23, 0.8) 70%,
+        rgba(255, 215, 0, 0.9) 100%
+    );
+    clip-path: polygon(65% 0, 65.5% 0, 15.5% 100%, 15% 100%);
+    pointer-events: none;
+    z-index: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+}
+
 .nav-menu.active {
     right: 0;
 }
@@ -738,7 +759,7 @@ html {
     font-size: 18px;
     margin: 0;
     text-align: center;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     font-weight: 500;
     letter-spacing: 2px;
 }
@@ -772,7 +793,7 @@ html {
     font-size: 14px;
     margin: 0;
     text-align: center;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     font-weight: 500;
     letter-spacing: 1px;
 }
@@ -853,7 +874,7 @@ html {
     margin-bottom: -5px;
     font-weight: normal;
     letter-spacing: 0;
-    font-family: sans-serif;
+    font-family: 'Shippori Mincho', serif;
 }
 
 @keyframes shine {
@@ -1010,7 +1031,7 @@ section {
     transform: rotate(15deg);
     z-index: 10;
     white-space: nowrap;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     -webkit-text-stroke: 7px white;
     text-stroke: 7px white;
     paint-order: stroke fill;
@@ -1156,10 +1177,19 @@ section {
 .about-text h3 {
     font-size: 28px;
     margin-bottom: 10px;
-    color: var(--red);
     font-weight: 800;
     font-family: 'Shippori Mincho', serif;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg,
+        #d4a017 0%,
+        #ffd700 25%,
+        #fff8dc 45%,
+        #ffd700 55%,
+        #d4a017 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 .about-text p {
@@ -1167,7 +1197,7 @@ section {
     line-height: 1.8;
     color: #ffffff;
     margin-bottom: 0;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     font-weight: 400;
 }
 
@@ -1266,7 +1296,8 @@ section {
 .expandable-summary {
     font-size: 16px;
     line-height: 1.6;
-    font-weight: 400;
+    font-weight: 600;
+    font-family: 'Shippori Mincho', serif;
 }
 
 /* 詳細（デフォルト非表示） */
@@ -1276,8 +1307,8 @@ section {
     line-height: 1.6;
     color: #333;
     margin-top: 8px;
-    font-family: 'Noto Sans JP', sans-serif !important;
-    font-weight: 400 !important;
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 400;
 }
 
 .expandable-detail.show {
@@ -1536,7 +1567,7 @@ section {
     line-height: 1.8;
     color: #ffffff;
     margin-bottom: 30px;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
     font-weight: 400;
 }
 
@@ -1620,7 +1651,7 @@ section {
     border-top: 1px solid rgba(220, 20, 60, 0.3);
     position: relative;
     z-index: 10;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Shippori Mincho', serif;
 }
 
 .footer-content {

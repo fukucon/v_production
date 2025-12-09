@@ -1558,6 +1558,62 @@ text-shadow:
 
 ---
 
+### v2.14 - フォント統一・メニュー改善・ページ分割（完了）
+**実装日**: 2025-12-09
+**説明**: 全ページをShippori Mincho明朝体に統一。バーガーメニューを斜めスライドイン＋黄色ラインに改善。liver.htmlからagency.htmlを分離。
+
+**変更内容**:
+
+#### 1. フォント統一（Shippori Mincho）
+- body全体を`'Shippori Mincho', serif`に変更
+- 全ての`font-family: 'Noto Sans JP', sans-serif`を`'Shippori Mincho', serif`に置換
+- 各ページ（blog.php, talents.php, talent_detail.php, blog_detail.php, liver.html）にGoogle Fonts読み込み追加
+
+#### 2. バーガーメニュー改善
+**斜めカット**:
+- 波アニメーション削除
+- シンプルなスライドイン＋斜めカット維持
+- `clip-path: polygon(65% 0, 100% 0, 100% 100%, 15% 100%)`
+
+**黄色グラデーションライン**:
+- `.nav-menu::before`で左端に黄色の細いライン追加
+- 上から下へ黄色グラデーション
+- `clip-path: polygon(65% 0, 65.5% 0, 15.5% 100%, 15% 100%)`で斜めに配置
+- `filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8))`で光る効果
+
+#### 3. ページ分割（liver.html → agency.html）
+**新規作成: agency.html**:
+- 「カレイドクロームの魅力」セクションをliver.htmlから移動
+- 5つのサポート内容:
+  1. コミュニティが充実
+  2. デザインサポート
+  3. 配信サポート
+  4. グッズ制作
+  5. 高い報酬制度
+
+**liver.html変更**:
+- 「カレイドクロームの魅力」セクション削除
+- 残りのコンテンツ（こんな方におすすめ、募集要項、配信までの流れ等）を維持
+
+#### 4. メニュー名変更
+**全ページのナビゲーション/フッター更新**:
+- `Vライバーとは` → `Vライバーの魅力`（liver.htmlへ）
+- 新メニュー追加: `カレイドクロームの魅力`（agency.htmlへ）
+
+**更新ファイル（10ファイル）**:
+- index.html
+- liver.html
+- agency.html
+- linkup.html
+- blog.php
+- blog_detail.php
+- talents.php
+- talent_detail.php
+- privacy.html
+- check.html
+
+---
+
 ## 連絡先
 
 開発者: Claude Code
