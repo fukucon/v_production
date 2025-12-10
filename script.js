@@ -680,46 +680,81 @@ document.addEventListener('visibilitychange', () => {
 //
 // 色: border-orange, border-green, border-blue, border-red, border-purple, border-pink
 
-// 個別ブロックのトグル
+// 個別ブロックのトグル（タブレット以上では何もしない）
 function toggleExpandable(element) {
-    const detail = element.querySelector('.expandable-detail');
-    if (detail) {
-        detail.classList.toggle('show');
-        // 同じグループのボタンテキストを更新
-        const list = element.closest('.expandable-list');
+    // スマホ時のみ動作（CSSで詳細が非表示の場合）
+    if (window.innerWidth <= 768) {
+        // モーダルを開く
+        openExpandableModal(element);
+    }
+}
+
+// 全展開/全閉じるボタン（スマホ用モーダル表示）
+function toggleAllExpandables(btn) {
+    if (window.innerWidth <= 768) {
+        const group = btn.dataset.group;
+        const list = document.querySelector(`.expandable-list[data-group="${group}"]`);
         if (list) {
-            const group = list.dataset.group;
-            updateExpandableButtonText(group);
+            openExpandableModalFromList(list);
         }
     }
 }
 
-// 全展開/全閉じるボタン
-function toggleAllExpandables(btn) {
-    const group = btn.dataset.group;
-    const list = document.querySelector(`.expandable-list[data-group="${group}"]`);
-    if (!list) return;
+// モーダルを開く（個別アイテムから）
+function openExpandableModal(element) {
+    const list = element.closest('.expandable-list');
+    if (list) {
+        openExpandableModalFromList(list);
+    }
+}
 
-    const details = list.querySelectorAll('.expandable-detail');
-    const allOpen = Array.from(details).every(d => d.classList.contains('show'));
+// モーダルを開く（リストから）
+function openExpandableModalFromList(list) {
+    const modal = document.getElementById('expandableModal');
+    const content = document.getElementById('expandableModalContent');
+    if (!modal || !content) return;
 
-    details.forEach(detail => {
-        if (allOpen) {
-            detail.classList.remove('show');
-        } else {
-            detail.classList.add('show');
+    // リストの内容をコピー
+    content.innerHTML = '';
+    const items = list.querySelectorAll('.expandable-item');
+    items.forEach(item => {
+        const clone = item.cloneNode(true);
+        // モーダル内では詳細を表示
+        const detail = clone.querySelector('.expandable-detail');
+        if (detail) {
+            detail.style.display = 'block';
         }
+        // 「もっと詳しく」ボタンを削除
+        const btn = clone.querySelector('.detail-toggle-btn');
+        if (btn) {
+            btn.remove();
+        }
+        // クリックイベントを削除
+        clone.removeAttribute('onclick');
+        content.appendChild(clone);
     });
-    updateExpandableButtonText(group);
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-// ボタンテキストを状態に合わせて更新
-function updateExpandableButtonText(group) {
-    const list = document.querySelector(`.expandable-list[data-group="${group}"]`);
-    const btn = document.querySelector(`.detail-toggle-btn[data-group="${group}"]`);
-    if (!list || !btn) return;
-
-    const details = list.querySelectorAll('.expandable-detail');
-    const allOpen = Array.from(details).every(d => d.classList.contains('show'));
-    btn.textContent = allOpen ? '閉じる' : 'もっと詳しく';
+// モーダルを閉じる
+function closeExpandableModal() {
+    const modal = document.getElementById('expandableModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
+
+// オーバーレイクリックで閉じる
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('expandableModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeExpandableModal();
+            }
+        });
+    }
+});

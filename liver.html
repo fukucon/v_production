@@ -174,6 +174,26 @@
         </div>
     </section>
 
+    <!-- Streaming Section -->
+    <section class="liver-streaming">
+        <div class="container">
+            <div class="about-text about-text-compact">
+                <h3>どんな配信をする？</h3>
+                <button class="detail-toggle-btn" data-group="streaming" onclick="toggleAllExpandables(this)">もっと詳しく</button>
+                <div class="expandable-list" data-group="streaming">
+                    <div class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">なんでもOK！</div>
+                        <div class="expandable-detail">最近あった出来事や、趣味・アニメ・推しの話をしたり、歌を歌ったり、なんでもOK！</div>
+                    </div>
+                    <div class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">特技や才能は必要なし！</div>
+                        <div class="expandable-detail">特別なことをしなければ！なんてことはありません。大切なことは楽しく配信することです。配信についての疑問質問は、カレイドクロームになんでもご相談ください。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Requirements Section -->
     <section class="liver-requirements">
         <div class="container">
@@ -225,12 +245,12 @@
             <div class="process-timeline">
                 <div class="process-step">
                     <div class="step-number">01</div>
-                    <h3>【応募はこちらから】をタップ</h3>
-                    <p>応募者様へ『必ずお読みください』をすべて読んでください。</p>
+                    <h3>【ライバー募集中！】をタップ</h3>
+                    <p>応募者様へ：注意事項を読みながら入力を進めてください。</p>
                 </div>
                 <div class="process-step">
                     <div class="step-number">02</div>
-                    <h3>一次審査</h3>
+                    <h3>1次審査</h3>
                     <p>『応募フォーム』からフォームに必要事項を入力し送信してください。1次審査通過者様にのみ返信いたします。</p>
                 </div>
                 <div class="process-step">
@@ -270,18 +290,30 @@
                 <div class="title-underline"></div>
             </div>
             <div class="application-content">
-                <p class="application-note">
-                    私たちカレイドクロームと一緒に楽しく稼げる配信をしませんか？<br>
-                    まずは応募するボタンからご応募ください。
-                </p>
-                <div class="application-buttons">
-                    <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="application-btn">
-                        <span>応募する</span>
-                    </a>
+                <div class="application-note">
+                    <p>
+                        私たちカレイドクロームと一緒に楽しく稼げる配信をしませんか？<br>
+                        まずは応募するボタンからご応募ください。
+                    </p>
+                    <div class="application-buttons" style="margin-top: 20px;">
+                        <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="contact-btn">
+                            <span>応募する</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Expandable Modal (スマホ用) -->
+    <div class="expandable-modal-overlay" id="expandableModal">
+        <div class="expandable-modal">
+            <button class="expandable-modal-close" onclick="closeExpandableModal()">&times;</button>
+            <div class="expandable-modal-content" id="expandableModalContent">
+                <!-- コンテンツはJSで動的に挿入 -->
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

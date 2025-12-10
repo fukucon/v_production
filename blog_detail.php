@@ -57,22 +57,81 @@ $postTalents = db()->select("
         }
 
         .article-header {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: linear-gradient(135deg,
+                rgba(40, 40, 40, 0.95) 0%,
+                rgba(60, 60, 60, 0.9) 50%,
+                rgba(40, 40, 40, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 25px 40px;
             border-radius: 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             margin-bottom: 0;
             text-align: center;
+            position: relative;
+            border: none;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(
+                to right,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
+        }
+
+        .article-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
+        }
+
+        .article-header-right-border {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
         }
 
         .article-title {
             font-size: 36px;
             font-weight: 700;
-            color: #333;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 20px;
             line-height: 1.4;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .article-meta {
@@ -144,6 +203,19 @@ $postTalents = db()->select("
             border-radius: 50%;
         }
 
+        .article-image-wrapper {
+            border-left: 2px solid;
+            border-right: 2px solid;
+            border-image: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            ) 1;
+        }
+
         .article-featured-image {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -169,19 +241,74 @@ $postTalents = db()->select("
         }
 
         .article-content {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: linear-gradient(135deg,
+                rgba(40, 40, 40, 0.95) 0%,
+                rgba(60, 60, 60, 0.9) 50%,
+                rgba(40, 40, 40, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 30px 40px;
             border-radius: 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             margin-bottom: 40px;
+            position: relative;
+            border: none;
+        }
+
+        .article-content::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(
+                to right,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
+        }
+
+        .article-content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
+        }
+
+        .article-content-right-border {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 0.9) 0%,
+                rgba(255, 255, 200, 1) 30%,
+                rgba(255, 215, 0, 0.9) 50%,
+                rgba(212, 160, 23, 0.8) 70%,
+                rgba(255, 215, 0, 0.9) 100%
+            );
         }
 
         .article-body {
             font-size: 16px;
             line-height: 1.9;
-            color: #1a1a1a;
+            color: #f0f0f0;
         }
 
         .article-body h2 {
@@ -197,7 +324,7 @@ $postTalents = db()->select("
             font-size: 24px;
             margin-top: 30px;
             margin-bottom: 15px;
-            color: #333;
+            color: #fff;
         }
 
         .article-body p {
@@ -224,12 +351,12 @@ $postTalents = db()->select("
         .talent-tags {
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .talent-tags-label {
             font-size: 13px;
-            color: #999;
+            color: #ccc;
             margin-bottom: 10px;
             font-weight: 600;
         }
@@ -377,6 +504,7 @@ $postTalents = db()->select("
     <!-- Article -->
     <article class="article-container">
         <header class="article-header">
+            <div class="article-header-right-border"></div>
             <h1 class="article-title"><?php echo h($post['title']); ?></h1>
 
             <div class="article-meta">
@@ -391,17 +519,20 @@ $postTalents = db()->select("
             </div>
         </header>
 
-        <?php if ($post['featured_image']): ?>
-            <img src="uploads/<?php echo h($post['featured_image']); ?>"
-                 alt="<?php echo h($post['title']); ?>"
-                 class="article-featured-image"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="no-image-detail" style="display: none;">NO Image</div>
-        <?php else: ?>
-            <div class="no-image-detail">NO Image</div>
-        <?php endif; ?>
+        <div class="article-image-wrapper">
+            <?php if ($post['featured_image']): ?>
+                <img src="uploads/<?php echo h($post['featured_image']); ?>"
+                     alt="<?php echo h($post['title']); ?>"
+                     class="article-featured-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="no-image-detail" style="display: none;">NO Image</div>
+            <?php else: ?>
+                <div class="no-image-detail">NO Image</div>
+            <?php endif; ?>
+        </div>
 
         <div class="article-content">
+            <div class="article-content-right-border"></div>
             <div class="article-body">
                 <?php echo nl2br($post['content']); // 改行を<br>に変換 & HTMLを許可 ?>
             </div>

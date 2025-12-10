@@ -156,28 +156,43 @@
             <div class="about-text">
                 <h3>カレイドクロームの魅力</h3>
                 <p>私たちカレイドクロームは、Vライバーの皆さんが安心して活動できる環境を提供しています。</p>
-            </div>
-            <div class="support-grid" style="margin-top: 40px;">
-                <div class="support-card">
-                    <h3>コミュニティが充実</h3>
-                    <p>マネージャーに気軽に相談でき、ライバー同士と配信内でも配信外でもつながることができ、盛り上がる環境を準備しています。</p>
-                </div>
-                <div class="support-card">
-                    <h3>デザインサポート</h3>
-                    <p>プロのイラストレーターによるオリジナルキャラクターデザイン。丁寧なヒアリングで、あなたのキャラクター設定に合わせたデザインを提供します。</p>
-                </div>
-                <div class="support-card">
-                    <h3>配信サポート</h3>
-                    <p>SNS活動のフォロー、配信のレクチャー、様々なわからないことをサポートします。</p>
-                </div>
-                <div class="support-card">
-                    <h3>グッズ制作</h3>
-                    <p>Vライバー・VTuberにとって最適なグッズ製作のアドバイスができます。</p>
-                </div>
-                <div class="support-card">
-                    <h3>高い報酬制度</h3>
-                    <p>配信時間を確保し、レクチャーに沿った堅実な配信活動により、高い報酬を得られる制度があります。</p>
-                </div>
+                <ul class="expandable-list" style="margin-top: 40px;">
+                    <li class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">コミュニティが充実</div>
+                        <div class="expandable-detail">
+                            <p>マネージャーに気軽に相談でき、ライバー同士と配信内でも配信外でもつながることができ、盛り上がる環境を準備しています。</p>
+                        </div>
+                        <button class="detail-toggle-btn">もっと詳しく</button>
+                    </li>
+                    <li class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">デザインサポート</div>
+                        <div class="expandable-detail">
+                            <p>プロのイラストレーターによるオリジナルキャラクターデザイン。丁寧なヒアリングで、あなたのキャラクター設定に合わせたデザインを提供します。</p>
+                        </div>
+                        <button class="detail-toggle-btn">もっと詳しく</button>
+                    </li>
+                    <li class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">配信サポート</div>
+                        <div class="expandable-detail">
+                            <p>SNS活動のフォロー、配信のレクチャー、様々なわからないことをサポートします。</p>
+                        </div>
+                        <button class="detail-toggle-btn">もっと詳しく</button>
+                    </li>
+                    <li class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">グッズ制作</div>
+                        <div class="expandable-detail">
+                            <p>Vライバー・VTuberにとって最適なグッズ製作のアドバイスができます。</p>
+                        </div>
+                        <button class="detail-toggle-btn">もっと詳しく</button>
+                    </li>
+                    <li class="expandable-item" onclick="toggleExpandable(this)">
+                        <div class="expandable-summary">高い報酬制度</div>
+                        <div class="expandable-detail">
+                            <p>配信時間を確保し、レクチャーに沿った堅実な配信活動により、高い報酬を得られる制度があります。</p>
+                        </div>
+                        <button class="detail-toggle-btn">もっと詳しく</button>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -185,19 +200,35 @@
     <!-- Application CTA Section -->
     <section class="liver-application">
         <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Vライバー募集中</h2>
+                <div class="title-underline"></div>
+            </div>
             <div class="application-content">
-                <p class="application-note">
-                    私たちカレイドクロームと一緒に楽しく稼げる配信をしませんか？<br>
-                    まずは応募するボタンからご応募ください。
-                </p>
-                <div class="application-buttons">
-                    <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="application-btn">
-                        <span>応募する</span>
-                    </a>
+                <div class="application-note">
+                    <p>
+                        私たちカレイドクロームと一緒に楽しく稼げる配信をしませんか？<br>
+                        まずは応募するボタンからご応募ください。
+                    </p>
+                    <div class="application-buttons" style="margin-top: 20px;">
+                        <a href="https://forms.office.com/r/N1cAFSeNu0" target="_blank" class="contact-btn">
+                            <span>応募する</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Expandable Modal (スマホ用) -->
+    <div class="expandable-modal-overlay" id="expandableModal">
+        <div class="expandable-modal">
+            <button class="expandable-modal-close" onclick="closeExpandableModal()">×</button>
+            <div class="expandable-modal-content" id="expandableModalContent">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

@@ -227,20 +227,6 @@
                 </div>
             </div>
             <div class="about-text about-text-compact">
-                <h3>どんな配信をする？</h3>
-                <button class="detail-toggle-btn" data-group="streaming" onclick="toggleAllExpandables(this)">もっと詳しく</button>
-                <div class="expandable-list" data-group="streaming">
-                    <div class="expandable-item border-pink" onclick="toggleExpandable(this)">
-                        <div class="expandable-summary">なんでもOK！</div>
-                        <div class="expandable-detail">最近あった出来事や、趣味・アニメ・推しの話をしたり、歌を歌ったり、なんでもOK！</div>
-                    </div>
-                    <div class="expandable-item border-purple" onclick="toggleExpandable(this)">
-                        <div class="expandable-summary">特技や才能は必要なし！</div>
-                        <div class="expandable-detail">特別なことをしなければ！なんてことはありません。大切なことは楽しく配信することです。配信についての疑問質問は、カレイドクロームになんでもご相談ください。</div>
-                    </div>
-                </div>
-            </div>
-            <div class="about-text about-text-compact">
                 <h3>カレイドクロームの魅力</h3>
                 <button class="detail-toggle-btn" data-group="appeal" onclick="toggleAllExpandables(this)">もっと詳しく</button>
                 <div class="expandable-list" data-group="appeal">
@@ -260,14 +246,15 @@
             </div>
             <div class="about-text about-text-compact">
                 <h3>私たちのビジョン</h3>
+                <button class="detail-toggle-btn" data-group="vision" onclick="toggleAllExpandables(this)">もっと詳しく</button>
                 <div class="expandable-list" data-group="vision">
-                    <div class="expandable-item border-pink">
+                    <div class="expandable-item" onclick="toggleExpandable(this)">
                         <div class="expandable-summary">安心して稼げるIRIAM事務所</div>
-                        <div class="expandable-detail show">カレイドクロームは、IRIAM・VTuberの個性を最大限に引き出し、その輝きを価値に変える次世代型IRIAM事務所です。</div>
+                        <div class="expandable-detail">カレイドクロームは、IRIAM・VTuberの個性を最大限に引き出し、その輝きを価値に変える次世代型IRIAM事務所です。</div>
                     </div>
-                    <div class="expandable-item border-purple">
+                    <div class="expandable-item" onclick="toggleExpandable(this)">
                         <div class="expandable-summary">無限の可能性</div>
-                        <div class="expandable-detail show">万華鏡のように、一つ一つの個性が組み合わさることで、無限の可能性を生み出します。あなたの個性を、私たちと共に世界へ届けましょう。</div>
+                        <div class="expandable-detail">万華鏡のように、一つ一つの個性が組み合わさることで、無限の可能性を生み出します。あなたの個性を、私たちと共に世界へ届けましょう。</div>
                     </div>
                 </div>
             </div>
@@ -284,7 +271,7 @@
             <div class="contact-content" style="text-align: center; max-width: 1000px; margin: 0 auto;">
                 <div class="contact-info">
                     <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
-                        <a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank" class="application-btn">
+                        <a href="https://forms.office.com/r/5RrHJX6MQS" target="_blank" class="contact-btn">
                             <span>お問い合わせ</span>
                         </a>
                     </div>
@@ -296,6 +283,16 @@
             </div>
         </div>
     </section>
+
+    <!-- Expandable Modal (スマホ用) -->
+    <div class="expandable-modal-overlay" id="expandableModal">
+        <div class="expandable-modal">
+            <button class="expandable-modal-close" onclick="closeExpandableModal()">&times;</button>
+            <div class="expandable-modal-content" id="expandableModalContent">
+                <!-- コンテンツはJSで動的に挿入 -->
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
